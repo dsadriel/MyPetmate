@@ -16,7 +16,7 @@ import UIKit
 class HealthDailySectionHeader: UITableViewHeaderFooterView {
     static var reuseIdentifier = "DailySectionHeader"
 
-    // MARK: - Intializers
+    // MARK: - Initializers
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setup()
