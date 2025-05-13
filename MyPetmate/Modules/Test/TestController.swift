@@ -2,12 +2,6 @@ import UIKit
 
 class TestController: UIViewController {
     
-    lazy var component: PetBadgeComponent = {
-        var component = PetBadgeComponent()
-        component.translatesAutoresizingMaskIntoConstraints = false
-        return component
-    }()
-    
     lazy var textLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
