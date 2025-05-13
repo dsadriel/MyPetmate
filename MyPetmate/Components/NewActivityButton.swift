@@ -37,6 +37,7 @@ class NewActivityButton: UIButton {
     }()
 
     private func setupButton() {
+        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .Button.primary
         layer.cornerRadius = 12
     }
@@ -46,6 +47,14 @@ class NewActivityButton: UIButton {
             label.centerXAnchor.constraint(equalTo: centerXAnchor),
             label.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+    }
+    
+    // MARK: - Configuration
+    
+    var buttonText: String? {
+        didSet {
+            label.text = buttonText
+        }
     }
     
     // MARK: - Initializers
