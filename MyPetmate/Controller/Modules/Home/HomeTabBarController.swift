@@ -23,7 +23,7 @@ class HomeTabBarController: UITabBarController {
     }()
     
     lazy var dailyViewController: UINavigationController = {
-        let title = "Dialy"
+        let title = "Daily"
         let image = UIImage(systemName: "calendar")
         let tabItem = UITabBarItem(
             title: title,
