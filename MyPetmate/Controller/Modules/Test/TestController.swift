@@ -11,14 +11,12 @@ class TestController: UIViewController {
         return label
     }()
     
-//    lazy var petCard: PetCard = {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy/MM/dd"
-//        let date = formatter.date(from: "2020/05/01") ?? Date()
-//
-//        let card = PetCard(name: "Belinha", sex: "Female", type: "Dog", birthDate: date, imageURL: "https://adimax.com.br/wp-content/uploads/2022/05/cuidados-filhote-de-cachorro.jpg")
-//        card.translatesAutoresizingMaskIntoConstraints = false
-//        return card
+//    lazy var date: UIView = {
+////        let view = LabelDateHour(isDate: true, hour: nil, date: Date())
+//        let view = LabelDateHour(isDate: true, date: Date())
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        return view
+//        
 //    }()
     
     override func viewDidLoad() {
@@ -37,16 +35,18 @@ extension TestController: ViewCodeProtocol {
             textLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             
-//            petCard.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 20),
-//            petCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-//            petCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-//            petCard.heightAnchor.constraint(equalToConstant: 146)
+//            date.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 56),
+////            date.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 214),
+//            date.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 16),
+////            date.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200)
+//            date.heightAnchor.constraint(equalToConstant: 34),
+//            date.widthAnchor.constraint(equalToConstant: 123),
         ])
     }
     
     
     func addSubviews() {
         view.addSubview(textLabel)
-//        view.addSubview(petCard)
+//        view.addSubview(date)
     }
 }
