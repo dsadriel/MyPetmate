@@ -10,6 +10,7 @@ struct Pet: Codable {
     let name: String
     let sex: String
     let breed: String
+    let type: String
     let size: String?
     let weight: Int?
     let bloodType: String?
@@ -20,14 +21,15 @@ struct Pet: Codable {
 }
 
 class PetManager {
-    func createPet(name: String, sex: String, breed: String, size: String?, weight: Int?, bloodType: String?, allergies: [String]?, birthDate: Date?, weeksOld: Int?, documents: [String]?) -> Pet {
-        return Pet(name: name, sex: sex, breed: breed, size: size, weight: weight, bloodType: bloodType, allergies: allergies, birthDate: birthDate, weeksOld: weeksOld, documents: documents)
+    func createPet(name: String, sex: String, breed: String, type: String, size: String?, weight: Int?, bloodType: String?, allergies: [String]?, birthDate: Date?, weeksOld: Int?, documents: [String]?) -> Pet {
+        return Pet(name: name, sex: sex, breed: breed, type: type, size: size, weight: weight, bloodType: bloodType, allergies: allergies, birthDate: birthDate, weeksOld: weeksOld, documents: documents)
     }
     
     func editPet(original: Pet,
                  name: String? = nil,
                  sex: String? = nil,
                  breed: String? = nil,
+                 type: String? = nil,
                  size: String? = nil,
                  weight: Int? = nil,
                  bloodType: String? = nil,
@@ -40,6 +42,7 @@ class PetManager {
             name: name ?? original.name,
             sex: sex ?? original.sex,
             breed: breed ?? original.breed,
+            type: type ?? original.type,
             size: size ?? original.size,
             weight: weight ?? original.weight,
             bloodType: bloodType ?? original.bloodType,
