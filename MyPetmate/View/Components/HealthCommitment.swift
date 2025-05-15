@@ -21,6 +21,16 @@ class HealthCommitment: UIView {
     
     private var isChecked = false
 
+    private lazy var labelView: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.title3Regular
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        label.textColor = .Label.primary
+        label.setContentHuggingPriority(.required, for: .vertical)
+        return label
+    }()
+    
     private lazy var roundButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -77,6 +87,10 @@ class HealthCommitment: UIView {
         stack.spacing = 14
         stack.alignment = .center
         stack.axis = .horizontal
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(detailsButtonTap))
+            
+        stack.addGestureRecognizer(tap)
         return stack
     }()
     
@@ -98,23 +112,39 @@ class HealthCommitment: UIView {
         return stack
     }()
     
+    private lazy var verticalStack: UIStackView = {
+        var stack = UIStackView(arrangedSubviews: [labelView, horizontalStack])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.spacing = 4
+        stack.axis = .vertical
+        return stack
+    }()
+    
     
     //MARK:
     func configure(label: String?, dateHour: Date) {
         dateView.configure(isDate: true, date: Date())
         hourView.configure(isDate: false, date: Date())
+        labelView.text = label
     }
     
-    var action: () -> Void = {}
+    var checked: () -> Void = {}
+    var details: () -> Void = {}
     
     @objc private func handleButtonTap() {
-        action()
+        isChecked.toggle()
+        checked()
+        updateRadialButton()
     }
     
     func updateRadialButton(){
         let imageName = isChecked ? "circle.fill" : "circle"
         roundButton.setImage(UIImage(systemName: imageName), for: .normal)
         roundButton.tintColor = isChecked ? .Button.primary : .Unselected.primary
+    }
+    
+    @objc private func detailsButtonTap() {
+        details()
     }
 
 }
@@ -125,21 +155,17 @@ extension HealthCommitment: ViewCodeProtocol {
         setupConstraints()
     }
     func addSubviews() {
-        addSubview(horizontalStack)
+        addSubview(verticalStack)
     }
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            horizontalStack.topAnchor.constraint(equalTo: self.topAnchor),
-            horizontalStack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            horizontalStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            horizontalStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            verticalStack.topAnchor.constraint(equalTo: self.topAnchor),
+            verticalStack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            verticalStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            verticalStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-//            self.widthAnchor.constraint(equalToConstant: 393),
-//            self.heightAnchor.constraint(equalToConstant: 60),
-//
-            roundButton.widthAnchor.constraint(equalToConstant: 22),
-            roundButton.heightAnchor.constraint(equalToConstant: 22)
-            
+            self.heightAnchor.constraint(equalToConstant: 89),
+            self.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
         ])
     }
 }
