@@ -31,8 +31,7 @@ class HomeTabBarController: UITabBarController {
             selectedImage: image
         )
 
-        // MARK: - Update this later with the proper VC
-        let rootViewController = UIViewController()
+        let rootViewController = DailyViewController()
         rootViewController.tabBarItem = tabItem
     
         return UINavigationController(rootViewController: rootViewController)
