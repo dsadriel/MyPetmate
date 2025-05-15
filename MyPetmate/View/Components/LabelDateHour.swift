@@ -63,6 +63,10 @@ class LabelDateHour: UIView {
             
             toUse.centerXAnchor.constraint(equalTo: background.centerXAnchor),
             toUse.centerYAnchor.constraint(equalTo: background.centerYAnchor),
+            
+            self.widthAnchor.constraint(equalToConstant: 123),
+            self.heightAnchor.constraint(equalToConstant: 34)
+
         ])
         
         
