@@ -8,72 +8,65 @@ import UIKit
 
 class LabelDateHour: UIView {
     
-    lazy var background: UIView = {
-        let background = UIView()
-        background.backgroundColor = .Background.terciary
-        background.translatesAutoresizingMaskIntoConstraints = false
-        background.layer.cornerRadius = 6
-        return background
-    }()
+    // MARK: - Initializers
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    lazy var hourView: UILabel = {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    lazy var informationLabel: UILabel = {
         let label = UILabel()
         label.textColor = .Label.primary
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    lazy var dateView: UILabel = {
-        let dateLabel = UILabel()
-        dateLabel.textColor = .Label.primary
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        return dateLabel
-    }()
-    
-    
-    init(isDate: Bool, date: Date?) {
-        super.init(frame: .zero)
-        
-        let toUse: UILabel
-        
+
+    func configure(isDate: Bool, date: Date?) {
         if isDate == true, let date = date {
             let formatter = DateFormatter()
 //            formatter.dateFormat = "dd/MM/yyyy"
             formatter.dateStyle = .long
-            dateView.text = formatter.string(from: date)
-            hourView.isHidden = true
-            toUse = dateView
+            informationLabel.text = formatter.string(from: date)
         } else if isDate == false, let date = date {
             let formatter = DateFormatter()
             formatter.dateFormat = "h:mm a" //para calendário de 12h
-            hourView.text = formatter.string(from: date)
-            toUse = hourView
+            informationLabel.text = formatter.string(from: date)
         }else {
             fatalError("Neither date nor hour was provided.")
         }
-        
-        addSubview(background)
-        background.addSubview(toUse)
-        
-        NSLayoutConstraint.activate([
-            background.topAnchor.constraint(equalTo: self.topAnchor),
-            background.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            background.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            background.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            
-            toUse.centerXAnchor.constraint(equalTo: background.centerXAnchor),
-            toUse.centerYAnchor.constraint(equalTo: background.centerYAnchor),
-            
-            self.widthAnchor.constraint(equalToConstant: 123),
-            self.heightAnchor.constraint(equalToConstant: 34)
+    }
 
-        ])
+}
+
+
+extension LabelDateHour: ViewCodeProtocol {
+    func setup(){
+        self.backgroundColor = .Background.terciary
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.layer.cornerRadius = 6
         
-        
-        
+        addSubviews()
+        setupConstraints()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func addSubviews() {
+        self.addSubview(informationLabel)
     }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            informationLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            informationLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            
+            self.heightAnchor.constraint(equalToConstant: 34),
+            self.widthAnchor.constraint(equalTo: informationLabel.widthAnchor, constant: 22)
+        ])
+    }
+    
+    
 }
