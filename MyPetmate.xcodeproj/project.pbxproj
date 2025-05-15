@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		5CBFAADD2DD28859006721DB /* My Petmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Petmate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CBFAADD2DD28859006721DB /* MyPetmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPetmate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -53,7 +53,7 @@
 		5CBFAADE2DD28859006721DB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5CBFAADD2DD28859006721DB /* My Petmate.app */,
+				5CBFAADD2DD28859006721DB /* MyPetmate.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,7 +80,7 @@
 			packageProductDependencies = (
 			);
 			productName = MyPetmate;
-			productReference = 5CBFAADD2DD28859006721DB /* My Petmate.app */;
+			productReference = 5CBFAADD2DD28859006721DB /* MyPetmate.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -157,7 +157,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.petmate.MyPetmate;
-				PRODUCT_NAME = "My Petmate";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -183,7 +183,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.petmate.MyPetmate;
-				PRODUCT_NAME = "My Petmate";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
