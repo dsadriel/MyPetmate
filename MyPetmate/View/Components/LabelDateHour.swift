@@ -22,6 +22,7 @@ class LabelDateHour: UIView {
         let label = UILabel()
         label.textColor = .Label.primary
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
@@ -64,6 +65,7 @@ extension LabelDateHour: ViewCodeProtocol {
             informationLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             self.heightAnchor.constraint(equalToConstant: 34),
+//            self.widthAnchor.constraint(greaterThanOrEqualToConstant: 60),
             self.widthAnchor.constraint(equalTo: informationLabel.widthAnchor, constant: 22)
         ])
     }
