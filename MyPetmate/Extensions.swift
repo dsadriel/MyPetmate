@@ -25,10 +25,10 @@ extension UIView {
 }
 
 
-// MARK: - UIView.activateLeadingPaddingConstrains
+// MARK: - UIView.activateLeadingPaddingConstraints
 
 extension UIView {
-    func activateLeadingPaddingConstrains(to view: UIView, constant: Double = 16) {
+    func activateLeadingPaddingConstraints(to view: UIView, constant: Double = 16) {
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
