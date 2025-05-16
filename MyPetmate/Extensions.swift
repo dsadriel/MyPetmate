@@ -5,6 +5,8 @@
 //  Created by Adriel de Souza on 13/05/25.
 //
 import UIKit
+
+// MARK: - UIView.addGradient
 extension UIView {
     func addGradient() {
         let gradientLayer = CAGradientLayer()
@@ -21,3 +23,25 @@ extension UIView {
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
 }
+
+
+// MARK: - UIView.activateLeadingPaddingConstrains
+
+extension UIView {
+    func activateLeadingPaddingConstrains(to view: UIView, constant: Double = 16) {
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+}
+
+// MARK: - Type alias for NSCollectionLayout
+
+typealias Size = NSCollectionLayoutSize
+typealias Item = NSCollectionLayoutItem
+typealias Group = NSCollectionLayoutGroup
+typealias Section = NSCollectionLayoutSection
+typealias Layout = UICollectionViewCompositionalLayout
+typealias Edges = NSDirectionalEdgeInsets
+typealias Config = UICollectionViewCompositionalLayoutConfiguration
