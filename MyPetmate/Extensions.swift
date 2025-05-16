@@ -24,18 +24,6 @@ extension UIView {
     }
 }
 
-
-// MARK: - UIView.activateLeadingPaddingConstraints
-
-extension UIView {
-    func activateLeadingPaddingConstraints(to view: UIView, constant: Double = 16) {
-        NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
-    }
-}
-
 // MARK: - Type alias for NSCollectionLayout
 
 typealias Size = NSCollectionLayoutSize
