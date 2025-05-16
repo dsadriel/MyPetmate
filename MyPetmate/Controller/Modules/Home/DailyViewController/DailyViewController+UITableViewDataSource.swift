@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - UITableViewDataSource
+
 extension DailyViewController: UITableViewDataSource {
     // MARK: Adjust later with real data
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

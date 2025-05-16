@@ -8,7 +8,6 @@
 import UIKit
 
 class DailyViewController: UIViewController {
-    
     internal lazy var navigationLeftBarItem: UIBarButtonItem = {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
@@ -32,12 +31,17 @@ class DailyViewController: UIViewController {
         return button
     }()
     
-    internal lazy var petListCollectionView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .Button.secondary
-        return view
+    internal lazy var petSelectorCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: buildPetSelectorLayout())
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        collectionView.register(PetBadgeComponent.self, forCellWithReuseIdentifier: PetBadgeComponent.reuseIdentifier)
+        
+        collectionView.dataSource = self
+        return collectionView
     }()
+    
     
     internal lazy var taskTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
