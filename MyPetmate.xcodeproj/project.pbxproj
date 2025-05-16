@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5CBFAAEF2DD2885A006721DB /* Exceptions for "MyPetmate" folder in "MyPetmate" target */ = {
+		F7E214F12DD7F9730026C7EE /* Exceptions for "MyPetmate" folder in "MyPetmate" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,7 +24,7 @@
 		5CBFAADF2DD28859006721DB /* MyPetmate */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5CBFAAEF2DD2885A006721DB /* Exceptions for "MyPetmate" folder in "MyPetmate" target */,
+				F7E214F12DD7F9730026C7EE /* Exceptions for "MyPetmate" folder in "MyPetmate" target */,
 			);
 			path = MyPetmate;
 			sourceTree = "<group>";

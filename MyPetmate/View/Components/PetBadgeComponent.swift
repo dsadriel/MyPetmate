@@ -8,14 +8,23 @@ class PetBadgeComponent: UIView {
         var img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
-        img.layer.cornerRadius = 35
         img.clipsToBounds = true
+        return img
+    }()
+    
+    lazy var iconImg: UIImageView = {
+        var img = UIImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
+        img.clipsToBounds = true
+        img.contentMode = .top
+        img.image = UIImage(named: "clipboard")
         return img
     }()
     
     lazy var petTypeIcon: UIImageView = {
         var img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
+        img.tintColor = .primary
         return img
         
     }()
@@ -23,6 +32,7 @@ class PetBadgeComponent: UIView {
     lazy var nameLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "SfProRounded-SemiBold", size: 17)
         return label
     }()
     
@@ -30,12 +40,14 @@ class PetBadgeComponent: UIView {
         var stack = UIStackView(arrangedSubviews: [petTypeIcon, nameLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
+        stack.spacing = 6
         return stack
     }()
     
     lazy var activityLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "SfProRounded-Regular", size: 15)
         return label
     }()
     
@@ -48,32 +60,53 @@ class PetBadgeComponent: UIView {
     lazy var activityStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [dataOfActivityLabel, activityLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         stack.axis = .horizontal
-        stack.backgroundColor = .green
+        stack.spacing = 4
         return stack
     }()
-    
     
     lazy var infoStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [nameStack, activityStack])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
-        stack.backgroundColor = .blue
+//        stack.backgroundColor = .blue
+        stack.spacing = 8
         stack.alignment = .leading
+        stack.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        stack.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return stack
         
     }()
     
-    lazy var mainStack: UIStackView = {
-        
-        var stack = UIStackView(arrangedSubviews: [imgPet, infoStack])
+    lazy var infoImgStack: UIStackView = {
+        var stack = UIStackView(arrangedSubviews: [imgPet ,infoStack, iconImg])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
+//        stack.backgroundColor = .purple
+        stack.alignment = .center
         stack.spacing = 12
-        stack.distribution = .fill
-        stack.backgroundColor = .yellow
+        stack.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 16)
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layer.cornerRadius = 16
+        stack.clipsToBounds = true
         return stack
+        
     }()
+    
+    
+    
+//    lazy var mainStack: UIStackView = {
+//        
+//        var stack = UIStackView(arrangedSubviews: [infoImgStack, iconImg])
+//        stack.translatesAutoresizingMaskIntoConstraints = false
+//        stack.axis = .horizontal
+//        stack.spacing = 4
+//        stack.distribution = .fill
+//        stack.clipsToBounds = true
+//        stack.backgroundColor = .green
+//        return stack
+//    }()
     
     var name: String? {
         didSet {
@@ -81,9 +114,27 @@ class PetBadgeComponent: UIView {
         }
     }
     
+    var activityName: String? {
+        didSet {
+            activityLabel.text = activityName
+        }
+    }
+    
     var imagePet: String? {
         didSet {
             imgPet.image = UIImage(named: imagePet ?? "")
+        }
+    }
+    
+    var icon: String? {
+        didSet {
+            petTypeIcon.image = UIImage(systemName: icon ?? "")
+        }
+    }
+    
+    var quantityOfActivity: String? {
+        didSet {
+            dataOfActivityLabel.text = quantityOfActivity
         }
     }
     
@@ -99,29 +150,45 @@ class PetBadgeComponent: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        imgPet.layer.cornerRadius = imgPet.frame.width / 2
+        DispatchQueue.main.async {
+            self.infoImgStack.addGradient()
+            self.imgPet.layer.cornerRadius = self.imgPet.frame.width/2.0
+        }
     }
+    
+    
 }
 
 extension PetBadgeComponent: ViewCodeProtocol {
     func addSubviews() {
-        addSubview(mainStack)
+        addSubview(infoImgStack)
     }
     
     func setupConstraints() {
-        self.addGradient()
+
         NSLayoutConstraint.activate([
             
-            mainStack.leadingAnchor.constraint(equalTo: self.leadingAnchor , constant: 16),
-            mainStack.trailingAnchor.constraint(equalTo: self.trailingAnchor , constant: -16),
-            mainStack.topAnchor.constraint(equalTo: self.topAnchor),
+            infoImgStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            infoImgStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            infoImgStack.topAnchor.constraint(equalTo: self.topAnchor),
             
             
             imgPet.heightAnchor.constraint(equalToConstant: 70),
-            imgPet.widthAnchor.constraint(equalToConstant: 70),
-            imgPet.leadingAnchor.constraint(equalTo: mainStack.leadingAnchor, constant: 16.5),
-            imgPet.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: -20),
-            imgPet.topAnchor.constraint(equalTo: mainStack.topAnchor, constant: 8),
+            imgPet.widthAnchor.constraint(equalToConstant: 70)
+            
+//            imgPet.leadingAnchor.constraint(equalTo: infoImgStack.leadingAnchor),
+//            imgPet.bottomAnchor.constraint(equalTo: infoImgStack.bottomAnchor, constant: -8),
+            
+//            infoImgStack.leadingAnchor.constraint(equalTo: mainStack.leadingAnchor, constant: 16.5),
+//            infoImgStack.trailingAnchor.constraint(equalTo: iconImg.leadingAnchor, constant: -20),
+//            infoImgStack.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+//            infoImgStack.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: -20),
+//        
+//            iconImg.topAnchor.constraint(equalTo: mainStack.topAnchor, constant: 8) ,
+//            iconImg.trailingAnchor.constraint(equalTo: mainStack.trailingAnchor, constant: -8),
+//            iconImg.leadingAnchor.constraint(equalTo: infoImgStack.trailingAnchor, constant: 30),
+//            iconImg.heightAnchor.constraint(equalToConstant: 85),
+//            iconImg.widthAnchor.constraint(equalToConstant: 90),
             
         ])
     }
