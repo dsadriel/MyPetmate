@@ -92,9 +92,8 @@ class DailyTableViewCell: UITableViewCell {
     
     func config(isDone: Bool,
                 buttonAction: @escaping () -> Void) {
-        
-        checkmarkButton.setImage(UIImage(systemName: isDone ? "checkmark.circle.fill" : "circle") , for: .normal)
         self.isDone = isDone
+        updateCheckmarkStyle()
         self.action = buttonAction
     }
     
@@ -107,7 +106,7 @@ class DailyTableViewCell: UITableViewCell {
             activityAmountLabel.text = "\(activityText.amount) g \(activityText.activityName)"
         }
     }
-
+    
     var hourConfig: Date? {
         didSet {
             guard let hour = hourConfig else { return }
@@ -129,9 +128,14 @@ class DailyTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             mainStack.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             mainStack.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            mainStack.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            mainStack.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            mainStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+    }
+    
+    func setupCell(){
+        self.backgroundColor = .Background.primary
+        updateCheckmarkStyle()
     }
     
     // MARK: Button action
@@ -140,7 +144,12 @@ class DailyTableViewCell: UITableViewCell {
     @objc func buttonTapped() {
         action()
         isDone.toggle()
+        updateCheckmarkStyle()
+    }
+    
+    func updateCheckmarkStyle(){
         checkmarkButton.setImage(UIImage(systemName: isDone ? "checkmark.circle.fill" : "circle") , for: .normal)
+        checkmarkButton.tintColor = isDone ? .Button.primary : .Unselected.primary
     }
     
     // MARK: Initializers
@@ -149,7 +158,7 @@ class DailyTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(mainStack)
         setupConstraints()
-
+        setupCell()
     }
     
     required init?(coder: NSCoder) {
