@@ -13,13 +13,6 @@ class TestController: UIViewController {
         return component
     }()
     
-//    lazy var date: UIView = {
-////        let view = LabelDateHour(isDate: true, hour: nil, date: Date())
-//        let view = LabelDateHour(isDate: true, date: Date())
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//        
-//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
