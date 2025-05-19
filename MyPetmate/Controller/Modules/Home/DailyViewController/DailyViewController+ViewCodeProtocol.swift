@@ -17,12 +17,11 @@ extension DailyViewController: ViewCodeProtocol {
     }
     
     func setupConstraints() {
-        newActivityButton.activateLeadingPaddingConstrains(to: view)
-        taskTableView.activateLeadingPaddingConstrains(to: view)
-        
         NSLayoutConstraint.activate([
             newActivityButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             newActivityButton.heightAnchor.constraint(equalToConstant: 50),
+            newActivityButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            newActivityButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
             petSelectorCollectionView.topAnchor.constraint(equalTo: newActivityButton.bottomAnchor, constant: 16),
             petSelectorCollectionView.heightAnchor.constraint(equalToConstant: 103),
@@ -31,7 +30,9 @@ extension DailyViewController: ViewCodeProtocol {
             petSelectorCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             taskTableView.topAnchor.constraint(equalTo:  petSelectorCollectionView.bottomAnchor, constant: 16),
-            taskTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            taskTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            taskTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            taskTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
         ])
     }
 }
