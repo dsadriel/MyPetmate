@@ -2,8 +2,10 @@
 import UIKit
 import Foundation
 
-class PetBadgeComponent: UIView {
+class PetBadgeComponent: UICollectionViewCell {
     
+    static var reuseIdentifier = "TaskTableViewCell"
+
     lazy var imgPet: UIImageView = {
         var img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
