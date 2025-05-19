@@ -1,7 +1,6 @@
 import UIKit
 
 class TestController: UIViewController {
-    
     lazy var textLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -11,13 +10,13 @@ class TestController: UIViewController {
         return label
     }()
     
-//    lazy var date: UIView = {
-////        let view = LabelDateHour(isDate: true, hour: nil, date: Date())
-//        let view = LabelDateHour(isDate: true, date: Date())
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//        
-//    }()
+    lazy var button: CategoryAndAnimal = {
+        let view = CategoryAndAnimal()
+        view.configure(label: healthCategory.medication)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,18 +34,17 @@ extension TestController: ViewCodeProtocol {
             textLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             
-//            date.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 56),
-////            date.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 214),
-//            date.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 16),
-////            date.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200)
-//            date.heightAnchor.constraint(equalToConstant: 34),
-//            date.widthAnchor.constraint(equalToConstant: 123),
+            button.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 20),
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button.heightAnchor.constraint(equalToConstant: 103),
+            button.widthAnchor.constraint(equalToConstant: 173),
+
         ])
     }
     
     
     func addSubviews() {
         view.addSubview(textLabel)
-//        view.addSubview(date)
+        view.addSubview(button)
     }
 }
