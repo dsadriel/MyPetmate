@@ -66,5 +66,15 @@ class DailyViewController: UIViewController {
         navigationItem.title = "Daily"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.leftBarButtonItem = navigationLeftBarItem
+        
+        newActivityButton.addTarget(self, action: #selector(handleNewActivityButtonTapped), for: .touchUpInside)
     }
+    
+    @objc private func handleNewActivityButtonTapped() {
+        let modalVC = NewActivityController()
+        modalVC.categories = [dailyCategory.activity, dailyCategory.feeding, dailyCategory.water]
+        modalVC.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        present(modalVC, animated: true, completion: nil)
+    }
+
 }
