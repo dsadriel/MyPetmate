@@ -28,6 +28,7 @@ class PetCard: UIView {
         var imageView = UIImageView()
         let configuration = UIImage.SymbolConfiguration(pointSize: 14)
         let image = UIImage(systemName: "pawprint.circle", withConfiguration: configuration)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -107,6 +108,7 @@ class PetCard: UIView {
         imageView.contentMode = .scaleAspectFit
         imageView.image = paw
         imageView.tintColor = .Background.primary
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -142,6 +144,7 @@ class PetCard: UIView {
 
         
         self.addGradient()
+        self.backgroundColor = .black
         addSubview(button)
         addSubview(dataStackView)
         addSubview(imageView)

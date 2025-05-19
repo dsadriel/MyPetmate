@@ -13,7 +13,7 @@ import UIKit
 /// - Left side: Shows an icon (e.g., fork.knife) and a title (e.g., section name).
 /// - Right side (optional): Shows goal progress (e.g., "100/300 g") and an edit button.
 /// - The right side is only visible if `goalTarget` is set (not nil).
-class HealthDailySectionHeader: UITableViewHeaderFooterView {
+class HealthDailyHeaderView: UITableViewHeaderFooterView {
     static var reuseIdentifier = "DailySectionHeader"
 
     // MARK: - Initializers
@@ -170,7 +170,7 @@ class HealthDailySectionHeader: UITableViewHeaderFooterView {
 }
 
 // MARK: - ViewCode Setup
-extension HealthDailySectionHeader: ViewCodeProtocol {
+extension HealthDailyHeaderView: ViewCodeProtocol {
     func setup() {
         addSubviews()
         setupConstraints()

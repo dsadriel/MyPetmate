@@ -1,7 +1,6 @@
 import UIKit
 
-class TestController: UIViewController {
-    
+class TestController: UIViewController {    
     lazy var component: PetBadgeComponent = {
         var component = PetBadgeComponent()
         component.translatesAutoresizingMaskIntoConstraints = false
@@ -14,6 +13,7 @@ class TestController: UIViewController {
     }()
     
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -30,11 +30,13 @@ extension TestController: ViewCodeProtocol {
             component.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32),
             component.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
             
+
         ])
     }
     
     
     func addSubviews() {
         view.addSubview(component)
+
     }
 }

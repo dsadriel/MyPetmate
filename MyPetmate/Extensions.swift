@@ -5,6 +5,8 @@
 //  Created by Adriel de Souza on 13/05/25.
 //
 import UIKit
+
+// MARK: - UIView.addGradient
 extension UIView {
     func addGradient() {
         self.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
@@ -30,3 +32,13 @@ extension UIView {
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
 }
+
+// MARK: - Type alias for NSCollectionLayout
+
+typealias Size = NSCollectionLayoutSize
+typealias Item = NSCollectionLayoutItem
+typealias Group = NSCollectionLayoutGroup
+typealias Section = NSCollectionLayoutSection
+typealias Layout = UICollectionViewCompositionalLayout
+typealias Edges = NSDirectionalEdgeInsets
+typealias Config = UICollectionViewCompositionalLayoutConfiguration
