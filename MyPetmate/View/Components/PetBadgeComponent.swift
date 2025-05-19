@@ -174,3 +174,18 @@ extension PetBadgeComponent: ViewCodeProtocol {
         ])
     }
 }
+
+extension PetBadgeComponent {
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                    infoImgStack.addGradient()
+
+    
+            }
+        }
+
+    
+}

@@ -17,6 +17,7 @@ class TestController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        view.backgroundColor = .Background.primary
     }
 }
 
