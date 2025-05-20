@@ -25,8 +25,9 @@ extension DailyActivity: Equatable {
 
 struct DailyActivityOccurrence: Codable {
     var id: UUID = UUID()
-    let date: Date
-    let activity: DailyActivity
+    var date: Date
+    var activity: DailyActivity
+    var isCompleted: Bool = false
 }
 
 
