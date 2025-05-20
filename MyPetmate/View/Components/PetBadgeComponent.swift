@@ -34,8 +34,8 @@ class PetBadgeComponent: UICollectionViewCell {
     lazy var nameLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "SfProRounded-SemiBold", size: 17)
-        label.textColor = .Label.primary
+        label.font = .headlineRegular
+        label.textColor = .Label.card
         return label
     }()
     
@@ -50,15 +50,15 @@ class PetBadgeComponent: UICollectionViewCell {
     lazy var activityLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "SfProRounded-Regular", size: 15)
-        label.textColor = .Label.primary
+        label.font = .subheadlineRegular
+        label.textColor = .Label.card
         return label
     }()
     
     lazy var dataOfActivityLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .Label.primary
+        label.textColor = .Label.card
         return label
     }()
     
