@@ -45,3 +45,9 @@ typealias Section = NSCollectionLayoutSection
 typealias Layout = UICollectionViewCompositionalLayout
 typealias Edges = NSDirectionalEdgeInsets
 typealias Config = UICollectionViewCompositionalLayoutConfiguration
+
+extension String {
+        func capitalizingFirstLetter() -> String {
+            return prefix(1).uppercased() + self.lowercased().dropFirst()
+        }
+}
