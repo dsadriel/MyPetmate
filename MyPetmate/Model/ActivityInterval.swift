@@ -7,10 +7,10 @@
 
 import UIKit
 
-enum ActivityInterval {
-    case one, daily, weekly, monthly, yearly
+enum ActivityInterval: Codable {
+    case onlyOnce, daily, weekly, monthly, yearly
     
-    func calculateNextOccurence(after date: Date, repeationNumber number: Int = 1) -> Date {
+    func calculateNextOccurence(after date: Date, repeationNumber number: Int = 1) -> Date? {
         switch self {
         case .daily:
             return Calendar.current.date(byAdding: .day, value: number, to: date)!
@@ -21,7 +21,7 @@ enum ActivityInterval {
         case .yearly:
             return  Calendar.current.date(byAdding: .year, value: number, to: date)!
         default:
-            return date
+            return nil
         }
     }
 }
