@@ -7,13 +7,13 @@
 
 extension Persistence {
     // MARK: - Daily Activity methods
-    static func addDailyActivity(_ activity: DailyActivity, to pet: Pet) -> Pet {
+    static func addActivity(_ activity: DailyActivity, to pet: Pet) -> Pet {
         pet.dailyActivities.append(activity)
         Persistence.updatePet(pet)
         return pet
     }
 
-    static func deleteDailyActivity(_ activity: DailyActivity, from pet: Pet) -> Pet {
+    static func deleteActivity(_ activity: DailyActivity, from pet: Pet) -> Pet {
         if let index = pet.dailyActivities.firstIndex(of: activity) {
             pet.dailyActivities.remove(at: index)
         }
@@ -21,7 +21,7 @@ extension Persistence {
         return pet
     }
 
-    static func excludeDailyActivityOccourence(_ occurrence: DailyActivityOccurrence, from pet: Pet) -> Pet {
+    static func excludeActivityOccourence(_ occurrence: DailyActivityOccurrence, from pet: Pet) -> Pet {
         guard !pet.excludedDailyActivitiesOccurrences.contains(where: { $0 == occurrence }) else {
             return pet
         }

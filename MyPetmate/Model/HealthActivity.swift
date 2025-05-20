@@ -8,6 +8,7 @@
 import UIKit
 
 struct HealthActivity: Codable {
+    var id: UUID = UUID()
     let name: String
     let category: HealthCategory
     let measurementAmount: Int
@@ -17,4 +18,10 @@ struct HealthActivity: Codable {
     var hasReminder: Bool {reminderIn != nil}
     let location: String?
     let notes: String?
+}
+
+extension HealthActivity: Equatable {
+    static func == (lhs: HealthActivity, rhs: HealthActivity) -> Bool {
+        lhs.id == rhs.id
+    }
 }
