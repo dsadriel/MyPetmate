@@ -22,6 +22,7 @@ class CategoryAndAnimal: UIButton {
         label.textColor = .Colors.primary
         label.font = .title3Regular
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isUserInteractionEnabled = false
         return label
     }()
     

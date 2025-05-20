@@ -71,10 +71,13 @@ class DailyViewController: UIViewController {
     }
     
     @objc private func handleNewActivityButtonTapped() {
-        let modalVC = NewActivityController()
-        modalVC.categories = [dailyCategory.activity, dailyCategory.feeding, dailyCategory.water]
-        modalVC.modalPresentationStyle = UIModalPresentationStyle.pageSheet
-        present(modalVC, animated: true, completion: nil)
+        let newActivityController: NewActivityCategoryController = NewActivityCategoryController()
+        newActivityController.categories = [dailyCategory.activity, dailyCategory.feeding, dailyCategory.water]
+        
+        let navigationController: UINavigationController = UINavigationController(rootViewController: newActivityController)
+        navigationController.navigationBar.isHidden = true
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        present(navigationController, animated: true, completion: nil)
     }
 
 }
