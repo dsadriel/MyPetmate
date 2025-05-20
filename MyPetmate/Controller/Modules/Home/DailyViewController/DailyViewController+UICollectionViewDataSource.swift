@@ -19,14 +19,22 @@ extension DailyViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetBadgeComponent.reuseIdentifier, for: indexPath) as? PetBadgeComponent
-           else { fatalError() }
-        
         if indexPath.item < numberOfPets {
-            cell.backgroundColor = .Button.primary
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetBadgeComponent.reuseIdentifier, for: indexPath) as? PetBadgeComponent
+            else { fatalError() }
+            
+            cell.name = "Pet \(indexPath.item + 1)"
+            cell.activityName = "Atividade"
+            cell.quantityOfActivity = "10"
+            cell.icon = "person.circle"
+            //            cell.imagePet = set pet profile picture
+            return cell
         } else {
-            cell.backgroundColor = .Button.secondary
+            let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyCell", for: indexPath)
+            emptyCell.backgroundColor = .clear // update to add button
+            return emptyCell
         }
-        return cell
     }
+    
 }
+

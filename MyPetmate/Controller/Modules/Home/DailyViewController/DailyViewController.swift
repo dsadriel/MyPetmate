@@ -37,6 +37,7 @@ class DailyViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         collectionView.register(PetBadgeComponent.self, forCellWithReuseIdentifier: PetBadgeComponent.reuseIdentifier)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "EmptyCell")
         
         collectionView.dataSource = self
         return collectionView
