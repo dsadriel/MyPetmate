@@ -8,6 +8,10 @@
 import UIKit
 
 class Pet: Codable, Equatable {
+    var petType: Animal {
+            return .unknown
+    }
+    
     var id: UUID = UUID()
     var name: String
     var sex: PetSex
@@ -45,11 +49,9 @@ extension Pet {
 }
 
 extension Pet {
-    
     func getActivties(for date: Date) -> [DailyActivityOccurrence] {
         var todayActivities: [DailyActivityOccurrence] = []
         
-        let startOfDay = Calendar.current.startOfDay(for: date)
         let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date)!
 
         for activity in self.dailyActivities {
@@ -85,6 +87,15 @@ extension Pet {
     func getTodayActivities() -> [DailyActivityOccurrence] {
         getActivties(for: Date())
     }
+    
+    func getActivityStatus() -> (done: Int, total: Int){
+        let activities = self.getTodayActivities()
+        
+        let done: Int = activities.count(where: {$0.isCompleted})
+        let total: Int = activities.count - done
+        
+        return (done, total)
+    }
 }
 
 
@@ -92,8 +103,14 @@ extension Pet {
 
 class Cat: Pet {
     var bloodType: CatBloodType?
+    override var petType: Animal {
+        return .cat
+    }
 }
 
 class Dog: Pet {
     var bloodType: DogBloodType?
+    override var petType: Animal {
+        return .dog
+    }
 }

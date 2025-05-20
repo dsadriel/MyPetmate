@@ -19,7 +19,7 @@ enum DailyCategory: String, CaseIterable, LabelRepresentable, Codable {
         }
     }
 
-    var measures: String {
+    var measurementUnit: String {
         switch self {
         case .feeding: return "g"
         case .water: return "ml"
@@ -27,7 +27,7 @@ enum DailyCategory: String, CaseIterable, LabelRepresentable, Codable {
         }
     }
 
-    var measuresLabel: String {
+    var measurementLabel: String {
         switch self {
         case .feeding: return "Portion"
         case .water: return "Portion"
