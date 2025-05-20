@@ -63,6 +63,9 @@ extension CategoryAndAnimal: ViewCodeProtocol {
         
         addSubviews()
         setupConstraints()
+        
+        registerForTraitChanges([UITraitUserInterfaceStyle.self], target: self, action: #selector(updateGradient))
+
     }
     func addSubviews() {
         self.addSubview(stackView)
@@ -72,5 +75,11 @@ extension CategoryAndAnimal: ViewCodeProtocol {
             stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
+    }
+    
+    @objc func updateGradient(){
+        DispatchQueue.main.async {
+            self.addGradient()
+        }
     }
 }
