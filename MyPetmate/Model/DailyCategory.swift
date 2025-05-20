@@ -6,7 +6,7 @@
 //
 
 
-enum DailyCategory: String, CaseIterable, LabelRepresentable {
+enum DailyCategory: String, CaseIterable, LabelRepresentable, Codable {
     case feeding = "Feeding"
     case water = "Water"
     case activity = "Activity"

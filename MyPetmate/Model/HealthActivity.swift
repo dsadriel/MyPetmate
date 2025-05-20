@@ -7,10 +7,10 @@
 
 import UIKit
 
-struct HealthActivity {
+struct HealthActivity: Codable {
     let name: String
     let category: HealthCategory
-    let meseurementAmount: Int
+    let measurementAmount: Int
     let repeation: [ActivityRepeation]
     let repeatUntil: Date?
     let reminderIn: TimeInterval?

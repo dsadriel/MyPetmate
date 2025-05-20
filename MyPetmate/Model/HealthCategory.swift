@@ -6,7 +6,7 @@
 //
 
 
-enum HealthCategory: String, CaseIterable, LabelRepresentable {
+enum HealthCategory: String, CaseIterable, LabelRepresentable, Codable {
     case medication = "Medication"
     case vaccines = "Vaccines"
     case appointments = "Appointments"
@@ -20,4 +20,8 @@ enum HealthCategory: String, CaseIterable, LabelRepresentable {
     }
 
     var title: String { rawValue }
+}
+
+func setOptions(){
+    
 }

@@ -7,11 +7,11 @@
 
 import UIKit
 
-struct ActivityRepeation {
+struct ActivityRepeation: Codable {
     let start: Date
     let interval: ActivityInterval
     
-    func calculateNextOccurence(repeationNumber number: Int = 1) -> Date {
+    func getOccurrenceByNumber(_ number: Int) -> Date? {
         interval.calculateNextOccurence(after: self.start, repeationNumber: number)
     }
 }
