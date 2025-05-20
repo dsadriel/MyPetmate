@@ -1,4 +1,3 @@
-
 import UIKit
 import Foundation
 
@@ -35,8 +34,8 @@ class PetBadgeComponent: UICollectionViewCell {
     lazy var nameLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "SfProRounded-SemiBold", size: 17)
-        label.textColor = .Label.primary
+        label.font = .headlineRegular
+        label.textColor = .Label.card
         return label
     }()
     
@@ -51,15 +50,15 @@ class PetBadgeComponent: UICollectionViewCell {
     lazy var activityLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "SfProRounded-Regular", size: 15)
-        label.textColor = .Label.primary
+        label.font = .subheadlineRegular
+        label.textColor = .Label.card
         return label
     }()
     
     lazy var dataOfActivityLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .Label.primary
+        label.textColor = .Label.card
         return label
     }()
     
@@ -132,7 +131,14 @@ class PetBadgeComponent: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        registerForTraitChanges([UITraitUserInterfaceStyle.self], target: self, action: #selector(updateGradient))
         layoutSubviews()
+    }
+    
+    @objc func updateGradient(){
+        DispatchQueue.main.async {
+            self.infoImgStack.addGradient()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -146,7 +152,6 @@ class PetBadgeComponent: UICollectionViewCell {
             self.imgPet.layer.cornerRadius = self.imgPet.frame.width/2.0
         }
     }
-    
     
 }
 
@@ -175,19 +180,4 @@ extension PetBadgeComponent: ViewCodeProtocol {
     
         ])
     }
-}
-
-extension PetBadgeComponent {
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                    infoImgStack.addGradient()
-
-    
-            }
-        }
-
-    
 }

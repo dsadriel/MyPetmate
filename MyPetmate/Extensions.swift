@@ -14,13 +14,13 @@ extension UIView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.bounds
         
-        if traitCollection.userInterfaceStyle == .dark {
+        if traitCollection.userInterfaceStyle == .light {
             gradientLayer.colors = [
                 UIColor(red: 153 / 255.0, green: 209 / 255.0, blue: 190 / 255.0, alpha: 1).cgColor, // #99D1BE
                 UIColor(red: 127 / 255.0, green: 176 / 255.0, blue: 159 / 255.0, alpha: 1).cgColor  // #7FB09F
             ]
             
-        } else if traitCollection.userInterfaceStyle == .light {
+        } else if traitCollection.userInterfaceStyle == .dark {
             
             gradientLayer.colors = [
             UIColor(red: 253 / 255.0, green: 246 / 255.0, blue: 236 / 255.0, alpha: 1).cgColor,  // #FDF6EC
