@@ -5,11 +5,11 @@
 //  Created by Gabriel Barbosa on 19/05/25.
 //
 
-enum Sex: String, CaseIterable, Codable {
+enum Sex: String, CaseIterable, Codable, SelectableEnum {
     case male
     case female
     case unknown
-    
+
     var sexString: String {
         switch self {
         case .male:
@@ -20,4 +20,9 @@ enum Sex: String, CaseIterable, Codable {
             return "Unknown"
         }
     }
+    
+    var displayName: String {
+        sexString
+    }
+    
 }

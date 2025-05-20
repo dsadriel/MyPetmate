@@ -32,8 +32,11 @@ class NewPetViewController: UIViewController {
         return textField
     }()
     
-    lazy var sexSelector: SexSelector = {
-        var selector = SexSelector()
+    lazy var sexSelector: EnumSelector<Sex> = {
+        let selector = EnumSelector<Sex>(
+            enumTypeName: "Sex",          // texto do label
+            placeholder: "Select Sex"     // texto inicial do botão
+        )
         selector.translatesAutoresizingMaskIntoConstraints = false
         return selector
     }()
@@ -46,8 +49,29 @@ class NewPetViewController: UIViewController {
         return picker
     }()
     
+    lazy var breedTextField: NamedTextField = {
+        var breed = NamedTextField()
+        breed.translatesAutoresizingMaskIntoConstraints = false
+        breed.name = "Breed"
+        breed.placeholder = "Name of the dog breed"
+        
+        return breed
+    }()
+    
+    lazy var sizeSelector: EnumSelector<DogSize> = {
+        let selector = EnumSelector<DogSize>(
+            enumTypeName: "Size",
+            placeholder: "Select Size"
+        )
+        selector.translatesAutoresizingMaskIntoConstraints = false
+        return selector
+    }()
+    
+    
+    
+    
     lazy var dataStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [textField, sexSelector, datePicker])
+        var stackView = UIStackView(arrangedSubviews: [textField, sexSelector, datePicker, breedTextField, sizeSelector])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 0
@@ -86,6 +110,10 @@ extension NewPetViewController: ViewCodeProtocol {
             sexSelector.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            breedTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            breedTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            sizeSelector.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            sizeSelector.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             
             
             
