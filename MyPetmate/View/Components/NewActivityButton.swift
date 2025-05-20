@@ -16,6 +16,7 @@ class NewActivityButton: UIButton {
         label.text = "New Activity"
         label.font = UIFont.bodyRegular
         label.textColor = .Background.primary
+        label.isUserInteractionEnabled = false
         return label
     }()
     
