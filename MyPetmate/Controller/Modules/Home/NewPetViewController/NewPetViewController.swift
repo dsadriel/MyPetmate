@@ -38,14 +38,16 @@ class NewPetViewController: UIViewController {
         return selector
     }()
     
-    lazy var birthDatePicker: BirthDatePicker = {
-        var picker = BirthDatePicker()
+    lazy var datePicker: DatePicker = {
+        var picker = DatePicker()
         picker.translatesAutoresizingMaskIntoConstraints = false
+        picker.text = "Date"
+        picker.hasHour = false
         return picker
     }()
     
     lazy var dataStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [textField, sexSelector, birthDatePicker])
+        var stackView = UIStackView(arrangedSubviews: [textField, sexSelector, datePicker])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 0
@@ -82,6 +84,11 @@ extension NewPetViewController: ViewCodeProtocol {
             textField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             sexSelector.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             sexSelector.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            
+            
+            
         ])
     }
     

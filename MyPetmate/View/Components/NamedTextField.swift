@@ -43,7 +43,6 @@ class NamedTextField: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.alignment = .center
-        stack.spacing = 0
     
         return stack
     }()

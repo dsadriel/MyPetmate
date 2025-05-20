@@ -1,5 +1,6 @@
+
 //
-//  BirthDatePicker.swift
+//  DatePicker.swift
 //  MyPetmate
 //
 //  Created by Gabriel Barbosa on 19/05/25.
@@ -7,7 +8,7 @@
 
 import UIKit
 
-public class BirthDatePicker: UIView {
+public class DatePicker: UIView {
     
     // MARK: Subviews
     internal lazy var label: UILabel = {
@@ -15,7 +16,7 @@ public class BirthDatePicker: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .Label.primary
         label.font = UIFont.bodyRegular
-        label.text = "Birth Date"
+        label.text = "Date label"
         
         return label
     }()
@@ -41,24 +42,48 @@ public class BirthDatePicker: UIView {
         super.init(frame: frame)
         addSubviews()
         setupConstraints()
-        //setupBorder()
+        setupBorder()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var hasHour: Bool = false {
+    
+    // MARK: Configuration
+    var text: String? {
         didSet {
-            datePicker.datePickerMode = .dateAndTime
-            datePicker.locale = Locale.init(identifier: "en")
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "hh:mm a"
-//            datePicker.date =
+            label.text = text
         }
     }
     
-    // MARK: Configuration
+    var hasHour: Bool = false {
+        didSet {
+            if hasHour {
+                datePicker.datePickerMode = .dateAndTime
+                datePicker.locale = Locale.init(identifier: "en")
+            }
+        }
+    }
+    
+    private let bottomBorder = CALayer()
+    
+    private func setupBorder() {
+        bottomBorder.backgroundColor = UIColor.Separator.primary.cgColor
+        layer.addSublayer(bottomBorder)
+    }
+    
+    public override func layoutSubviews() {
+            super.layoutSubviews()
+        let borderHeight: CGFloat = 0.33
+            bottomBorder.frame = CGRect(
+                x: 0,
+                y: bounds.height - borderHeight,
+                width: bounds.width,
+                height: borderHeight
+            )
+    }
+    
     func addSubviews() {
         self.addSubview(stack)
     }
