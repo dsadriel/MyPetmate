@@ -11,9 +11,9 @@ import UIKit
 
 extension DailyViewController: ViewCodeProtocol {
     func addSubviews() {
-        view.addSubview(newActivityButton)
         view.addSubview(petSelectorCollectionView)
         view.addSubview(taskTableView)
+        view.addSubview(newActivityButton)
     }
     
     func setupConstraints() {
