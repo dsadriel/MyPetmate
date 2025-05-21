@@ -57,6 +57,7 @@ class NewHealthActivityController: UIViewController {
     //MARK: picker generico
     lazy var durationField: PickerActivities = {
         let field = PickerActivities(pickerType: .duration)
+        field.measures = ["g"]
         field.onToggle = { [weak self] isExpanded in
             self?.expandDurationField(show: isExpanded)
         }

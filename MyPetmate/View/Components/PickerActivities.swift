@@ -9,7 +9,12 @@ class PickerActivities: UIView {
     
     private let numbers = Array(0...99)
     private let units = ["Forever", "Days", "Weeks", "Months", "Years"]
-    private let measures = ["mg", "g", "mL", "L"]
+//    public var measures = ["mg", "g", "mL", "L"]
+    public var measures: [String] = [""] {
+        didSet {
+            configureForType()
+        }
+    }
 
     private var selectedNumber = 0
     private var selectedUnit = ""
