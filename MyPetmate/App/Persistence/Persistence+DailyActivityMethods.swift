@@ -13,20 +13,18 @@ extension Persistence {
         return pet
     }
 
-    static func deleteActivity(_ activity: DailyActivity, from pet: Pet) -> Pet {
+    static func deleteActivity(_ activity: DailyActivity, from pet: Pet) {
         if let index = pet.dailyActivities.firstIndex(of: activity) {
             pet.dailyActivities.remove(at: index)
         }
         Persistence.updatePet(pet)
-        return pet
     }
 
-    static func excludeActivityOccourence(_ occurrence: DailyActivityOccurrence, from pet: Pet) -> Pet {
+    static func excludeActivityOccourence(_ occurrence: DailyActivityOccurrence, from pet: Pet) {
         guard !pet.excludedDailyActivitiesOccurrences.contains(where: { $0 == occurrence }) else {
-            return pet
+                return
         }
         pet.excludedDailyActivitiesOccurrences.append(occurrence)
         updatePet(pet)
-        return pet
     }
 }

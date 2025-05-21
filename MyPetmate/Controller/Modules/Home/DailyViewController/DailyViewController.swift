@@ -8,6 +8,16 @@
 import UIKit
 
 class DailyViewController: UIViewController {
+    
+    internal var petList: [Pet] = Persistence.getPetList()
+    internal var tableSections: [DailyCategory] = []
+    internal var tableRows: [[DailyActivityOccurrence]] = []
+    internal var selectedPetIndex: Int = -1
+    internal var selectedPet: Pet? {
+        guard selectedPetIndex >= 0 && selectedPetIndex < petList.count else { return nil }
+        return petList[selectedPetIndex]
+    }
+
     internal lazy var navigationLeftBarItem: UIBarButtonItem = {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
@@ -37,9 +47,14 @@ class DailyViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         collectionView.register(PetBadgeComponent.self, forCellWithReuseIdentifier: PetBadgeComponent.reuseIdentifier)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "EmptyCell")
+        collectionView.register(AddPetCollectionViewCell.self, forCellWithReuseIdentifier: AddPetCollectionViewCell.reuseIdentifier)
+
+        collectionView.alwaysBounceVertical = false
+                
+        collectionView.backgroundColor = .Background.primary
         
         collectionView.dataSource = self
+        collectionView.delegate = self
         return collectionView
     }()
     
