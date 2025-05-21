@@ -9,9 +9,9 @@ class HeaderNewActivity: UIView {
     lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.setTitleColor(.Button.primary, for: .normal)
         button.contentHorizontalAlignment = .right
+        button.titleLabel?.font = UIFont.bodyRegular
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -29,9 +29,9 @@ class HeaderNewActivity: UIView {
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Save", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.setTitleColor(.Button.primary, for: .normal)
         button.contentHorizontalAlignment = .left
+        button.titleLabel?.font = UIFont.bodyRegular
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

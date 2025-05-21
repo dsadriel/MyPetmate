@@ -109,6 +109,8 @@ class NewActivityCategoryController: UIViewController, UICollectionViewDataSourc
     private func handleNewActivityButtonTapped(for item: LabelRepresentable) {
         let nextVC = NewHealthActivityController()
         nextVC.category = item.title
+        nextVC.setup()
+        print(item.title)
         navigationController?.pushViewController(nextVC, animated: true)
     }
     
