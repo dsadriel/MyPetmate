@@ -97,13 +97,13 @@ class DailyTableViewCell: UITableViewCell {
         self.action = buttonAction
     }
     
-    var activityText: (amount: Int, activityName: String)? {
+    var activityText: (amount: String, activityName: String)? {
         didSet {
             guard let activityText = activityText else {
                 activityAmountLabel.text = nil
                 return
             }
-            activityAmountLabel.text = "\(activityText.amount) g \(activityText.activityName)"
+            activityAmountLabel.text = "\(activityText.amount) \(activityText.activityName)"
         }
     }
     

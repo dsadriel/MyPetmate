@@ -23,16 +23,8 @@ extension DailyActivity: Equatable {
     }
 }
 
-struct DailyActivityOccurrence: Codable {
-    var id: UUID = UUID()
+struct DailyActivityOccurrence: Codable, Equatable {
     var date: Date
     var activity: DailyActivity
     var isCompleted: Bool = false
-}
-
-
-extension DailyActivityOccurrence: Equatable {
-    static func == (lhs: DailyActivityOccurrence, rhs: DailyActivityOccurrence) -> Bool {
-        lhs.id == rhs.id
-    }
 }

@@ -71,9 +71,10 @@ extension Pet {
                         }
                         
                         if Calendar.current.isDate(occurrenceDate, inSameDayAs: date) {
-                            todayActivities.append(
-                                DailyActivityOccurrence(date: occurrenceDate, activity: activity)
-                            )
+                            let occurrence = DailyActivityOccurrence(date: occurrenceDate, activity: activity)
+                            if !self.excludedDailyActivitiesOccurrences.contains(occurrence) {
+                                todayActivities.append(occurrence)
+                            }
                         }
                         occurrenceIndex += 1
                     }

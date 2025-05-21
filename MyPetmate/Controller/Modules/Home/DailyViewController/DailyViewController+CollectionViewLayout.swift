@@ -21,7 +21,11 @@ extension DailyViewController {
         section.interGroupSpacing = 8.0
         section.contentInsets = Edges(top: 0, leading: 16.0, bottom: 0, trailing: 16.0)
         section.orthogonalScrollingBehavior = .groupPaging
+    
+        let layout = Layout(section: section)
         
-        return Layout(section: section)
+        layout.configuration.scrollDirection = .horizontal
+        
+        return layout
     }
 }
