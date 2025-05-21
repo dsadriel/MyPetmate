@@ -71,7 +71,7 @@ class PetCard: UIView {
     }()
     
     //MARK: years + birth date stack
-    lazy var yearsBirthStack: UIStackView = {
+    private lazy var yearsBirthStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [yearsLabel, dateLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 8
@@ -91,7 +91,7 @@ class PetCard: UIView {
         return button
     }()
     
-    lazy var checkProfileLabel: UILabel = {
+    private lazy var checkProfileLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.font = .systemFont(ofSize: 15)
         nameLabel.text = "Check Full Profile"
@@ -101,7 +101,7 @@ class PetCard: UIView {
         return nameLabel
     }()
     
-    lazy var checkProfileImage: UIImageView = {
+    private lazy var checkProfileImage: UIImageView = {
         var imageView = UIImageView()
         let configuration = UIImage.SymbolConfiguration(pointSize: 14)
         let paw = UIImage(systemName: "pawprint.fill", withConfiguration: configuration)
@@ -112,7 +112,7 @@ class PetCard: UIView {
         return imageView
     }()
     
-    lazy var stackCheckProfile: UIStackView = {
+    private lazy var stackCheckProfile: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [checkProfileImage, checkProfileLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 3
@@ -122,7 +122,7 @@ class PetCard: UIView {
     }()
     
     //MARK: stacks gerais
-    lazy var dataStackView: UIStackView = {
+    private lazy var dataStackView: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [nameLabel, sexLabel, yearsBirthStack])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 8
@@ -131,7 +131,7 @@ class PetCard: UIView {
         return stack
     }()
     
-    lazy var horizontalStack: UIStackView = {
+    private lazy var horizontalStack: UIStackView = {
         let horizontalStack = UIStackView()
         return horizontalStack
     }()
@@ -154,7 +154,6 @@ class PetCard: UIView {
         
         dataStackView.addArrangedSubview(fullProfileView)
         
-        addSubview(petWithoutPhoto)
         addSubview(horizontalStack)
         button.addSubview(imageURL != nil ? imageView : petWithoutPhoto)
         
@@ -170,29 +169,23 @@ class PetCard: UIView {
         nameLabel.text = name
         sexLabel.text = sex + " " + type
         yearsLabel.text = yearsString
+
         
-        if let urlString = imageURL, let url = URL(string: urlString) {
-            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-                guard let self = self, let data = data, let image = UIImage(data: data) else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    self.imageView.image = image
-                    self.petWithoutPhoto.isHidden = true
-                    self.imageView.isHidden = false
-                }
-            }.resume()
-        } else {
-            imageView.isHidden = true
-            petWithoutPhoto.isHidden = false
+        if let imageURL {
+            
+            if  imageURL == "" || imageURL == " " {
+                imageView.image = UIImage(systemName: "pawprint.circle")
+            } else {
+                
+                self.imageView.image = UIImage(named: imageURL)
+            }
         }
         
-        let imageComponent = imageURL != nil ? imageView : petWithoutPhoto //se vem imagem, considera o imageView
         horizontalStack.axis = .horizontal
         horizontalStack.spacing = 20
         horizontalStack.alignment = .center
         horizontalStack.translatesAutoresizingMaskIntoConstraints = false
-        horizontalStack.addArrangedSubview(imageComponent)
+        horizontalStack.addArrangedSubview(imageView)
         horizontalStack.addArrangedSubview(dataStackView)
         
         NSLayoutConstraint.activate([
@@ -206,10 +199,6 @@ class PetCard: UIView {
             imageView.widthAnchor.constraint(equalToConstant: 122),
             imageView.heightAnchor.constraint(equalToConstant: 122),
                         
-            petWithoutPhoto.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 12),
-            petWithoutPhoto.centerYAnchor.constraint(equalTo: button.centerYAnchor),
-            petWithoutPhoto.widthAnchor.constraint(equalToConstant: 122),
-            petWithoutPhoto.heightAnchor.constraint(equalToConstant: 122),
             
             horizontalStack.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 16),
             horizontalStack.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: -16),
@@ -248,5 +237,58 @@ class PetCard: UIView {
     @objc private func handleButtonTap() {
         print("pressed!")
     }
+    
+    
+    var name: String? {
+        set {
+            nameLabel.text = newValue
+        }
+        get {
+            return nameLabel.text
+        }
+        }
+    
+    var sexType: String? {
+        
+        get {
+            return sexLabel.text
+        }
+        }
+    
+    func setSexType(sex:String, type:String)
+    {
+        sexLabel.text = sex + " " + type
+    }
+    
+    var birthDate: Date? {
+        set {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd/MM/yyyy"
+            dateLabel.text = formatter.string(from: newValue ?? Date())
+        }
+        
+        get {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd/MM/yyyy"
+            
+            return formatter.date(from: dateLabel.text ?? "")
+        }
+        }
+    
+    func setImage(img: String?) {
+        
+        if let img {
+            
+            if img == "" || img == " " {
+                imageView.image = UIImage(systemName: "pawprint.circle")
+            } else {
+                
+                self.imageView.image = UIImage(named: img)
+            }
+        }
+    }
+    
+    
+    
 }
 
