@@ -7,48 +7,30 @@
 
 import UIKit
 
-class DailyViewController: UIViewController {
+class HealthViewController: UIViewController {
     
-    internal var petList: [Pet] = Persistence.getPetList()
-    internal var tableSections: [DailyCategory] = []
-    internal var tableRows: [[DailyActivityOccurrence]] = []
-    internal var selectedPetIndex: Int = -1 {
+    var petList: [Pet] = Persistence.getPetList()
+    var tableSections: [HealthCategory] = []
+    var tableRows: [[HealthActivityOccurrence]] = []
+    var selectedPetIndex: Int = -1 {
         didSet {
             if(selectedPetIndex != oldValue){
-                print("selectedPetIndex: \(selectedPetIndex)")
                 updateDataAndUI()
             }
         }
     }
-    internal var selectedPet: Pet? {
+    var selectedPet: Pet? {
         guard selectedPetIndex >= 0 && selectedPetIndex < petList.count else { return nil }
         return petList[selectedPetIndex]
     }
-
-    internal lazy var navigationLeftBarItem: UIBarButtonItem = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
-        dateFormatter.setLocalizedDateFormatFromTemplate("EEEE MMMMd")
-        
-        let formatedDate = dateFormatter.string(from: Date())
-        let dataButton = UIBarButtonItem()
-        dataButton.title = formatedDate
-        dataButton.setTitleTextAttributes([
-            NSAttributedString.Key.font: UIFont.bodyRegular,
-            NSAttributedString.Key.foregroundColor: UIColor.Label.secondary
-        ], for: .disabled)
-        dataButton.isEnabled = false
-        
-        return dataButton
-    }()
     
-    internal lazy var newActivityButton: NewActivityButton = {
+    lazy var newActivityButton: NewActivityButton = {
         let button = NewActivityButton()
         button.buttonText = "New Activity"
         return button
     }()
     
-    internal lazy var petSelectorCollectionView: UICollectionView = {
+    lazy var petSelectorCollectionView: UICollectionView = {
         var collectionView: UICollectionView!
 
         let layout = buildPetSelectorLayout { visibleItems, offset, env in
@@ -74,12 +56,12 @@ class DailyViewController: UIViewController {
 
     
     
-    internal lazy var taskTableView: UITableView = {
+    lazy var taskTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         tableView.register(HealthDailyHeaderView.self, forHeaderFooterViewReuseIdentifier: HealthDailyHeaderView.reuseIdentifier)
-        tableView.register(DailyTableViewCell.self, forCellReuseIdentifier: DailyTableViewCell.reuseIdentifier)
+        tableView.register(HealthCommitmentTableViewCell.self, forCellReuseIdentifier: HealthCommitmentTableViewCell.reuseIdentifier)
         
         tableView.backgroundColor = .Background.primary
         
@@ -94,9 +76,8 @@ class DailyViewController: UIViewController {
         setup()
         
         view.backgroundColor = .Background.primary
-        navigationItem.title = "Daily"
+        navigationItem.title = "Health"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.leftBarButtonItem = navigationLeftBarItem
         
         newActivityButton.addTarget(self, action: #selector(handleNewActivityButtonTapped), for: .touchUpInside)
     }

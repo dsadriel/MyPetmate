@@ -4,6 +4,7 @@
 //
 //  Created by Adriel de Souza on 19/05/25.
 //
+import UIKit
 
 extension Persistence {
     // MARK: - Daily Activity methods
@@ -57,4 +58,31 @@ extension Persistence {
             updatePet(pet)
         }
     }
+    
+    static func changeActivityOccurrenceCompleteness(_ occurrence: HealthActivityOccurrence, to completeness: Bool, in pet: Pet) {
+        print("AAA \(completeness)")
+        let key =  occurrence.date.endOfDay
+        if completeness {
+            // If it's already completed, ignore
+            if let completionList =  pet.completedHealthActivitiesOccurrences[key], completionList.contains(where: { $0 == occurrence }) {
+                return
+            }
+            
+    
+            var occurrence = occurrence
+            occurrence.isCompleted = true
+            
+            if pet.completedHealthActivitiesOccurrences[key] == nil {
+                pet.completedHealthActivitiesOccurrences[key] = [occurrence]
+            } else {
+                pet.completedHealthActivitiesOccurrences[key]?.append(occurrence)
+            }
+                                    
+            updatePet(pet)
+        } else {
+            pet.completedHealthActivitiesOccurrences[key]?.removeAll(where: {$0 == occurrence})
+            updatePet(pet)
+        }
+    }
+
 }

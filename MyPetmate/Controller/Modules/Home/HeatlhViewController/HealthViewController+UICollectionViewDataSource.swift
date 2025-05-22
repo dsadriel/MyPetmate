@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - UICollectionViewDataSource
 
-extension DailyViewController: UICollectionViewDataSource {
+extension HealthViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -26,15 +26,12 @@ extension DailyViewController: UICollectionViewDataSource {
             else { fatalError() }
             
             let pet = petList[indexPath.item]
-            let activitiesStatus = pet.getDailyActivitiesStatus()
             cell.name = pet.name
-            cell.activityName = "Daily Activities"
-            cell.quantityOfActivity = "\(activitiesStatus.done)/\(activitiesStatus.total)"
-            
-            
+            cell.activityName = "Health Schedules"
+            cell.quantityOfActivity = "\(pet.healthActivities.count)"
+                
             cell.icon = pet.petType.systemImageName
-        
-            
+    
             cell.imagePet = "dog"
             return cell
         } else {
