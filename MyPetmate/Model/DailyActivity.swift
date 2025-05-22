@@ -15,6 +15,7 @@ struct DailyActivity: Codable {
     var repetitions: [ActivityRepeation]
     var reminderIn: TimeInterval?
     var hasReminder: Bool {reminderIn != nil}
+    var completedOccurrences: [DailyActivityOccurrence] = []
 }
 
 extension DailyActivity: Equatable {
@@ -24,15 +25,13 @@ extension DailyActivity: Equatable {
 }
 
 struct DailyActivityOccurrence: Codable {
-    var id: UUID = UUID()
     var date: Date
     var activity: DailyActivity
     var isCompleted: Bool = false
 }
 
-
 extension DailyActivityOccurrence: Equatable {
     static func == (lhs: DailyActivityOccurrence, rhs: DailyActivityOccurrence) -> Bool {
-        lhs.id == rhs.id
+        return lhs.date == rhs.date && lhs.activity == rhs.activity
     }
 }

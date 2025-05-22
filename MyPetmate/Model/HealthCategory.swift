@@ -21,5 +21,3 @@ enum HealthCategory: String, CaseIterable, LabelRepresentable, Codable {
 
     var title: String { rawValue }
 }
-
-// Removed the empty setOptions function as it serves no purpose.
