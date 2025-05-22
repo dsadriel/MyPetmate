@@ -9,5 +9,4 @@ import UIKit
 
 extension DailyViewController: UICollectionViewDelegate {
 
-
 }

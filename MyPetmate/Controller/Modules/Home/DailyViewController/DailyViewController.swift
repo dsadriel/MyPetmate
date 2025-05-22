@@ -12,7 +12,14 @@ class DailyViewController: UIViewController {
     internal var petList: [Pet] = Persistence.getPetList()
     internal var tableSections: [DailyCategory] = []
     internal var tableRows: [[DailyActivityOccurrence]] = []
-    internal var selectedPetIndex: Int = -1
+    internal var selectedPetIndex: Int = -1 {
+        didSet {
+            if(selectedPetIndex != oldValue){
+                print("selectedPetIndex: \(selectedPetIndex)")
+                updateDataAndUI()
+            }
+        }
+    }
     internal var selectedPet: Pet? {
         guard selectedPetIndex >= 0 && selectedPetIndex < petList.count else { return nil }
         return petList[selectedPetIndex]
@@ -42,21 +49,32 @@ class DailyViewController: UIViewController {
     }()
     
     internal lazy var petSelectorCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: buildPetSelectorLayout())
-        
+        // TEMP placeholder to use in layout logic
+        var collectionView: UICollectionView!
+
+        let layout = buildPetSelectorLayout { visibleItems, offset, env in
+            guard collectionView != nil else { return }
+            let center = self.view.convert(collectionView.center, to: collectionView)
+
+            if let indexPath = collectionView.indexPathForItem(at: center) {
+//                print("Centered item is at indexPath: \(indexPath)")
+                self.selectedPetIndex = indexPath.row
+            }
+        }
+
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         collectionView.register(PetBadgeComponent.self, forCellWithReuseIdentifier: PetBadgeComponent.reuseIdentifier)
         collectionView.register(AddPetCollectionViewCell.self, forCellWithReuseIdentifier: AddPetCollectionViewCell.reuseIdentifier)
-
         collectionView.alwaysBounceVertical = false
-                
         collectionView.backgroundColor = .Background.primary
-        
         collectionView.dataSource = self
         collectionView.delegate = self
+
         return collectionView
     }()
+
     
     
     internal lazy var taskTableView: UITableView = {
@@ -82,5 +100,11 @@ class DailyViewController: UIViewController {
         navigationItem.title = "Daily"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.leftBarButtonItem = navigationLeftBarItem
+    }
+    
+    func updateDataAndUI() {
+        buildTableData()
+        taskTableView.reloadData()
+        petSelectorCollectionView.reloadData()
     }
 }
