@@ -103,7 +103,7 @@ class HealthDailyHeaderView: UITableViewHeaderFooterView {
     }()
 
     private lazy var rightStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [goalInfoStackView, editGoalButton])
+        let stackView = UIStackView(arrangedSubviews: [goalInfoStackView])
         stackView.setContentHuggingPriority(.required, for: .horizontal)
         stackView.axis = .horizontal
         stackView.spacing = 12

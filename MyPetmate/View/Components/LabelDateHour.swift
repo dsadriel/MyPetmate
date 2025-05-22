@@ -30,7 +30,6 @@ class LabelDateHour: UIView {
     func configure(isDate: Bool, date: Date?) {
         if isDate == true, let date = date {
             let formatter = DateFormatter()
-//            formatter.dateFormat = "dd/MM/yyyy"
             formatter.dateStyle = .long
             informationLabel.text = formatter.string(from: date)
         } else if isDate == false, let date = date {
@@ -65,8 +64,7 @@ extension LabelDateHour: ViewCodeProtocol {
             informationLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             self.heightAnchor.constraint(equalToConstant: 34),
-//            self.widthAnchor.constraint(greaterThanOrEqualToConstant: 60),
-            self.widthAnchor.constraint(equalTo: informationLabel.widthAnchor, constant: 22)
+//            self.widthAnchor.constraint(equalTo: informationLabel.widthAnchor, constant: 22)
         ])
     }
     

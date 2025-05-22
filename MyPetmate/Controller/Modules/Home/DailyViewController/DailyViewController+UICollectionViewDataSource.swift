@@ -9,24 +9,46 @@ import UIKit
 
 // MARK: - UICollectionViewDataSource
 
-// MARK: Adjust later with real data
-let numberOfPets = 3
-
 extension DailyViewController: UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        numberOfPets+1
+        return petList.count + 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        if indexPath.item < Persistence.getPetList().count {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetBadgeComponent.reuseIdentifier, for: indexPath) as? PetBadgeComponent
+            else { fatalError() }
+            
+            let pet = petList[indexPath.item]
+            let activitiesStatus = pet.getActivityStatus()
+            cell.name = pet.name
+            cell.activityName = "Daily Activities"
+            cell.quantityOfActivity = "\(activitiesStatus.done)/\(activitiesStatus.total)"
+            
+            
+            cell.icon = pet.petType.systemImageName
+        
+            
+            cell.imagePet = "dog"
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddPetCollectionViewCell.reuseIdentifier, for: indexPath) as? AddPetCollectionViewCell
+            else { fatalError() }
+            
+            cell.buttonAction = {
+                print(#function)
+            }
+            
+            return cell
+            
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetBadgeComponent.reuseIdentifier, for: indexPath) as? PetBadgeComponent
-           else { fatalError() }
-        
-        if indexPath.item < numberOfPets {
-            cell.backgroundColor = .Button.primary
-        } else {
-            cell.backgroundColor = .Button.secondary
-        }
-        return cell
-    }
 }
+

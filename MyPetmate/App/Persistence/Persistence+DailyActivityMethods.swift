@@ -12,21 +12,49 @@ extension Persistence {
         Persistence.updatePet(pet)
         return pet
     }
-
-    static func deleteActivity(_ activity: DailyActivity, from pet: Pet) -> Pet {
+    
+    static func deleteActivity(_ activity: DailyActivity, from pet: Pet) {
         if let index = pet.dailyActivities.firstIndex(of: activity) {
             pet.dailyActivities.remove(at: index)
         }
         Persistence.updatePet(pet)
-        return pet
     }
-
-    static func excludeActivityOccourence(_ occurrence: DailyActivityOccurrence, from pet: Pet) -> Pet {
-        guard !pet.excludedDailyActivitiesOccurrences.contains(where: { $0 == occurrence }) else {
-            return pet
+    
+    static func excludeActivityOccourence(_ occurrence: DailyActivityOccurrence, from pet: Pet) {
+        
+        guard !(pet.excludedDailyActivitiesOccurrences[occurrence.date.endOfDay]?.contains(where: { $0 == occurrence }) ?? false) else {
+            return
         }
-        pet.excludedDailyActivitiesOccurrences.append(occurrence)
+            
+        if pet.excludedDailyActivitiesOccurrences[occurrence.date.endOfDay] == nil {
+            pet.excludedDailyActivitiesOccurrences[occurrence.date.endOfDay] = [occurrence]
+        } else {
+            pet.excludedDailyActivitiesOccurrences[occurrence.date.endOfDay]?.append(occurrence)
+        }
+        
         updatePet(pet)
-        return pet
+    }
+    
+    static func changeActivityOccurrenceCompleteness(_ occurrence: DailyActivityOccurrence, to completeness: Bool, in pet: Pet) {
+        if completeness {
+            // If it's already completed, ignore
+            guard !(pet.completedDailyActivitiesOccurrences[occurrence.date.endOfDay]?.contains(where: { $0 == occurrence }) ?? false) else {
+                return
+            }
+            
+            var occurrence = occurrence
+            occurrence.isCompleted = true
+            
+            if pet.completedDailyActivitiesOccurrences[occurrence.date.endOfDay] == nil {
+                pet.completedDailyActivitiesOccurrences[occurrence.date.endOfDay] = [occurrence]
+            } else {
+                pet.completedDailyActivitiesOccurrences[occurrence.date.endOfDay]?.append(occurrence)
+            }
+                        
+            updatePet(pet)
+        } else {
+            pet.completedDailyActivitiesOccurrences[occurrence.date.endOfDay]?.removeAll(where: {$0 == occurrence})
+            updatePet(pet)
+        }
     }
 }
