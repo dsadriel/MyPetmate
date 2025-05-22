@@ -63,7 +63,7 @@ class HomeTabBarController: UITabBarController {
         )
         
         // MARK: - Update this later with the proper VC
-        let rootViewController = UIViewController()
+        let rootViewController = PetsViewController()
         rootViewController.tabBarItem = tabItem
     
         return UINavigationController(rootViewController: rootViewController)
