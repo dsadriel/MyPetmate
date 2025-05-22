@@ -61,7 +61,7 @@ extension DailyViewController: UITableViewDataSource {
         cell.hourConfig = occourence.date
         cell.isDone = occourence.isCompleted
         cell.action = {
-            Persistence.changeActivityOccourenceCompletness(occourence, to: !occourence.isCompleted, in: self.selectedPet!)
+            Persistence.changeActivityOccurrenceCompleteness(occourence, to: !occourence.isCompleted, in: self.selectedPet!)
             self.updateDataAndUI()
         }
         

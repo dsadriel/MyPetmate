@@ -106,15 +106,9 @@ class DailyViewController: UIViewController {
     
     @objc private func handleNewActivityButtonTapped() {
         let modalVC = NewActivityController()
-        modalVC.categories = [dailyCategory.activity, dailyCategory.feeding, dailyCategory.water]
+        modalVC.categories = [DailyCategory.activity, DailyCategory.feeding, DailyCategory.water]
         modalVC.modalPresentationStyle = UIModalPresentationStyle.pageSheet
         present(modalVC, animated: true, completion: nil)
-    }
-    
-    func updateDataAndUI() {
-        buildTableData()
-        taskTableView.reloadData()
-        petSelectorCollectionView.reloadData()
     }
     
     func updateDataAndUI() {
