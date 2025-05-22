@@ -11,16 +11,9 @@ import Foundation
 
 class PetsViewController: UIViewController {
     
-    lazy var newPetButton: UIButton = {
-        var button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(" New Pet", for: .normal)
-        button.titleLabel?.font = UIFont(name: "SfPro", size: 17)
-        button.setTitleColor(.Label.card, for: .normal)
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.backgroundColor = .Button.primary
-        button.tintColor = .Label.card
-        button.layer.cornerRadius = 12
+    lazy var newPetButton: NewActivityButton = {
+        var button = NewActivityButton()
+        button.buttonText = "New Pet"
         return button
     }()
     
@@ -29,6 +22,7 @@ class PetsViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .Background.primary
         table.dataSource = self
+        table.delegate = self
         table.register(PetListTableViewCell.self, forCellReuseIdentifier: PetListTableViewCell.reuseIdentifier)
         return table
         
@@ -68,10 +62,10 @@ extension PetsViewController: UITableViewDataSource {
         return cell
         
     }
-    
-    
 }
 
-//extension PetsViewController: UITableViewDelegate {
-//    
-//}
+extension PetsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
