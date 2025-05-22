@@ -91,7 +91,7 @@ public class DatePicker: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            datePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            datePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             
             stack.topAnchor.constraint(equalTo: topAnchor),
             stack.bottomAnchor.constraint(equalTo: bottomAnchor),

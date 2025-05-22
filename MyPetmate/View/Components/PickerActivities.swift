@@ -8,8 +8,6 @@ class PickerActivities: UIView {
     }
     
     private let numbers = Array(0...99)
-    private let units = ["Forever", "Days", "Weeks", "Months", "Years"]
-//    public var measures = ["mg", "g", "mL", "L"]
     public var measures: [String] = [""] {
         didSet {
             configureForType()
@@ -68,7 +66,7 @@ class PickerActivities: UIView {
         let stackView = UIStackView(arrangedSubviews: [label, stackPlaceHolder])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.alignment = .center
+        stackView.alignment = .fill
         return stackView
     }()
 
@@ -94,7 +92,7 @@ class PickerActivities: UIView {
             pickerView
         ])
         stackView.axis = .vertical
-        stackView.spacing = 4
+        stackView.spacing = 2
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -110,19 +108,20 @@ class PickerActivities: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func configureForType() {
         switch pickerType {
         case .portion:
             label.text = "Portion"
-            placeHolder.text = "50 mL"
-            selectedUnit = measures.first ?? ""
+            placeHolder.text = "Select portion"
         case .duration:
             label.text = "Duration"
-            placeHolder.text = "10 min"
-            selectedUnit = units.first ?? ""
+            placeHolder.text = "Select duration"
         }
+        placeHolder.textColor = .Unselected.primary
+        selectedUnit = measures.first ?? ""
     }
+
 
     @objc private func togglePicker() {
         pickerView.isHidden.toggle()
@@ -132,7 +131,6 @@ class PickerActivities: UIView {
 
 extension PickerActivities: ViewCodeProtocol {
     func setup() {
-        self.layer.cornerRadius = 10
         self.layer.masksToBounds = true
         
         addSubviews()
@@ -179,7 +177,7 @@ extension PickerActivities: UIPickerViewDelegate, UIPickerViewDataSource {
         if component == 0 {
             return numbers.count
         } else {
-            return pickerType == .portion ? measures.count : units.count
+            return measures.count
         }
     }
 
@@ -187,7 +185,7 @@ extension PickerActivities: UIPickerViewDelegate, UIPickerViewDataSource {
         if component == 0 {
             return "\(numbers[row])"
         } else {
-            return pickerType == .portion ? measures[row] : units[row]
+            return measures[row]
         }
     }
 
@@ -195,9 +193,10 @@ extension PickerActivities: UIPickerViewDelegate, UIPickerViewDataSource {
         if component == 0 {
             selectedNumber = numbers[row]
         } else {
-            selectedUnit = pickerType == .portion ? measures[row] : units[row]
+            selectedUnit = measures[row]
         }
-        
         placeHolder.text = selectedValue
+        placeHolder.textColor = .Label.primary
+
     }
 }

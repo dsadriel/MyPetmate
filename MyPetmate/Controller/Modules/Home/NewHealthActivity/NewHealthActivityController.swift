@@ -16,9 +16,11 @@ class NewHealthActivityController: UIViewController {
         }
     }
     
+    private var activeDatePicker: DatePicker?
     private var durationHeightConstraint: NSLayoutConstraint?
     private var frequencyHeightConstraint: NSLayoutConstraint?
     private var portionHeightConstraint: NSLayoutConstraint?
+    private var activeDatePickers: [DatePicker] = []
     var onToggle: ((Bool) -> Void)?
     
     lazy var headerView: HeaderNewActivity = {
@@ -55,9 +57,19 @@ class NewHealthActivityController: UIViewController {
     }()
     
     //MARK: picker generico
-    lazy var durationField: PickerActivities = {
+    lazy var durationActivityField: PickerActivities = {
         let field = PickerActivities(pickerType: .duration)
-        field.measures = ["g"]
+        field.measures = ["minutes", "hours"]
+        field.onToggle = { [weak self] isExpanded in
+            self?.expandDurationField(show: isExpanded)
+        }
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
+    
+    lazy var durationMedicationField: PickerActivities = {
+        let field = PickerActivities(pickerType: .duration)
+        field.measures = ["forever", "day(s)", "week(s)", "month(s)", "year(s)"]
         field.onToggle = { [weak self] isExpanded in
             self?.expandDurationField(show: isExpanded)
         }
@@ -78,9 +90,46 @@ class NewHealthActivityController: UIViewController {
         let field = FrequencyActivity()
         field.onToggle = { [weak self] isExpanded in
             self?.expandFrequencyField(show: isExpanded)
+            
+            if !isExpanded {
+                self?.updateActiveDatePicker()
+            }
         }
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
+    }()
+    
+    //MARK: date and date-time options
+    lazy var DatePickerView: DatePicker = {
+        let datePicker = DatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.text = "Time"
+        datePicker.hasHour = false
+        return datePicker
+    }()
+    lazy var DateAndTimePickerView: DatePicker = {
+        let datePicker = DatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.text = "Date and Time"
+        datePicker.hasHour = true
+        return datePicker
+    }()
+    
+    lazy var notesTextField: NamedTextField = {
+        let textField = NamedTextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.name = "Notes"
+        textField.placeholder = "Extra information"
+        return textField
+    }()
+    
+    lazy var pickerList: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.distribution = .fillEqually
+        stack.alignment = .fill
+        stack.axis = .vertical
+        return stack
     }()
     
     init() {
@@ -99,6 +148,56 @@ class NewHealthActivityController: UIViewController {
     @objc func saveButtonTapped() {
         print("botao de salvar clicado")
     }
+    
+    func updateActiveDatePicker() {
+        activeDatePickers.forEach { $0.removeFromSuperview() }
+        activeDatePickers = []
+
+        let selectedFrequency = frequencyField.selectedValue.lowercased()
+        print("Selected Frequency:", selectedFrequency)
+
+        guard !selectedFrequency.isEmpty else { return }
+
+        var numberOfPickers = 0
+
+        if selectedFrequency.hasPrefix("once") {
+            numberOfPickers = 1
+        } else if selectedFrequency.hasPrefix("twice") {
+            numberOfPickers = 2
+        } else if selectedFrequency.contains("3") {
+            numberOfPickers = 3
+        } else if selectedFrequency.contains("4") {
+            numberOfPickers = 4
+        } else if selectedFrequency.contains("5") {
+            numberOfPickers = 5
+        } else if selectedFrequency.contains("6") {
+            numberOfPickers = 6
+        }
+
+        guard numberOfPickers > 0 else { return }
+
+        for aux in 0..<numberOfPickers {
+            if aux == 1 {
+                let datePicker = DatePicker()
+                datePicker.text = "Time"
+                datePicker.hasHour = false
+                datePicker.heightAnchor.constraint(equalToConstant: 44).isActive = true
+                
+            } else {
+                let picker = DatePicker()
+                picker.text = "Date and Time"
+                picker.hasHour = true
+                
+                picker.heightAnchor.constraint(equalToConstant: 44).isActive = true
+                
+                pickerList.addArrangedSubview(picker)
+                
+                activeDatePickers.append(picker)
+                
+                
+            }
+        }
+    }
 }
 
 extension NewHealthActivityController: ViewCodeProtocol {
@@ -114,24 +213,26 @@ extension NewHealthActivityController: ViewCodeProtocol {
         view.addSubview(headerView)
         view.addSubview(titlePage)
         view.addSubview(namedTextField)
+        view.addSubview(pickerList)
 
-        durationField.removeFromSuperview()
+        durationActivityField.removeFromSuperview()
+        durationMedicationField.removeFromSuperview()
         portionField.removeFromSuperview()
         locationField.removeFromSuperview()
+        DatePickerView.removeFromSuperview()
+        DateAndTimePickerView.removeFromSuperview()
 
         let field = getField(for: category)
         view.addSubview(field)
-
         view.addSubview(frequencyField)
+        view.addSubview(notesTextField)
+
     }
     
     func setupConstraints() {
         let field = getField(for: category)
-        
-        durationHeightConstraint = field.heightAnchor.constraint(equalToConstant: 44)
-        frequencyHeightConstraint = frequencyField.heightAnchor.constraint(equalToConstant: 44)
-        
-        NSLayoutConstraint.activate([
+
+        let constraints: [NSLayoutConstraint] = [
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -152,9 +253,20 @@ extension NewHealthActivityController: ViewCodeProtocol {
             frequencyField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             frequencyField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            durationHeightConstraint!,
-            frequencyHeightConstraint!
-        ])
+            pickerList.topAnchor.constraint(equalTo: frequencyField.bottomAnchor, constant: 0),
+            pickerList.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            pickerList.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            notesTextField.topAnchor.constraint(equalTo: pickerList.bottomAnchor, constant: 54),
+            notesTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            notesTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            
+    
+            
+        ]
+        
+        NSLayoutConstraint.activate(constraints)
     }
     
     func expandDurationField(show: Bool) {
@@ -173,14 +285,16 @@ extension NewHealthActivityController: ViewCodeProtocol {
     
     func getField(for category: String) -> UIView {
         switch category {
-        case "Medication", "Activity":
-            return durationField
+        case "Medication":
+            return durationMedicationField
+        case "Activity":
+            return durationActivityField
         case "Vaccine", "Appointments":
             return locationField
         case "Feeding", "Water":
             return portionField
         default:
-            return durationField
+            return durationActivityField
         }
     }
 }

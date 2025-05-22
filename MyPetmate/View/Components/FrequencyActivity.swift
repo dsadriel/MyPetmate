@@ -14,6 +14,14 @@ class FrequencyActivity: UIView {
     private var selectedUnit = ""
     
     var onToggle: ((Bool) -> Void)?
+    
+    var selectedValue: String {
+        if selectedUnit == "Forever" {
+            return "Forever"
+        } else {
+            return "\(selectedFrequency) \(selectedUnit)"
+        }
+    }
 
     internal lazy var label: UILabel = {
         let label = UILabel()
@@ -80,7 +88,7 @@ class FrequencyActivity: UIView {
             durationPickerView
         ])
         stackView.axis = .vertical
-        stackView.spacing = 4
+        stackView.spacing = 2
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -100,14 +108,12 @@ class FrequencyActivity: UIView {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
         if component == 0 {
             selectedFrequency = frequency[row]
         } else {
             selectedUnit = units[row]
         }
 
-        // Atualiza o texto do placeholder
         let text: String
         if selectedUnit == "Forever" {
             text = "Forever"
@@ -116,13 +122,13 @@ class FrequencyActivity: UIView {
         }
 
         placeHolder.text = text
+        placeHolder.textColor = .Label.primary
     }
 
 }
 
 extension FrequencyActivity: ViewCodeProtocol {
     func setup() {
-        self.layer.cornerRadius = 10
         self.layer.masksToBounds = true
         
         addSubviews()
@@ -138,7 +144,10 @@ extension FrequencyActivity: ViewCodeProtocol {
         durationPickerView.selectRow(0, inComponent: 1, animated: false)
         selectedFrequency = frequency[0]
         selectedUnit = units[0]
-        placeHolder.text = units[0]
+        
+        placeHolder.text = "Select frequency"
+        placeHolder.textColor = .Unselected.primary
+
 
     }
 
@@ -180,6 +189,7 @@ extension FrequencyActivity: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return component == 0 ? "\(frequency[row])" : units[row]
+        return component == 0 ? frequency[row] : units[row]
     }
+
 }
