@@ -47,13 +47,13 @@ class PetListTableViewCell: UITableViewCell {
     
     var age: Int? {
         didSet {
-            petCard.name = "\(age ?? 0)"
+            petCard.age = "\(age ?? 0) Years old"
         }
     }
     
     var date: Date? {
         didSet {
-            petCard.name = "\(date ?? Date().self)"
+            petCard.birthDate = date ?? Date().self
         }
     }
     
@@ -85,8 +85,8 @@ extension PetListTableViewCell: ViewCodeProtocol {
 
         NSLayoutConstraint.activate([
             
-            petCard.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            petCard.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            petCard.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            petCard.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             petCard.topAnchor.constraint(equalTo: self.topAnchor),
 
 

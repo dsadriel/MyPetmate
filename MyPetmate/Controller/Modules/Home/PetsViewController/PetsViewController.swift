@@ -16,8 +16,9 @@ class PetsViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(" New Pet", for: .normal)
         button.titleLabel?.font = UIFont(name: "SfPro", size: 17)
+        button.setTitleColor(.Label.default, for: .normal)
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.backgroundColor = .Colors.terciary
+        button.backgroundColor = .Button.primary
         button.tintColor = .Label.default
         button.layer.cornerRadius = 12
         return button
@@ -26,6 +27,7 @@ class PetsViewController: UIViewController {
     lazy var tableView: UITableView = {
         var table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
+        table.backgroundColor = .Background.primary
         table.dataSource = self
         table.register(PetListTableViewCell.self, forCellReuseIdentifier: PetListTableViewCell.reuseIdentifier)
         return table
@@ -58,11 +60,12 @@ extension PetsViewController: UITableViewDataSource {
             print("Erro")
             return PetListTableViewCell()}
         
+        cell.backgroundColor = .Background.primary
         cell.name = rows[0].name
         cell.sexType = [rows[0].sex, rows[0].type]
         cell.age = rows[0].weeksOld
         cell.date = rows[0].birthDate
-        cell.imagePet = ""
+        cell.imagePet = " "
         
         return cell
         

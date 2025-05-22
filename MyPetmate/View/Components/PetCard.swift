@@ -31,6 +31,7 @@ class PetCard: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .Colors.primary
         return imageView
     }()
     
@@ -38,7 +39,7 @@ class PetCard: UIView {
         let nameLabel = UILabel()
         nameLabel.font = .systemFont(ofSize: 22, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.textColor = .Label.primary
+        nameLabel.textColor = .Label.default
         nameLabel.font = UIFont.title2Emphasized
         return nameLabel
     }()
@@ -47,7 +48,7 @@ class PetCard: UIView {
         let sexLabel = UILabel()
         sexLabel.font = .systemFont(ofSize: 15, weight: .bold)
         sexLabel.translatesAutoresizingMaskIntoConstraints = false
-        sexLabel.textColor = .Label.primary
+        sexLabel.textColor = .Label.default
         sexLabel.font = UIFont.subheadlineEmphasized
         return sexLabel
     }()
@@ -56,7 +57,7 @@ class PetCard: UIView {
         let dateLabel = UILabel()
         dateLabel.font = .systemFont(ofSize: 15, weight: .bold)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.textColor = .Label.primary
+        dateLabel.textColor = .Label.default
         dateLabel.font = UIFont.subheadlineRegular
         return dateLabel
     }()
@@ -65,7 +66,7 @@ class PetCard: UIView {
         let yearsLabel = UILabel()
         yearsLabel.font = .systemFont(ofSize: 15, weight: .bold)
         yearsLabel.translatesAutoresizingMaskIntoConstraints = false
-        yearsLabel.textColor = .Label.primary
+        yearsLabel.textColor = .Label.default
         yearsLabel.font = UIFont.subheadlineEmphasized
         return yearsLabel
     }()
@@ -174,7 +175,7 @@ class PetCard: UIView {
         if let imageURL {
             
             if  imageURL == "" || imageURL == " " {
-                imageView.image = UIImage(systemName: "pawprint.circle")
+                imageView.image = UIImage(systemName: "pawprint.circle")?.withTintColor(.Colors.primary)
             } else {
                 
                 self.imageView.image = UIImage(named: imageURL)
@@ -275,12 +276,23 @@ class PetCard: UIView {
         }
         }
     
+    var age: String? {
+        set {
+            yearsLabel.text = newValue
+        }
+        
+        get {
+
+            return yearsLabel.text
+        }
+        }
+    
     func setImage(img: String?) {
         
         if let img {
             
             if img == "" || img == " " {
-                imageView.image = UIImage(systemName: "pawprint.circle")
+                imageView.image = UIImage(systemName: "pawprint.circle")?.withTintColor(.Colors.primary, renderingMode: .alwaysOriginal)
             } else {
                 
                 self.imageView.image = UIImage(named: img)

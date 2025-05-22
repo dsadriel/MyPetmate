@@ -20,7 +20,7 @@ extension PetsViewController: ViewCodeProtocol {
         view.backgroundColor = .Background.primary
         NSLayoutConstraint.activate([
             newPetButton.heightAnchor.constraint(equalToConstant: 50),
-            newPetButton.topAnchor.constraint(equalTo: view.firstBaselineAnchor, constant: 200),
+            newPetButton.topAnchor.constraint(equalTo: view.firstBaselineAnchor, constant: 160),
             newPetButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             newPetButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
