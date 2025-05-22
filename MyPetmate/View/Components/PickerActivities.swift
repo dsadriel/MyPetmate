@@ -14,12 +14,16 @@ class PickerActivities: UIView {
         }
     }
 
-    private var selectedNumber = 0
-    private var selectedUnit = ""
+    public private(set) var selectedNumber = 0
+    public private(set) var selectedUnit = ""
+    public var totalDuration: Int {
+        selectedNumber * (selectedUnit == "hours" ? 60 : 1)
+    }
 
     private let pickerType: PickerType
 
     var onToggle: ((Bool) -> Void)?
+
     
     var selectedValue: String {
         if selectedUnit == "Forever" {
@@ -197,6 +201,5 @@ extension PickerActivities: UIPickerViewDelegate, UIPickerViewDataSource {
         }
         placeHolder.text = selectedValue
         placeHolder.textColor = .Label.primary
-
     }
 }

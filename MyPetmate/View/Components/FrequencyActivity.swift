@@ -22,6 +22,21 @@ class FrequencyActivity: UIView {
             return "\(selectedFrequency) \(selectedUnit)"
         }
     }
+    
+    var selectedInterval: ActivityInterval {
+        switch selectedUnit {
+        case "a day":
+            return  ActivityInterval.daily
+        case "a week":
+            return ActivityInterval.weekly
+        case "a month":
+            return ActivityInterval.monthly
+        case "a year":
+            return ActivityInterval.yearly
+        default:
+            return ActivityInterval.daily
+        }
+    }
 
     internal lazy var label: UILabel = {
         let label = UILabel()

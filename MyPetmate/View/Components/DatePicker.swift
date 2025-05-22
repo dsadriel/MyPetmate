@@ -10,6 +10,10 @@ import UIKit
 
 public class DatePicker: UIView {
     
+    var selectedDate: Date {
+        return datePicker.date
+    }
+
     // MARK: Subviews
     internal lazy var label: UILabel = {
         let label = UILabel()

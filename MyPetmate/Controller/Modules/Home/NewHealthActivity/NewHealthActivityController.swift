@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class NewHealthActivityController: UIViewController {
 
     var category: String = "" {
@@ -16,12 +17,23 @@ class NewHealthActivityController: UIViewController {
         }
     }
     
+    var selectedPet: Pet?
+    
     private var activeDatePicker: DatePicker?
     private var durationHeightConstraint: NSLayoutConstraint?
     private var frequencyHeightConstraint: NSLayoutConstraint?
     private var portionHeightConstraint: NSLayoutConstraint?
     private var activeDatePickers: [DatePicker] = []
     var onToggle: ((Bool) -> Void)?
+    var durationTimeSelected = 0
+    var durationMeasureSelected = 0
+
+    struct HealthActivity {
+        let name: String
+        let category: HealthCategory
+        let date: Date
+        let notes: String
+    }
     
     lazy var headerView: HeaderNewActivity = {
         let header = HeaderNewActivity(label: "New Health Activity")
@@ -147,7 +159,39 @@ class NewHealthActivityController: UIViewController {
     
     @objc func saveButtonTapped() {
         print("botao de salvar clicado")
+
+        let interval = frequencyField.selectedInterval
+        
+        let ammount = durationActivityField.totalDuration
+        
+        if let dailyCategory = DailyCategory(rawValue: category) {
+            let repetions = activeDatePickers.map {
+                ActivityRepeation(start: $0.selectedDate, interval: interval)
+            }
+            
+            let activity = DailyActivity(name: namedTextField.text ?? "", category: DailyCategory(rawValue: category) ?? .activity, measurementAmount: ammount, repetitions: repetions)
+            
+            Persistence.addActivity(activity, to: selectedPet!)
+            print("DailyActivity criado: \(activity)")
+        } else if let healthCategory = HealthCategory(rawValue: category) {
+            let date = activeDatePickers.first?.selectedDate ?? Date()
+            let notes = notesTextField.text ?? ""
+            
+//            let health = HealthActivity(
+//                name: nameActivity,
+//                category: healthCategory,
+//                date: date,
+//                notes: notes
+//            )
+            
+            
+//            print("HealthActivity criado: \(health)")
+        } else {
+            print("Categoria inválida")
+        }
+        dismiss(animated: true, completion: nil)
     }
+
     
     func updateActiveDatePicker() {
         activeDatePickers.forEach { $0.removeFromSuperview() }
@@ -176,14 +220,7 @@ class NewHealthActivityController: UIViewController {
 
         guard numberOfPickers > 0 else { return }
 
-        for aux in 0..<numberOfPickers {
-            if aux == 1 {
-                let datePicker = DatePicker()
-                datePicker.text = "Time"
-                datePicker.hasHour = false
-                datePicker.heightAnchor.constraint(equalToConstant: 44).isActive = true
-                
-            } else {
+        for _ in 0..<numberOfPickers {
                 let picker = DatePicker()
                 picker.text = "Date and Time"
                 picker.hasHour = true
@@ -193,9 +230,6 @@ class NewHealthActivityController: UIViewController {
                 pickerList.addArrangedSubview(picker)
                 
                 activeDatePickers.append(picker)
-                
-                
-            }
         }
     }
 }
@@ -226,12 +260,10 @@ extension NewHealthActivityController: ViewCodeProtocol {
         view.addSubview(field)
         view.addSubview(frequencyField)
         view.addSubview(notesTextField)
-
     }
     
     func setupConstraints() {
         let field = getField(for: category)
-
         let constraints: [NSLayoutConstraint] = [
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -260,9 +292,6 @@ extension NewHealthActivityController: ViewCodeProtocol {
             notesTextField.topAnchor.constraint(equalTo: pickerList.bottomAnchor, constant: 54),
             notesTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             notesTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            
-    
             
         ]
         

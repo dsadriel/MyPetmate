@@ -7,6 +7,8 @@
 import UIKit
 class NewActivityCategoryController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    var selectedPet: Pet?
+    
     lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
@@ -109,6 +111,7 @@ class NewActivityCategoryController: UIViewController, UICollectionViewDataSourc
     private func handleNewActivityButtonTapped(for item: LabelRepresentable) {
         let nextVC = NewHealthActivityController()
         nextVC.category = item.title
+        nextVC.selectedPet = selectedPet
         nextVC.setup()
         print(item.title)
         navigationController?.pushViewController(nextVC, animated: true)

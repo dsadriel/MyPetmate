@@ -81,10 +81,4 @@ extension CategoryAndAnimal: ViewCodeProtocol {
             stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
     }
-    
-    @objc func updateGradient(){
-        DispatchQueue.main.async {
-            self.addGradient()
-        }
-    }
 }

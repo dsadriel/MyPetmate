@@ -106,7 +106,8 @@ class DailyViewController: UIViewController {
     
     @objc private func handleNewActivityButtonTapped() {
         let newActivityController: NewActivityCategoryController = NewActivityCategoryController()
-        newActivityController.categories = [DailyCategory.activity, DailyCategory.feeding, DailyCategory.water, HealthCategory.medication]
+        newActivityController.selectedPet = selectedPet
+        newActivityController.categories = [DailyCategory.activity, DailyCategory.feeding, DailyCategory.water]
         
         let navigationController: UINavigationController = UINavigationController(rootViewController: newActivityController)
         navigationController.navigationBar.isHidden = true
