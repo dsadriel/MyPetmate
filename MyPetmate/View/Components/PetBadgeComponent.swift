@@ -1,4 +1,3 @@
-
 import UIKit
 import Foundation
 
@@ -6,7 +5,7 @@ class PetBadgeComponent: UICollectionViewCell {
     
     static var reuseIdentifier = "TaskTableViewCell"
 
-    lazy var imgPet: UIImageView = {
+    private lazy var imgPet: UIImageView = {
         var img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
@@ -14,7 +13,7 @@ class PetBadgeComponent: UICollectionViewCell {
         return img
     }()
     
-    lazy var iconImg: UIImageView = {
+    private lazy var iconImg: UIImageView = {
         var img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .right
@@ -24,7 +23,7 @@ class PetBadgeComponent: UICollectionViewCell {
         return img
     }()
     
-    lazy var petTypeIcon: UIImageView = {
+    private lazy var petTypeIcon: UIImageView = {
         var img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.tintColor = .Colors.primary
@@ -32,15 +31,15 @@ class PetBadgeComponent: UICollectionViewCell {
         
     }()
     
-    lazy var nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "SfProRounded-SemiBold", size: 17)
-        label.textColor = .Label.primary
+        label.font = .headlineRegular
+        label.textColor = .Label.card
         return label
     }()
     
-    lazy var nameStack: UIStackView = {
+    private lazy var nameStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [petTypeIcon, nameLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
@@ -48,22 +47,22 @@ class PetBadgeComponent: UICollectionViewCell {
         return stack
     }()
     
-    lazy var activityLabel: UILabel = {
+    private lazy var activityLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "SfProRounded-Regular", size: 15)
-        label.textColor = .Label.primary
+        label.font = .subheadlineRegular
+        label.textColor = .Label.card
         return label
     }()
     
-    lazy var dataOfActivityLabel: UILabel = {
+    private lazy var dataOfActivityLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .Label.primary
+        label.textColor = .Label.card
         return label
     }()
     
-    lazy var activityStack: UIStackView = {
+    private lazy var activityStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [dataOfActivityLabel, activityLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -72,7 +71,7 @@ class PetBadgeComponent: UICollectionViewCell {
         return stack
     }()
     
-    lazy var infoStack: UIStackView = {
+    private lazy var infoStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [nameStack, activityStack])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
@@ -84,7 +83,7 @@ class PetBadgeComponent: UICollectionViewCell {
         
     }()
     
-    lazy var infoImgStack: UIStackView = {
+    private lazy var infoImgStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [imgPet ,infoStack, iconImg])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
@@ -132,7 +131,14 @@ class PetBadgeComponent: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        registerForTraitChanges([UITraitUserInterfaceStyle.self], target: self, action: #selector(updateGradient))
         layoutSubviews()
+    }
+    
+    @objc func updateGradient(){
+        DispatchQueue.main.async {
+            self.infoImgStack.addGradient()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -147,7 +153,6 @@ class PetBadgeComponent: UICollectionViewCell {
         }
     }
     
-    
 }
 
 extension PetBadgeComponent: ViewCodeProtocol {
@@ -161,8 +166,8 @@ extension PetBadgeComponent: ViewCodeProtocol {
             
             infoImgStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             infoImgStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            infoImgStack.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
-            infoImgStack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+            infoImgStack.topAnchor.constraint(equalTo: self.topAnchor),
+            infoImgStack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             iconImg.heightAnchor.constraint(equalToConstant: 70),
 
@@ -175,19 +180,4 @@ extension PetBadgeComponent: ViewCodeProtocol {
     
         ])
     }
-}
-
-extension PetBadgeComponent {
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                    infoImgStack.addGradient()
-
-    
-            }
-        }
-
-    
 }

@@ -10,6 +10,15 @@ import UIKit
 // MARK: - ViewCodeProtocol
 
 extension DailyViewController: ViewCodeProtocol {
+    func setup() {
+        petList = Persistence.getPetList()
+        selectedPetIndex = 1 // MARK: FIX-ME
+        buildTableData()
+        
+        addSubviews()
+        setupConstraints()
+    }
+    
     func addSubviews() {
         view.addSubview(petSelectorCollectionView)
         view.addSubview(taskTableView)

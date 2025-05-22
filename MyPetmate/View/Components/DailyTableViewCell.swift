@@ -17,7 +17,6 @@ class DailyTableViewCell: UITableViewCell {
     
     // Checkmark
     private lazy var checkmarkButton: UIButton = {
-        
         var button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "circle"), for: .normal)
@@ -88,7 +87,11 @@ class DailyTableViewCell: UITableViewCell {
     
     // MARK: Configuration
     
-    var isDone = false
+    var isDone = false {
+        didSet {
+            updateCheckmarkStyle()
+        }
+    }
     
     func config(isDone: Bool,
                 buttonAction: @escaping () -> Void) {
@@ -97,13 +100,13 @@ class DailyTableViewCell: UITableViewCell {
         self.action = buttonAction
     }
     
-    var activityText: (amount: Int, activityName: String)? {
+    var activityText: (amount: String, activityName: String)? {
         didSet {
             guard let activityText = activityText else {
                 activityAmountLabel.text = nil
                 return
             }
-            activityAmountLabel.text = "\(activityText.amount) g \(activityText.activityName)"
+            activityAmountLabel.text = "\(activityText.amount) \(activityText.activityName)"
         }
     }
     
@@ -143,8 +146,6 @@ class DailyTableViewCell: UITableViewCell {
     var action: () -> Void = { }
     @objc func buttonTapped() {
         action()
-        isDone.toggle()
-        updateCheckmarkStyle()
     }
     
     func updateCheckmarkStyle(){

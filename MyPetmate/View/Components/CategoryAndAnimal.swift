@@ -43,13 +43,18 @@ class CategoryAndAnimal: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        DispatchQueue.main.async {
-            self.addGradient()
-        }
+        updateGradient()
+        registerForTraitChanges([UITraitUserInterfaceStyle.self], target: self, action: #selector(updateGradient))
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func updateGradient(){
+        DispatchQueue.main.async {
+            self.addGradient()
+        }
     }
 }
 
