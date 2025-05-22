@@ -16,10 +16,10 @@ class PetsViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(" New Pet", for: .normal)
         button.titleLabel?.font = UIFont(name: "SfPro", size: 17)
-        button.setTitleColor(.Label.default, for: .normal)
+        button.setTitleColor(.Label.card, for: .normal)
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.backgroundColor = .Button.primary
-        button.tintColor = .Label.default
+        button.tintColor = .Label.card
         button.layer.cornerRadius = 12
         return button
     }()
@@ -34,8 +34,6 @@ class PetsViewController: UIViewController {
         
     }()
     
-    var rows: [Pet] = [Pet(name: "Belinha", sex: "Female", breed: "Dog", type: "Dog", size: "Small", weight: 8, bloodType: "A", allergies: ["None"], birthDate: Date(), weeksOld: 6, documents: ["238945892"])]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -49,8 +47,7 @@ class PetsViewController: UIViewController {
 
 extension PetsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        rows.count
+        Persistence.getPetList().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,11 +57,12 @@ extension PetsViewController: UITableViewDataSource {
             print("Erro")
             return PetListTableViewCell()}
         
+        let pet = Persistence.getPetList()[indexPath.item]
         cell.backgroundColor = .Background.primary
-        cell.name = rows[0].name
-        cell.sexType = [rows[0].sex, rows[0].type]
-        cell.age = rows[0].weeksOld
-        cell.date = rows[0].birthDate
+        cell.name = pet.name
+        cell.sexType = [pet.sex.rawValue, pet.petType.rawValue]
+        cell.age = pet.weeksOld
+        cell.date = pet.birthDate
         cell.imagePet = " "
         
         return cell

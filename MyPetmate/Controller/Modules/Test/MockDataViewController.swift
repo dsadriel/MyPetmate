@@ -53,6 +53,7 @@ class MockDataViewController: UIViewController {
             weight: 2.5,
             allergies: "none"
         )
+        cat.pictureName = "cat"
 
         Persistence.addPet(cat)
 
@@ -182,6 +183,5 @@ class MockDataViewController: UIViewController {
 
         print(Persistence.getPetList())
         
-        fatalError()
     }
 }

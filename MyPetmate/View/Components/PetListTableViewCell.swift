@@ -88,7 +88,7 @@ extension PetListTableViewCell: ViewCodeProtocol {
             petCard.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             petCard.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             petCard.topAnchor.constraint(equalTo: self.topAnchor),
-
+            self.heightAnchor.constraint(equalTo: petCard.heightAnchor, constant: 12)
 
     
         ])

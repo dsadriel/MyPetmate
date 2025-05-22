@@ -39,7 +39,7 @@ class PetCard: UIView {
         let nameLabel = UILabel()
         nameLabel.font = .systemFont(ofSize: 22, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.textColor = .Label.default
+        nameLabel.textColor = .Label.card
         nameLabel.font = UIFont.title2Emphasized
         return nameLabel
     }()
@@ -48,7 +48,7 @@ class PetCard: UIView {
         let sexLabel = UILabel()
         sexLabel.font = .systemFont(ofSize: 15, weight: .bold)
         sexLabel.translatesAutoresizingMaskIntoConstraints = false
-        sexLabel.textColor = .Label.default
+        sexLabel.textColor = .Label.card
         sexLabel.font = UIFont.subheadlineEmphasized
         return sexLabel
     }()
@@ -57,7 +57,7 @@ class PetCard: UIView {
         let dateLabel = UILabel()
         dateLabel.font = .systemFont(ofSize: 15, weight: .bold)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.textColor = .Label.default
+        dateLabel.textColor = .Label.card
         dateLabel.font = UIFont.subheadlineRegular
         return dateLabel
     }()
@@ -66,7 +66,7 @@ class PetCard: UIView {
         let yearsLabel = UILabel()
         yearsLabel.font = .systemFont(ofSize: 15, weight: .bold)
         yearsLabel.translatesAutoresizingMaskIntoConstraints = false
-        yearsLabel.textColor = .Label.default
+        yearsLabel.textColor = .Label.card
         yearsLabel.font = UIFont.subheadlineEmphasized
         return yearsLabel
     }()
