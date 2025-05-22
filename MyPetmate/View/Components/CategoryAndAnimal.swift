@@ -12,14 +12,14 @@ class CategoryAndAnimal: UIButton {
         let imageLabel = UIImageView()
         imageLabel.contentMode = .scaleAspectFit
         imageLabel.translatesAutoresizingMaskIntoConstraints = false
-        imageLabel.tintColor = .Label.primary
+        imageLabel.tintColor = .Colors.primary
         return imageLabel
     }()
     
     lazy var labelView: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20)
-        label.textColor = .Label.primary
+        label.textColor = .Colors.primary
         label.font = .title3Regular
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -43,13 +43,18 @@ class CategoryAndAnimal: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        DispatchQueue.main.async {
-            self.addGradient()
-        }
+        updateGradient()
+        registerForTraitChanges([UITraitUserInterfaceStyle.self], target: self, action: #selector(updateGradient))
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func updateGradient(){
+        DispatchQueue.main.async {
+            self.addGradient()
+        }
     }
 }
 

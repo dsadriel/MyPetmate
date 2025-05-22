@@ -16,6 +16,7 @@ class NewActivityButton: UIButton {
         label.text = "New Activity"
         label.font = UIFont.bodyRegular
         label.textColor = .Background.primary
+        label.isUserInteractionEnabled = false
         return label
     }()
     
@@ -25,6 +26,7 @@ class NewActivityButton: UIButton {
         icon.image = UIImage(systemName: "plus")
         icon.contentMode = .scaleAspectFit
         icon.tintColor = .Background.primary
+        icon.isUserInteractionEnabled = false
         return icon
     }()
     
@@ -33,6 +35,7 @@ class NewActivityButton: UIButton {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.spacing = 4
+        stack.isUserInteractionEnabled = false
         return stack
     }()
 
