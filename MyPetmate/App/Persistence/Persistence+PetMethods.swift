@@ -37,9 +37,7 @@ extension Persistence {
         Persistence.saveApplicaitonData(appData)
     }
 
-    static func addPet(_ pet: Pet) {
-        var appData = Persistence.getApplicaitonData()
-        
+    static func addPet(_ pet: Pet) {        
         if let _ = appData.registeredPets.firstIndex(of: pet) {
             return
         }

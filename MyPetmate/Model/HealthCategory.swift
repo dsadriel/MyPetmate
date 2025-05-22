@@ -21,7 +21,3 @@ enum HealthCategory: String, CaseIterable, LabelRepresentable, Codable {
 
     var title: String { rawValue }
 }
-
-func setOptions(){
-    
-}
