@@ -17,7 +17,6 @@ public class DatePicker: UIView {
         label.textColor = .Label.primary
         label.font = UIFont.bodyRegular
         label.text = "Date label"
-        
         return label
     }()
     
@@ -26,6 +25,8 @@ public class DatePicker: UIView {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.datePickerMode = .date
         datePicker.tintColor = .Label.primary
+        datePicker.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        datePicker.layer.cornerRadius = 12
         
         return datePicker
     }()
@@ -33,7 +34,7 @@ public class DatePicker: UIView {
     internal lazy var stack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [label, datePicker])
         stack.translatesAutoresizingMaskIntoConstraints = false
-        
+        stack.spacing = 0
         return stack
     }()
     
@@ -61,7 +62,7 @@ public class DatePicker: UIView {
         didSet {
             if hasHour {
                 datePicker.datePickerMode = .dateAndTime
-                datePicker.locale = Locale.init(identifier: "en")
+                //datePicker.locale = Locale.init(identifier: "en")
             }
         }
     }
@@ -91,6 +92,9 @@ public class DatePicker: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
+            datePicker.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            datePicker.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            datePicker.heightAnchor.constraint(equalToConstant: 34),
             datePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
             stack.topAnchor.constraint(equalTo: topAnchor),

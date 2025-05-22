@@ -49,9 +49,10 @@ extension Date {
     var endOfDay: Date {
         Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: self)!
     }
-  
+}
+
 extension String {
-        func capitalizingFirstLetter() -> String {
-            return prefix(1).uppercased() + self.lowercased().dropFirst()
-        }
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + self.lowercased().dropFirst()
+    }
 }

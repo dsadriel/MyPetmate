@@ -6,7 +6,7 @@ class TestController: UIViewController {
         component.translatesAutoresizingMaskIntoConstraints = false
         component.imagePet = "dog"
         component.name = "Belinha"
-        component.icon = "\(TypeOfPet.dog).circle.fill"
+        component.icon = "dog.circle.fill"
         component.activityName = "Daily activities"
         component.quantityOfActivity = "2/10"
         return component

@@ -7,23 +7,23 @@
 
 import Foundation
 
-enum PetSex: String, Codable {
+enum PetSex: String, Codable, CaseIterable, SelectableEnum {
     case male = "Male"
     case female = "Female"
     case unknown = "Unknown"
 }
 
-enum PetSize: String, Codable {
+enum PetSize: String, Codable, CaseIterable, SelectableEnum {
     case small = "Small"
     case medium = "Medium"
     case large = "Large"
 }
 
-enum CatBloodType: String {
+enum CatBloodType: String, Codable, CaseIterable, SelectableEnum {
     case A, B, AB
 }
 
-enum DogBloodType: String, Codable {
+enum DogBloodType: String, Codable, CaseIterable, SelectableEnum {
     case dea1_1 = "DEA 1.1"
     case dea1_2 = "DEA 1.2"
     case dea3   = "DEA 3"
