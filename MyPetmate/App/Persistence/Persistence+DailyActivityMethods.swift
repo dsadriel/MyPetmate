@@ -35,9 +35,9 @@ extension Persistence {
         updatePet(pet)
     }
     
-    static func changeActivityOccourenceCompletness(_ occurrence: DailyActivityOccurrence, to completness: Bool, in pet: Pet) {
-        if completness {
-            // If its already completed, ignore
+    static func changeActivityOccurrenceCompleteness(_ occurrence: DailyActivityOccurrence, to completeness: Bool, in pet: Pet) {
+        if completeness {
+            // If it's already completed, ignore
             guard !(pet.completedDailyActivitiesOccurrences[occurrence.date.endOfDay]?.contains(where: { $0 == occurrence }) ?? false) else {
                 return
             }

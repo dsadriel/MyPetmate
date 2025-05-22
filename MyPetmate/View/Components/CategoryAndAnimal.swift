@@ -12,14 +12,14 @@ class CategoryAndAnimal: UIButton {
         let imageLabel = UIImageView()
         imageLabel.contentMode = .scaleAspectFit
         imageLabel.translatesAutoresizingMaskIntoConstraints = false
-        imageLabel.tintColor = .Label.primary
+        imageLabel.tintColor = .Colors.primary
         return imageLabel
     }()
     
     lazy var labelView: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20)
-        label.textColor = .Label.primary
+        label.textColor = .Colors.primary
         label.font = .title3Regular
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

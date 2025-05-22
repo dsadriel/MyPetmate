@@ -134,11 +134,10 @@ class Cat: Pet {
 }
 
 class Dog: Pet {
-    var bloodType: DogBloodType?
-    
+    var bloodType: DogBloodType?    
     override init(name: String, sex: PetSex, birthDate: Date, breed: String, size: PetSize, weight: Double, allergies: String){
         super.init(name: name, sex: sex, birthDate: birthDate, breed: breed, size: size, weight: weight, allergies: allergies)
-        self.petType = .cat
+        self.petType = .dog
     }
     
     required init(from decoder: any Decoder) throws {
