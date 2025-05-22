@@ -102,7 +102,6 @@ extension Pet {
 //                return !$0.isCompleted && $1.isCompleted
 //            }
 //        }
-
     }
     
     func getTodayActivities() -> [DailyActivityOccurrence] {

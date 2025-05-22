@@ -116,4 +116,10 @@ class DailyViewController: UIViewController {
         taskTableView.reloadData()
         petSelectorCollectionView.reloadData()
     }
+    
+    func updateDataAndUI() {
+        buildTableData()
+        taskTableView.reloadData()
+        petSelectorCollectionView.reloadData()
+    }
 }
