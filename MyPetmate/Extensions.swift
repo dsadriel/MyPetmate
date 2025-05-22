@@ -42,3 +42,12 @@ typealias Section = NSCollectionLayoutSection
 typealias Layout = UICollectionViewCompositionalLayout
 typealias Edges = NSDirectionalEdgeInsets
 typealias Config = UICollectionViewCompositionalLayoutConfiguration
+
+
+// MARK: - End Of Day
+
+extension Date {
+    var endOfDay: Date {
+        Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: self)!
+    }
+}

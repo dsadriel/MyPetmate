@@ -60,8 +60,10 @@ extension DailyViewController: UITableViewDelegate {
         let editAction = UIContextualAction(style: .normal, title: "Edit")
         {[weak self] _, _, completionHandler in
             // MARK: FIX-ME - Open modal
-            self?.buildTableData()
-            tableView.reloadData()
+            let alert = UIAlertController(title: "abrir modal de edicao", message: "aa", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            self?.present(alert, animated: true)
+            self?.updateDataAndUI()
             completionHandler(true)
         }
         editAction.image = UIImage(systemName: "pencil")
@@ -88,8 +90,7 @@ extension DailyViewController {
                 style: .destructive,
             ) { _ in
                 Persistence.deleteActivity(activityOccurrence.activity, from: (self.selectedPet)!)
-                self.buildTableData()
-                self.taskTableView.reloadData()
+                self.updateDataAndUI()
             }
             
             // "Delete only this time"
@@ -98,8 +99,7 @@ extension DailyViewController {
                 style: .destructive
             ) { _ in
                 Persistence.excludeActivityOccourence(activityOccurrence, from: (self.selectedPet)!)
-                self.buildTableData()
-                self.taskTableView.reloadData()
+                self.updateDataAndUI()
             }
             
             // Cancel

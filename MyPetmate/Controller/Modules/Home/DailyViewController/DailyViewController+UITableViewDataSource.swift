@@ -32,6 +32,7 @@ extension DailyViewController: UITableViewDataSource {
     }
 
     func buildTableData() {
+        petList = Persistence.getPetList()
         tableSections = buildSectionsData()
         tableRows = buildRowsData()
     }
@@ -57,9 +58,12 @@ extension DailyViewController: UITableViewDataSource {
         
         cell.activityText = (amount: "\(activity.measurementAmount) \(activity.category.measurementUnit)",
                              activityName: activity.name)
-//        cell.fractionText = (numerator: "\(indexPath.row + 1)", denominator: "\(indexPath.section + 1)")
         cell.hourConfig = occourence.date
         cell.isDone = occourence.isCompleted
+        cell.action = {
+            Persistence.changeActivityOccourenceCompletness(occourence, to: !occourence.isCompleted, in: self.selectedPet!)
+            self.updateDataAndUI()
+        }
         
         return cell
     }

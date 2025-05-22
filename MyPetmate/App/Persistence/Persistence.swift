@@ -23,7 +23,6 @@ struct Persistence {
     }
 
     static func saveApplicaitonData(_ appData: ApplicationData) {
-        var appData = appData
         do {
             let encodedData = try appData.toData()
             UserDefaults.standard.set(encodedData, forKey: applicationDataKey)
@@ -31,6 +30,4 @@ struct Persistence {
             print(error.localizedDescription)
         }
     }
-
-    
 }

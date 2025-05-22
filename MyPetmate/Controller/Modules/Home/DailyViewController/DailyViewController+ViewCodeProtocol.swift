@@ -12,7 +12,7 @@ import UIKit
 extension DailyViewController: ViewCodeProtocol {
     func setup() {
         petList = Persistence.getPetList()
-        selectedPetIndex = 3 // MARK: FIX-ME
+        selectedPetIndex = 1 // MARK: FIX-ME
         buildTableData()
         
         addSubviews()
