@@ -109,7 +109,7 @@ class NewActivityCategoryController: UIViewController, UICollectionViewDataSourc
         }
     
     private func handleNewActivityButtonTapped(for item: LabelRepresentable) {
-        let nextVC = NewHealthActivityController()
+        let nextVC = NewActivityController()
         nextVC.category = item.title
         nextVC.selectedPet = selectedPet
         nextVC.setup()

@@ -8,7 +8,7 @@
 import UIKit
 
 
-class NewHealthActivityController: UIViewController {
+class NewActivityController: UIViewController {
 
     var category: String = "" {
         didSet {
@@ -27,13 +27,6 @@ class NewHealthActivityController: UIViewController {
     var onToggle: ((Bool) -> Void)?
     var durationTimeSelected = 0
     var durationMeasureSelected = 0
-
-    struct HealthActivity {
-        let name: String
-        let category: HealthCategory
-        let date: Date
-        let notes: String
-    }
     
     lazy var headerView: HeaderNewActivity = {
         let header = HeaderNewActivity(label: "New Health Activity")
@@ -162,30 +155,35 @@ class NewHealthActivityController: UIViewController {
 
         let interval = frequencyField.selectedInterval
         
-        let ammount = durationActivityField.totalDuration
+        let ammountActivity = durationActivityField.totalDuration
+        let ammountMedication = durationMedicationField.totalDuration
+        
+        let repetions = activeDatePickers.map {
+            ActivityRepeation(start: $0.selectedDate, interval: interval)
+        }
+        
+        let date = activeDatePickers.first?.selectedDate ?? Date()
+        let notes = notesTextField.text ?? ""
         
         if let dailyCategory = DailyCategory(rawValue: category) {
-            let repetions = activeDatePickers.map {
-                ActivityRepeation(start: $0.selectedDate, interval: interval)
-            }
-            
-            let activity = DailyActivity(name: namedTextField.text ?? "", category: DailyCategory(rawValue: category) ?? .activity, measurementAmount: ammount, repetitions: repetions)
+            let activity = DailyActivity(name: namedTextField.text ?? "", category: DailyCategory(rawValue: category) ?? .activity, measurementAmount: ammountActivity, repetitions: repetions)
             
             Persistence.addActivity(activity, to: selectedPet!)
             print("DailyActivity criado: \(activity)")
         } else if let healthCategory = HealthCategory(rawValue: category) {
-            let date = activeDatePickers.first?.selectedDate ?? Date()
-            let notes = notesTextField.text ?? ""
+            let health = HealthActivity(
+                name: namedTextField.text ?? "",
+                category: HealthCategory(rawValue: category) ?? .appointments,
+                measurementAmount: ammountMedication,
+                repeations: repetions,
+                repeatUntil: Date(),
+                reminderIn: nil,
+                location: locationField.text ?? "",
+                notes: notesTextField.text ?? "",
+            )
+            Persistence.addActivity(health, to: selectedPet!)
             
-//            let health = HealthActivity(
-//                name: nameActivity,
-//                category: healthCategory,
-//                date: date,
-//                notes: notes
-//            )
-            
-            
-//            print("HealthActivity criado: \(health)")
+            print("HealthActivity criado: \(health)")
         } else {
             print("Categoria inválida")
         }
@@ -234,7 +232,7 @@ class NewHealthActivityController: UIViewController {
     }
 }
 
-extension NewHealthActivityController: ViewCodeProtocol {
+extension NewActivityController: ViewCodeProtocol {
     
     func setup() {
         addSubviews()

@@ -83,10 +83,14 @@ class HealthViewController: UIViewController {
     }
     
     @objc private func handleNewActivityButtonTapped() {
-        let modalVC = NewActivityController()
-        modalVC.categories = [DailyCategory.activity, DailyCategory.feeding, DailyCategory.water]
-        modalVC.modalPresentationStyle = UIModalPresentationStyle.pageSheet
-        present(modalVC, animated: true, completion: nil)
+        let newActivityController: NewActivityCategoryController = NewActivityCategoryController()
+        newActivityController.selectedPet = selectedPet
+        newActivityController.categories = [HealthCategory.medication,HealthCategory.vaccines,  HealthCategory.appointments]
+        
+        let navigationController: UINavigationController = UINavigationController(rootViewController: newActivityController)
+        navigationController.navigationBar.isHidden = true
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        present(navigationController, animated: true, completion: nil)
     }
     
     func updateDataAndUI() {
