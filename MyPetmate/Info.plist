@@ -4,11 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>SF-Pro-Text-Semibold.otf</string>
-		<string>SF-Pro-Text-Bold.otf</string>
 		<string>SF-Pro-Rounded-Bold.otf</string>
-		<string>SF-Pro-Rounded-Regular.otf</string>
-		<string>SF-Pro-Rounded-Semibold.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
