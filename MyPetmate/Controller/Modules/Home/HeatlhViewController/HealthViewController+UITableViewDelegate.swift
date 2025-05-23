@@ -49,7 +49,7 @@ extension HealthViewController: UITableViewDelegate {
             guard let self else {
                 return
             }
-//            self.showDeleteAlert(for: self.getActivityOccurrence(at: indexPath))
+            self.showDeleteAlert(for: self.getActivityOccurrence(at: indexPath))
             completionHandler(true)
         }
         deleteAction.image = UIImage(systemName: "trash.fill")
@@ -58,7 +58,11 @@ extension HealthViewController: UITableViewDelegate {
         let editAction = UIContextualAction(style: .normal, title: "Edit")
         {[weak self] _, _, completionHandler in
             // MARK: FIX-ME - Open modal
-            let alert = UIAlertController(title: "abrir modal de edicao", message: "aa", preferredStyle: .actionSheet)
+            let alert = UIAlertController(
+                title: "Edit Feature",
+                message: "This feature is not implemented yet.",
+                preferredStyle: .actionSheet
+            )
             alert.addAction(UIAlertAction(title: "Ok", style: .default))
             self?.present(alert, animated: true)
             self?.updateDataAndUI()
@@ -71,4 +75,41 @@ extension HealthViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
+}
+
+extension HealthViewController {
+    func showDeleteAlert(for activityOccurrence: HealthActivityOccurrence) {
+            let alert = UIAlertController(
+                title: "Are you sure you want to delete the activity?",
+                message: nil,
+                preferredStyle: .alert
+            )
+            
+            // "Delete activity forever"
+            let deleteForever = UIAlertAction(
+                title: "Delete activity forever",
+                style: .destructive,
+            ) { _ in
+                Persistence.deleteActivity(activityOccurrence.activity, from: (self.selectedPet)!)
+                self.updateDataAndUI()
+            }
+            
+            // "Delete only this time"
+            let deleteOnce = UIAlertAction(
+                title: "Delete only this time",
+                style: .destructive
+            ) { _ in
+                Persistence.excludeActivityOccourence(activityOccurrence, from: (self.selectedPet)!)
+                self.updateDataAndUI()
+            }
+            
+            // Cancel
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(deleteForever)
+            alert.addAction(deleteOnce)
+            alert.addAction(cancel)
+            
+            present(alert, animated: true, completion: nil)
+        }
 }
