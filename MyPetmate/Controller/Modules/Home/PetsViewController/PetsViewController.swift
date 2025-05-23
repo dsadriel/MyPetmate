@@ -40,9 +40,14 @@ class PetsViewController: UIViewController {
     }
     
     @objc func openNewPetModal() {
-        let newPetViewController = NewPetViewController(petCategory: .cat)
-        newPetViewController.modalPresentationStyle = .pageSheet
-        present(newPetViewController, animated: true, completion: nil)
+        let newPetViewController = NewActivityCategoryController()
+        newPetViewController.categories = [PetType.cat, PetType.dog]
+        newPetViewController.willCreatePet = true
+        
+        let navigationController: UINavigationController = UINavigationController(rootViewController: newPetViewController)
+        navigationController.navigationBar.isHidden = true
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        self.present(navigationController, animated: true, completion: nil)
     }
 }
 

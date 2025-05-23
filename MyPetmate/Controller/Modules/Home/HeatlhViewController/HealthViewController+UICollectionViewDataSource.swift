@@ -40,10 +40,15 @@ extension HealthViewController: UICollectionViewDataSource {
             else { fatalError() }
             
             cell.buttonAction = {[weak self] in
-                let newPetViewController = NewPetViewController(petCategory: .cat)
-                newPetViewController.modalPresentationStyle = .pageSheet 
-                self?.present(newPetViewController, animated: true, completion: nil)
-
+                let newPetViewController = NewActivityCategoryController()
+                newPetViewController.categories = [PetType.cat, PetType.dog]
+                newPetViewController.willCreatePet = true
+                newPetViewController.delegate = self
+                
+                let navigationController: UINavigationController = UINavigationController(rootViewController: newPetViewController)
+                navigationController.navigationBar.isHidden = true
+                navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+                self?.present(navigationController, animated: true, completion: nil)
                 }
             
             return cell
