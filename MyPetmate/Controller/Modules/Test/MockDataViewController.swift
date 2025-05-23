@@ -43,7 +43,9 @@ class MockDataViewController: UIViewController {
     
     func addMockData(){
         
-//        UserDefaults.standard.removeObject(forKey: "myPetmateAppData")
+        UserDefaults.standard.removeObject(forKey: "myPetmateAppData")
+        
+        return
         
         let cat = Cat(
             name: "Nyx",

@@ -126,7 +126,13 @@ class DailyViewController: UIViewController {
         petSelectorCollectionView.reloadData()
         
         
-        emptyStateView.isHidden = !tableRows.isEmpty || selectedPet == nil
+        if selectedPet == nil {
+            emptyStateView.template = .addNewPet
+        } else {
+            emptyStateView.template = .noActivitiesForToday
+        }
+        
+        emptyStateView.isHidden = !tableRows.isEmpty
         taskTableView.isHidden = tableRows.isEmpty
     }
 }

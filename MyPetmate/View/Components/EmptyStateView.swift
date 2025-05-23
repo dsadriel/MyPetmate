@@ -23,7 +23,7 @@ class EmptyStateView: UIView {
     // MARK: - Configuration
     
     enum EmptyStateTemplate {
-        case noActivitiesForToday, noHealthSchedules, noActivitiesRegistered
+        case noActivitiesForToday, noHealthSchedules, noActivitiesRegistered, noPetsRegistered, addNewPet
         
         var title: String {
             switch self {
@@ -32,12 +32,23 @@ class EmptyStateView: UIView {
             case .noHealthSchedules:
                 return "No health schedules"
             case .noActivitiesRegistered:
-                return "Nenhuma atividade registrada."
+                return "No activities registered"
+            case .noPetsRegistered:
+                return "No pets registered"
+            case .addNewPet:
+                return "Add a new pet"
             }
         }
         
         var subtitle: String {
-            return "Add a new activity to view in this pet's list"
+            switch self {
+            case .noPetsRegistered:
+                return "Add a new pet to view in your list"
+            case .addNewPet:
+                return "To add a new pet, tap the plus button above"
+            default:
+                return "Add a new activity to view in this pet's list"
+            }
         }
         
         var imageSystemName: String {
@@ -46,6 +57,8 @@ class EmptyStateView: UIView {
                 return "calendar.badge.plus"
             case .noHealthSchedules:
                 return "cross.circle.fill"
+            case .noPetsRegistered, .addNewPet:
+                return "pawprint.circle"
             }
         }
     }

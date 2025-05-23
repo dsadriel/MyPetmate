@@ -239,6 +239,11 @@ class PetCard: UIView {
         print("pressed!")
     }
     
+    var petImage: UIImage? {
+        didSet {
+            self.imageView.image = petImage
+        }
+    }
     
     var name: String? {
         set {

@@ -11,6 +11,10 @@ import Foundation
 
 class PetsViewController: UIViewController {
     
+    var petList: [Pet] = {
+        Persistence.getPetList()
+    }()
+    
     lazy var newPetButton: NewActivityButton = {
         var button = NewActivityButton()
         button.buttonText = "New Pet"
@@ -40,15 +44,30 @@ class PetsViewController: UIViewController {
     }
     
     @objc func openNewPetModal() {
-        let newPetViewController = NewPetViewController()
-        newPetViewController.modalPresentationStyle = .pageSheet
-        present(newPetViewController, animated: true, completion: nil)
+        let newPetViewController = NewActivityCategoryController()
+        newPetViewController.categories = [PetType.cat, PetType.dog]
+        newPetViewController.willCreatePet = true
+        
+        let navigationController: UINavigationController = UINavigationController(rootViewController: newPetViewController)
+        navigationController.navigationBar.isHidden = true
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        self.present(navigationController, animated: true, completion: nil)
     }
+    
+    lazy var emptyStateView: EmptyStateView = {
+        let view = EmptyStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.template = .noPetsRegistered
+        return view
+    }()
 }
 
 extension PetsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        Persistence.getPetList().count
+        tableView.isHidden = petList.isEmpty
+        emptyStateView.isHidden = !petList.isEmpty
+        
+        return petList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,14 +77,13 @@ extension PetsViewController: UITableViewDataSource {
             print("Erro")
             return PetListTableViewCell()}
         
-        let pet = Persistence.getPetList()[indexPath.item]
+        let pet = petList[indexPath.item]
         cell.backgroundColor = .Background.primary
         cell.name = pet.name
         cell.sexType = [pet.sex.rawValue, pet.petType.rawValue]
         cell.ageString = pet.ageString
         cell.date = pet.birthDate
-        cell.imagePet = " "
-        
+        cell.petProfilePicture = Persistence.getPetProfilePicture(for: pet)
         return cell
         
     }
@@ -75,8 +93,7 @@ extension PetsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
       
-        let pets = Persistence.getPetList()
-        let selectedPet = pets[indexPath.row]
+        let selectedPet = petList[indexPath.row]
         
         let petProfileVc = PetsProfileViewController()
         

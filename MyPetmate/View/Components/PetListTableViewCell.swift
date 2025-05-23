@@ -12,7 +12,6 @@ class PetListTableViewCell: UITableViewCell {
         component.name = "Bela"
         component.setSexType(sex: "Female", type: "Cat")
         component.birthDate = Date()
-        component.setImage(img: "https://fastly.picsum.photos/id/237/200/300.jpg")
         return component
     }()
     
@@ -20,6 +19,12 @@ class PetListTableViewCell: UITableViewCell {
     var name: String? {
         didSet {
             petCard.name = name
+        }
+    }
+    
+    var petProfilePicture: UIImage? {
+        didSet {
+            petCard.petImage = petProfilePicture
         }
     }
     

@@ -106,7 +106,13 @@ class HealthViewController: UIViewController {
         taskTableView.reloadData()
         petSelectorCollectionView.reloadData()
         
-        emptyStateView.isHidden = !tableRows.isEmpty || selectedPet == nil
+        if selectedPet == nil {
+            emptyStateView.template = .addNewPet
+        } else {
+            emptyStateView.template = .noHealthSchedules
+        }
+        
+        emptyStateView.isHidden = !tableRows.isEmpty
         taskTableView.isHidden = tableRows.isEmpty
     }
 }

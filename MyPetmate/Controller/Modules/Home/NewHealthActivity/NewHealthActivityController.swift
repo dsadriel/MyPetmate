@@ -166,12 +166,12 @@ class NewActivityController: UIViewController {
         let date = activeDatePickers.first?.selectedDate ?? Date()
         let notes = notesTextField.text ?? ""
         
-        if let dailyCategory = DailyCategory(rawValue: category) {
+        if DailyCategory(rawValue: category) != nil {
             let activity = DailyActivity(name: namedTextField.text ?? "", category: DailyCategory(rawValue: category) ?? .activity, measurementAmount: ammountActivity, repetitions: repetions)
             
             Persistence.addActivity(activity, to: selectedPet!)
             print("DailyActivity criado: \(activity)")
-        } else if let healthCategory = HealthCategory(rawValue: category) {
+        } else if HealthCategory(rawValue: category) != nil {
             let health = HealthActivity(
                 name: namedTextField.text ?? "",
                 category: HealthCategory(rawValue: category) ?? .appointments,

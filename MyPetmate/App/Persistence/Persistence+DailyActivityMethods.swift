@@ -8,11 +8,10 @@ import UIKit
 
 extension Persistence {
     // MARK: - Daily Activity methods
-    static func addActivity(_ activity: DailyActivity, to pet: Pet) -> Pet {
+    static func addActivity(_ activity: DailyActivity, to pet: Pet) {
         pet.dailyActivities.append(activity)
         Persistence.updatePet(pet)
         print("foi")
-        return pet
     }
     
     static func deleteActivity(_ activity: DailyActivity, from pet: Pet) {

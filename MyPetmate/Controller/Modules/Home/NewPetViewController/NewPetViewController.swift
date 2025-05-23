@@ -9,9 +9,9 @@ import UIKit
 
 class NewPetViewController: UIViewController {
     
-    private let petCategory: TypeOfPet
+    private let petCategory: PetType
 
-    init(petCategory: TypeOfPet) {
+    init(petCategory: PetType) {
         self.petCategory = petCategory
         super.init(nibName: nil, bundle: nil)
     }
@@ -26,6 +26,9 @@ class NewPetViewController: UIViewController {
         header.saveButton.addTarget(self,
                                     action: #selector(savePetTapped),
                                     for: .touchUpInside)
+        header.cancelButton.addTarget(self,
+                                      action: #selector(cancelTapped),
+                                      for: .touchUpInside)
         return header
     }()
     
@@ -37,9 +40,8 @@ class NewPetViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setPreferredSymbolConfiguration(symbolConfig, forImageIn: .normal)
         button.setImage(UIImage(systemName: "photo.circle.fill"), for: .normal)
-        
-        
-//        button.addTarget(self, action: #selector(handleImageButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleImageButton), for: .touchUpInside)
+
         return button
     }()
     
@@ -129,13 +131,13 @@ class NewPetViewController: UIViewController {
         return stackView
     }()
     
-    lazy var mainStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [imageButton, dataStackView])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 24
-        return stackView
-    }()
+//    lazy var mainStackView: UIStackView = {
+//        var stackView = UIStackView(arrangedSubviews: [imageButton, dataStackView])
+//        stackView.translatesAutoresizingMaskIntoConstraints = false
+//        stackView.axis = .vertical
+//        stackView.spacing = 24
+//        return stackView
+//    }()
     
 
     override func viewDidLoad() {
@@ -143,6 +145,10 @@ class NewPetViewController: UIViewController {
         view.backgroundColor = .Background.primary
         setup()
         
+    }
+    
+    @objc func cancelTapped(){
+        self.dismiss(animated: true)
     }
     
     @objc func savePetTapped() {
@@ -160,6 +166,9 @@ class NewPetViewController: UIViewController {
                 allergies: allergiesTextField.text ?? ""
             )
             Persistence.addPet(cat)
+            if let image = imageButton.imageView?.image {
+                Persistence.savePetProfilePicture(image, for: cat)
+            }
         } else {
             let dog = Dog(
                 name:      textField.text ?? "",
@@ -171,14 +180,27 @@ class NewPetViewController: UIViewController {
                 allergies: allergiesTextField.text ?? ""
             )
             Persistence.addPet(dog)
+            if let image = imageButton.imageView?.image {
+                Persistence.savePetProfilePicture(image, for: dog)
+            }
         }
-        for pet in Persistence.getPetList() {
-            print(pet.name)
-        }
+        
     }
 
-
+    @objc func handleImageButton() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+    }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        imageButton.layer.cornerRadius = imageButton.frame.size.width / 2
+        imageButton.clipsToBounds = true
+        imageButton.imageView?.contentMode = .scaleAspectFill
+    }
+
 }
 
 extension NewPetViewController: ViewCodeProtocol {
@@ -190,9 +212,13 @@ extension NewPetViewController: ViewCodeProtocol {
             header.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             header.heightAnchor.constraint(equalToConstant: 55),
             
-            mainStackView.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 24),
+            imageButton.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 24),
             imageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageButton.heightAnchor.constraint(equalToConstant: 100),
+            imageButton.widthAnchor.constraint(equalToConstant: 100),
             
+            
+            dataStackView.topAnchor.constraint(equalTo: imageButton.bottomAnchor, constant: 24),
             
             dataStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             dataStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
@@ -202,7 +228,17 @@ extension NewPetViewController: ViewCodeProtocol {
     
     func addSubviews() {
         view.addSubview(header)
-        view.addSubview(mainStackView)
+        view.addSubview(imageButton)
+        view.addSubview(dataStackView)
     }
     
+}
+
+extension NewPetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        if let image = info[.originalImage] as? UIImage {
+            imageButton.setImage(image, for: .normal)
+        }
+    }
 }
