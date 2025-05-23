@@ -44,7 +44,7 @@ extension DailyViewController: ViewCodeProtocol {
             taskTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             taskTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
-            emptyStateView.topAnchor.constraint(equalTo:  petSelectorCollectionView.bottomAnchor),
+            emptyStateView.topAnchor.constraint(equalTo:  petSelectorCollectionView.bottomAnchor, constant: -32),
             emptyStateView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             emptyStateView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             emptyStateView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),

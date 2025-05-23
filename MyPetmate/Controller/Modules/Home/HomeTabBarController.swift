@@ -88,7 +88,7 @@ class HomeTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [dailyViewController, healthViewController, petsViewController, mockDataViewController]
+        viewControllers = [dailyViewController, healthViewController, petsViewController, /*mockDataViewController*/]
         tabBar.backgroundColor = .Background.primary
         tabBar.standardAppearance = tarBarAppearance
         

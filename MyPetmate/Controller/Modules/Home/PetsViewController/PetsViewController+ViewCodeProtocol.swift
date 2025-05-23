@@ -14,6 +14,7 @@ extension PetsViewController: ViewCodeProtocol {
     func addSubviews() {
         view.addSubview(newPetButton)
         view.addSubview(tableView)
+        view.addSubview(emptyStateView)
     }
     
     func setupConstraints() {
@@ -29,13 +30,10 @@ extension PetsViewController: ViewCodeProtocol {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            
-            
-            
-            
+            emptyStateView.topAnchor.constraint(equalTo:  newPetButton.bottomAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            emptyStateView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
         ])
     }
-    
-    
-
 }
