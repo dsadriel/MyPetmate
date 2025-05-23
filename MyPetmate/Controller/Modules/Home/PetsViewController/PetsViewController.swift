@@ -14,6 +14,7 @@ class PetsViewController: UIViewController {
     lazy var newPetButton: NewActivityButton = {
         var button = NewActivityButton()
         button.buttonText = "New Pet"
+        button.addTarget(self, action: #selector(openNewPetModal), for: .touchUpInside)
         return button
     }()
     
@@ -36,6 +37,12 @@ class PetsViewController: UIViewController {
         
         navigationItem.title = title
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    @objc func openNewPetModal() {
+        let newPetViewController = NewPetViewController()
+        newPetViewController.modalPresentationStyle = .pageSheet
+        present(newPetViewController, animated: true, completion: nil)
     }
 }
 

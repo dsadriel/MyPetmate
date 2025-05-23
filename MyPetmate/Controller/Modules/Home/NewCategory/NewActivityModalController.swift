@@ -8,6 +8,7 @@ import UIKit
 class NewActivityCategoryController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     var selectedPet: Pet?
+    var delegate: CanReloadView?
     
     lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -110,6 +111,7 @@ class NewActivityCategoryController: UIViewController, UICollectionViewDataSourc
     
     private func handleNewActivityButtonTapped(for item: LabelRepresentable) {
         let nextVC = NewActivityController()
+        nextVC.delegate = self
         nextVC.category = item.title
         nextVC.selectedPet = selectedPet
         nextVC.setup()
@@ -154,3 +156,9 @@ extension NewActivityCategoryController: ViewCodeProtocol {
     }
 }
 
+
+extension NewActivityCategoryController: CanReloadView {
+    func reloadView() {
+        delegate?.reloadView()
+    }
+}

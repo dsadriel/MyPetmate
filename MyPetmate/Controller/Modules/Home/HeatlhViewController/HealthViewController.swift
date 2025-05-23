@@ -91,6 +91,7 @@ class HealthViewController: UIViewController {
     
     @objc private func handleNewActivityButtonTapped() {
         let newActivityController: NewActivityCategoryController = NewActivityCategoryController()
+        newActivityController.delegate = self
         newActivityController.selectedPet = selectedPet
         newActivityController.categories = [HealthCategory.medication,HealthCategory.vaccines,  HealthCategory.appointments]
         
@@ -107,5 +108,11 @@ class HealthViewController: UIViewController {
         
         emptyStateView.isHidden = !tableRows.isEmpty || selectedPet == nil
         taskTableView.isHidden = tableRows.isEmpty
+    }
+}
+
+extension HealthViewController: CanReloadView {
+    func reloadView() {
+        updateDataAndUI()
     }
 }

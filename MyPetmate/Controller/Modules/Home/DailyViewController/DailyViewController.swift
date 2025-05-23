@@ -110,6 +110,7 @@ class DailyViewController: UIViewController {
     
     @objc private func handleNewActivityButtonTapped() {
         let newActivityController: NewActivityCategoryController = NewActivityCategoryController()
+        newActivityController.delegate = self
         newActivityController.selectedPet = selectedPet
         newActivityController.categories = [DailyCategory.activity, DailyCategory.feeding, DailyCategory.water]
         
@@ -128,4 +129,12 @@ class DailyViewController: UIViewController {
         emptyStateView.isHidden = !tableRows.isEmpty || selectedPet == nil
         taskTableView.isHidden = tableRows.isEmpty
     }
+}
+
+extension DailyViewController: CanReloadView {
+    func reloadView() {
+        updateDataAndUI()
+    }
+    
+    
 }
