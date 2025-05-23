@@ -40,7 +40,7 @@ class PetsViewController: UIViewController {
     }
     
     @objc func openNewPetModal() {
-        let newPetViewController = NewPetViewController()
+        let newPetViewController = NewPetViewController(petCategory: .cat)
         newPetViewController.modalPresentationStyle = .pageSheet
         present(newPetViewController, animated: true, completion: nil)
     }

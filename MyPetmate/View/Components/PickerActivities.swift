@@ -13,7 +13,7 @@ class PickerActivities: UIView {
     private let pickerType: PickerType
     private let numbers = Array(0...99)
     private let units = ["Forever", "Days", "Weeks", "Months", "Years"]
-    private let measures = ["mg", "g", "mL", "L"]
+    var measures = ["mg", "g", "mL", "L"]
     private let weightNumbers = Array(0...9)
     private let weightMeasures = ["Kg", "g"]
     
@@ -23,6 +23,10 @@ class PickerActivities: UIView {
     private var finalNumber = 0
     
     var onToggle: ((Bool) -> Void)?
+    
+    public var totalDuration: Int {
+            selectedNumber * (selectedUnit == "hours" ? 60 : 1)
+    }
     
     public var selectedValue: String {
         switch pickerType {

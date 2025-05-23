@@ -8,7 +8,7 @@
 import UIKit
 
 class Pet: Codable {
-    var petType: Animal = .unknown
+    var petType: PetType = .unknown
     var id: UUID = UUID()
     var name: String
     var sex: PetSex

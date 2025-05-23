@@ -39,7 +39,7 @@ extension HealthViewController: UICollectionViewDataSource {
             else { fatalError() }
             
             cell.buttonAction = {[weak self] in
-                let newPetViewController = NewPetViewController()
+                let newPetViewController = NewPetViewController(petCategory: .cat)
                 newPetViewController.modalPresentationStyle = .pageSheet 
                 self?.present(newPetViewController, animated: true, completion: nil)
 

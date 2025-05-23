@@ -5,7 +5,7 @@
 //  Created by Isadora Ferreira Guerra on 16/05/25.
 //
 
-enum Animal: String, Codable, CaseIterable, LabelRepresentable {
+enum PetType: String, Codable, CaseIterable, LabelRepresentable {
     case dog = "Dog"
     case cat = "Cat"
     case unknown = "Unknown"

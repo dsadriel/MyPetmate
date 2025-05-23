@@ -9,9 +9,9 @@ import UIKit
 
 class NewPetViewController: UIViewController {
     
-    private let petCategory: TypeOfPet
+    private let petCategory: PetType
 
-    init(petCategory: TypeOfPet) {
+    init(petCategory: PetType) {
         self.petCategory = petCategory
         super.init(nibName: nil, bundle: nil)
     }
