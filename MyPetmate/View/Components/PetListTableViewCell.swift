@@ -51,6 +51,12 @@ class PetListTableViewCell: UITableViewCell {
         }
     }
     
+    var ageString: String? {
+        didSet {
+            petCard.age = ageString
+        }
+    }
+    
     var date: Date? {
         didSet {
             petCard.birthDate = date ?? Date().self

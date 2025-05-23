@@ -47,6 +47,9 @@ class HealthCommitmentTableViewCell: UITableViewCell {
         if let imgView = button.imageView {
             imgView.contentMode = .scaleAspectFit
         }
+        
+        button.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        
         return button
     }()
     
@@ -133,8 +136,8 @@ class HealthCommitmentTableViewCell: UITableViewCell {
     
     //MARK:
     func configure(label: String?, dateHour: Date) {
-        dateView.configure(isDate: true, date: Date())
-        hourView.configure(isDate: false, date: Date())
+        dateView.configure(isDate: true, date: dateHour)
+        hourView.configure(isDate: false, date: dateHour)
         labelView.text = label
     }
     
@@ -146,7 +149,7 @@ class HealthCommitmentTableViewCell: UITableViewCell {
     }
     
     func updateRadialButton(){
-        let imageName = isChecked ? "circle.fill" : "circle"
+        let imageName = isChecked ? "checkmark.circle.fill" : "circle"
         roundButton.setImage(UIImage(systemName: imageName), for: .normal)
         roundButton.tintColor = isChecked ? .Button.primary : .Unselected.primary
     }

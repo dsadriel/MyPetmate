@@ -60,10 +60,15 @@ extension HealthViewController: UITableViewDataSource {
         print(occourence.isCompleted)
         cell.isChecked = occourence.isCompleted
         cell.updateRadialButton()
-        cell.checked =  {
+        cell.checked = {
             Persistence.changeActivityOccurrenceCompleteness(occourence, to: !occourence.isCompleted, in: self.selectedPet!)
-            print("taped")
-            self.updateDataAndUI()
+            cell.isChecked = !occourence.isCompleted
+            cell.updateRadialButton()
+            
+            // Wait 1 second before updating UI
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.updateDataAndUI()
+            }
         }
         return cell
     }
