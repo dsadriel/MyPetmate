@@ -5,6 +5,8 @@ import UIKit
 extension PetsProfileViewController: ViewCodeProtocol {
     func addSubviews() {
         view.addSubview(imgStack)
+        view.addSubview(componentsStack)
+        view.addSubview(vaccinesComponent)
     }
     
     func setupConstraints() {
@@ -17,6 +19,14 @@ extension PetsProfileViewController: ViewCodeProtocol {
             
             petImage.heightAnchor.constraint(equalToConstant: 79.5),
             petImage.widthAnchor.constraint(equalToConstant: 79.5),
+            
+            componentsStack.topAnchor.constraint(equalTo: imgStack.bottomAnchor, constant: 16),
+            componentsStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            componentsStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            
+            vaccinesComponent.topAnchor.constraint(equalTo: componentsStack.bottomAnchor, constant: 24),
+            vaccinesComponent.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            vaccinesComponent.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
             
         ])
     }

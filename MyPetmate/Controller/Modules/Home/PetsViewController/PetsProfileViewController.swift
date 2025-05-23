@@ -29,8 +29,84 @@ class PetsProfileViewController: UIViewController {
         return stack
     }()
     
+    lazy var sexComponent: NamedLabel = {
+        var component = NamedLabel()
+        component.translatesAutoresizingMaskIntoConstraints = false
+        component.key = "Sex"
+        component.value = "Value"
+        return component
+        
+    }()
     
+    lazy var birthDateComponent: NamedLabel = {
+        var component = NamedLabel()
+        component.translatesAutoresizingMaskIntoConstraints = false
+        component.key = "Birth Date"
+        component.value = "Value"
+        return component
+        
+    }()
     
+    lazy var breedComponent: NamedLabel = {
+        var component = NamedLabel()
+        component.translatesAutoresizingMaskIntoConstraints = false
+        component.key = "Breed"
+        component.value = "Value"
+        return component
+        
+    }()
+    
+    lazy var sizeComponent: NamedLabel = {
+        var component = NamedLabel()
+        component.translatesAutoresizingMaskIntoConstraints = false
+        component.key = "Size"
+        return component
+        
+    }()
+    
+    lazy var weightComponent: NamedLabel = {
+        var component = NamedLabel()
+        component.translatesAutoresizingMaskIntoConstraints = false
+        component.key = "Weight"
+        component.value = "Value"
+        return component
+        
+    }()
+    
+    lazy var bloodTypeComponent: NamedLabel = {
+        var component = NamedLabel()
+        component.translatesAutoresizingMaskIntoConstraints = false
+        component.key = "Blood Type"
+        component.value = "Value"
+        return component
+        
+    }()
+    
+    lazy var allergiesComponent: NamedLabel = {
+        var component = NamedLabel()
+        component.translatesAutoresizingMaskIntoConstraints = false
+        component.key = "Allergies"
+        component.value = "Value"
+        return component
+        
+    }()
+    
+    lazy var componentsStack: UIStackView = {
+        var stack = UIStackView(arrangedSubviews: [sexComponent, birthDateComponent, breedComponent, sizeComponent, weightComponent, bloodTypeComponent, allergiesComponent])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 2
+        return stack
+        
+    }()
+    
+    lazy var vaccinesComponent: NamedLabel = {
+        var component = NamedLabel()
+        component.translatesAutoresizingMaskIntoConstraints = false
+        component.key = "Vaccines History"
+        component.img = UIImage(systemName: "chevron.right")
+        return component
+    }()
     
     
     
