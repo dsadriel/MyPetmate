@@ -5,7 +5,9 @@
 //  Created by Isadora Ferreira Guerra on 19/05/25.
 //
 import UIKit
-class NewActivityController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class NewActivityCategoryController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    var selectedPet: Pet?
     
     lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -107,7 +109,12 @@ class NewActivityController: UIViewController, UICollectionViewDataSource, UICol
         }
     
     private func handleNewActivityButtonTapped(for item: LabelRepresentable) {
-        print("Clicado: \(item.title)")
+        let nextVC = NewActivityController()
+        nextVC.category = item.title
+        nextVC.selectedPet = selectedPet
+        nextVC.setup()
+        print(item.title)
+        navigationController?.pushViewController(nextVC, animated: true)
     }
     
     @objc func cancelButtonTapped() {
@@ -115,7 +122,7 @@ class NewActivityController: UIViewController, UICollectionViewDataSource, UICol
     }
 }
 
-extension NewActivityController: ViewCodeProtocol {
+extension NewActivityCategoryController: ViewCodeProtocol {
     func setup() {
         addSubviews()
         setupConstraints()

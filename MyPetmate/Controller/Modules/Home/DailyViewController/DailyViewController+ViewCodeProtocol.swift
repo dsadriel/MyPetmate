@@ -21,6 +21,7 @@ extension DailyViewController: ViewCodeProtocol {
     
     func addSubviews() {
         view.addSubview(petSelectorCollectionView)
+        view.addSubview(emptyStateView)
         view.addSubview(taskTableView)
         view.addSubview(newActivityButton)
     }
@@ -42,6 +43,11 @@ extension DailyViewController: ViewCodeProtocol {
             taskTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             taskTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             taskTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            emptyStateView.topAnchor.constraint(equalTo:  petSelectorCollectionView.bottomAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            emptyStateView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
         ])
     }
 }

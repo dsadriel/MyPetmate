@@ -10,6 +10,10 @@ import UIKit
 
 public class DatePicker: UIView {
     
+    var selectedDate: Date {
+        return datePicker.date
+    }
+
     // MARK: Subviews
     internal lazy var label: UILabel = {
         let label = UILabel()
@@ -91,7 +95,7 @@ public class DatePicker: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            datePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            datePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             
             stack.topAnchor.constraint(equalTo: topAnchor),
             stack.bottomAnchor.constraint(equalTo: bottomAnchor),

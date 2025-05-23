@@ -36,7 +36,6 @@ class PetsViewController: UIViewController {
         
         navigationItem.title = title
         navigationController?.navigationBar.prefersLargeTitles = true
-        
     }
 }
 
