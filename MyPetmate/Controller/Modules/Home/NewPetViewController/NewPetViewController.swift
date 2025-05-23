@@ -9,6 +9,26 @@ import UIKit
 
 class NewPetViewController: UIViewController {
     
+    private let petCategory: TypeOfPet
+
+    init(petCategory: TypeOfPet) {
+        self.petCategory = petCategory
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    lazy var header: HeaderNewActivity = {
+        var header = HeaderNewActivity(label: "New Pet")
+        header.translatesAutoresizingMaskIntoConstraints = false
+        header.saveButton.addTarget(self,
+                                    action: #selector(savePetTapped),
+                                    for: .touchUpInside)
+        return header
+    }()
+    
     internal lazy var imageButton: UIButton = {
         let button = UIButton()
         let baseConfig = UIImage.SymbolConfiguration(pointSize: 80, weight: .bold)
@@ -16,7 +36,7 @@ class NewPetViewController: UIViewController {
         let symbolConfig = baseConfig.applying(paletteConfig)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setPreferredSymbolConfiguration(symbolConfig, forImageIn: .normal)
-        button.setImage(UIImage(systemName: "photo.artframe.circle.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "photo.circle.fill"), for: .normal)
         
         
 //        button.addTarget(self, action: #selector(handleImageButton), for: .touchUpInside)
@@ -32,8 +52,8 @@ class NewPetViewController: UIViewController {
         return textField
     }()
     
-    lazy var sexSelector: EnumSelector<Sex> = {
-        let selector = EnumSelector<Sex>(
+    lazy var sexSelector: EnumSelector<PetSex> = {
+        let selector = EnumSelector<PetSex>(
             enumTypeName: "Sex",          // texto do label
             placeholder: "Select Sex"     // texto inicial do botão
         )
@@ -58,8 +78,8 @@ class NewPetViewController: UIViewController {
         return breed
     }()
     
-    lazy var sizeSelector: EnumSelector<DogSize> = {
-        let selector = EnumSelector<DogSize>(
+    lazy var sizeSelector: EnumSelector<PetSize> = {
+        let selector = EnumSelector<PetSize>(
             enumTypeName: "Size",
             placeholder: "Select Size"
         )
@@ -67,15 +87,45 @@ class NewPetViewController: UIViewController {
         return selector
     }()
     
+    lazy var wheelPicker: PickerActivities = {
+        let picker = PickerActivities(pickerType: .weight)
+        
+        return picker
+    }()
     
+    lazy var catBloodTypeSelector: EnumSelector<CatBloodType> = {
+        let selector = EnumSelector<CatBloodType>(
+            enumTypeName: "Blood Type",
+            placeholder: "Select Blood Type"
+        )
+        selector.translatesAutoresizingMaskIntoConstraints = false
+        return selector
+    }()
     
+    lazy var dogBloodTypeSelector: EnumSelector<DogBloodType> = {
+        let selector = EnumSelector<DogBloodType>(
+            enumTypeName: "Blood Type",
+            placeholder: "Select Blood Type"
+        )
+        return selector
+    }()
+    
+    lazy var allergiesTextField: NamedTextField = {
+        var allergies = NamedTextField()
+        allergies.translatesAutoresizingMaskIntoConstraints = false
+        allergies.name = "Allergies"
+        allergies.placeholder = "None"
+        
+        return allergies
+    }()
     
     lazy var dataStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [textField, sexSelector, datePicker, breedTextField, sizeSelector])
+        var stackView = UIStackView(arrangedSubviews: [textField, sexSelector, datePicker, breedTextField, sizeSelector, wheelPicker,
+                                                       petCategory == .dog ? dogBloodTypeSelector : catBloodTypeSelector,
+                                                       allergiesTextField])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 0
-        stackView.alignment = .center
         return stackView
     }()
     
@@ -84,7 +134,6 @@ class NewPetViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 24
-        stackView.alignment = .center
         return stackView
     }()
     
@@ -95,32 +144,64 @@ class NewPetViewController: UIViewController {
         setup()
         
     }
+    
+    @objc func savePetTapped() {
+        // como `datePicker.date` não é opcional, basta ler direto
+        let selectedDate = datePicker.datePicker.date
+
+        if petCategory == .cat {
+            let cat = Cat(
+                name:      textField.text ?? "",
+                sex:       sexSelector.selectedValue ?? .unknown,
+                birthDate: selectedDate,
+                breed:     breedTextField.text ?? "",
+                size:      sizeSelector.selectedValue ?? .medium,
+                weight:    100,
+                allergies: allergiesTextField.text ?? ""
+            )
+            Persistence.addPet(cat)
+        } else {
+            let dog = Dog(
+                name:      textField.text ?? "",
+                sex:       sexSelector.selectedValue ?? .unknown,
+                birthDate: selectedDate,
+                breed:     breedTextField.text ?? "",
+                size:      sizeSelector.selectedValue ?? .medium,
+                weight:    100,
+                allergies: allergiesTextField.text ?? ""
+            )
+            Persistence.addPet(dog)
+        }
+        for pet in Persistence.getPetList() {
+            print(pet.name)
+        }
+    }
+
+
+    
 }
 
 extension NewPetViewController: ViewCodeProtocol {
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+
+            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            header.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            header.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            header.heightAnchor.constraint(equalToConstant: 55),
             
+            mainStackView.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 24),
             imageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            textField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            sexSelector.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            sexSelector.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            breedTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            breedTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            sizeSelector.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            sizeSelector.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             
-            
+            dataStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            dataStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             
         ])
     }
     
     func addSubviews() {
+        view.addSubview(header)
         view.addSubview(mainStackView)
     }
     
