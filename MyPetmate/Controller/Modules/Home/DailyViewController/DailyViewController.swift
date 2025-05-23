@@ -88,6 +88,13 @@ class DailyViewController: UIViewController {
         
         return tableView
     }()
+    
+    lazy var emptyStateView: EmptyStateView = {
+        let view = EmptyStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.template = .noActivitiesForToday
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,5 +123,9 @@ class DailyViewController: UIViewController {
         buildTableData()
         taskTableView.reloadData()
         petSelectorCollectionView.reloadData()
+        
+        
+        emptyStateView.isHidden = !tableRows.isEmpty || selectedPet == nil
+        taskTableView.isHidden = tableRows.isEmpty
     }
 }

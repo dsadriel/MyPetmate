@@ -65,18 +65,6 @@ extension HealthViewController: UITableViewDataSource {
             print("taped")
             self.updateDataAndUI()
         }
-
-//        cell.activityText = (amount: "\(activity.measurementAmount)",
-//                             activityName: activity.name)
-//        cell.configure(isDate: true, date: occourence.date)
-//        cell.isDone = occourence.isCompleted
-//        cell.action = {
-//            Persistence.changeActivityOccurrenceCompleteness(occourence, to: !occourence.isCompleted, in: self.selectedPet!)
-//            cell.updateCheckmarkStyle()
-//            
-////            self.updateDataAndUI()
-//        }
-//        
         return cell
     }
 }

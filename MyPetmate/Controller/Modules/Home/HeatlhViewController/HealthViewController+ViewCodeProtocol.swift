@@ -23,6 +23,7 @@ extension HealthViewController: ViewCodeProtocol {
         view.addSubview(petSelectorCollectionView)
         view.addSubview(taskTableView)
         view.addSubview(newActivityButton)
+        view.addSubview(emptyStateView)
     }
     
     func setupConstraints() {
@@ -42,6 +43,11 @@ extension HealthViewController: ViewCodeProtocol {
             taskTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             taskTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             taskTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            emptyStateView.topAnchor.constraint(equalTo:  petSelectorCollectionView.bottomAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            emptyStateView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
         ])
     }
 }

@@ -70,7 +70,14 @@ class HealthViewController: UIViewController {
         
         return tableView
     }()
-
+    
+    lazy var emptyStateView: EmptyStateView = {
+        let view = EmptyStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.template = .noHealthSchedules
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -97,5 +104,8 @@ class HealthViewController: UIViewController {
         buildTableData()
         taskTableView.reloadData()
         petSelectorCollectionView.reloadData()
+        
+        emptyStateView.isHidden = !tableRows.isEmpty || selectedPet == nil
+        taskTableView.isHidden = tableRows.isEmpty
     }
 }
