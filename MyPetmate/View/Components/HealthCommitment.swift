@@ -6,11 +6,15 @@
 //
 import UIKit
 
-class HealthCommitment: UIView {
+class HealthCommitmentTableViewCell: UITableViewCell {
     
+    // MARK: Identifier
+    
+    static let reuseIdentifier = "DailyTableViewCell"
+   
     //MARK: initializers
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
     }
     
@@ -18,8 +22,11 @@ class HealthCommitment: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    private var isChecked = false
+    var isChecked = false {
+        didSet {
+            updateRadialButton()
+        }
+    }
 
     private lazy var labelView: UILabel = {
         let label = UILabel()
@@ -37,6 +44,9 @@ class HealthCommitment: UIView {
         button.setImage(UIImage(systemName: "circle"), for: .normal)
         button.tintColor = .Unselected.primary
         button.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
+        if let imgView = button.imageView {
+            imgView.contentMode = .scaleAspectFit
+        }
         return button
     }()
     
@@ -132,9 +142,7 @@ class HealthCommitment: UIView {
     var details: () -> Void = {}
     
     @objc private func handleButtonTap() {
-        isChecked.toggle()
         checked()
-        updateRadialButton()
     }
     
     func updateRadialButton(){
@@ -149,23 +157,24 @@ class HealthCommitment: UIView {
 
 }
 
-extension HealthCommitment: ViewCodeProtocol {
+extension HealthCommitmentTableViewCell: ViewCodeProtocol {
     func setup(){
+        self.backgroundColor = .Background.primary
         addSubviews()
         setupConstraints()
     }
     func addSubviews() {
-        addSubview(verticalStack)
+        contentView.addSubview(verticalStack)
     }
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            verticalStack.topAnchor.constraint(equalTo: self.topAnchor),
-            verticalStack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            verticalStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            verticalStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            verticalStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            verticalStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            verticalStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            verticalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            self.heightAnchor.constraint(equalToConstant: 89),
-            self.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 89),
+            contentView.widthAnchor.constraint(equalTo: verticalStack.widthAnchor),
         ])
     }
 }

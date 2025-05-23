@@ -26,7 +26,7 @@ extension DailyViewController: UICollectionViewDataSource {
             else { fatalError() }
             
             let pet = petList[indexPath.item]
-            let activitiesStatus = pet.getActivityStatus()
+            let activitiesStatus = pet.getDailyActivitiesStatus()
             cell.name = pet.name
             cell.activityName = "Daily Activities"
             cell.quantityOfActivity = "\(activitiesStatus.done)/\(activitiesStatus.total)"

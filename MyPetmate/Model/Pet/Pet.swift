@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Pet: Codable, Equatable {
+class Pet: Codable {
     var petType: Animal = .unknown
     var id: UUID = UUID()
     var name: String
@@ -23,6 +23,8 @@ class Pet: Codable, Equatable {
     var excludedDailyActivitiesOccurrences: [Date : [DailyActivityOccurrence]] = [:]
     var completedDailyActivitiesOccurrences: [Date : [DailyActivityOccurrence]] = [:]
     var healthActivities: [HealthActivity] = []
+    var excludedHealthActivitiesOccurrences: [Date : [HealthActivityOccurrence]] = [:]
+    var completedHealthActivitiesOccurrences: [Date : [HealthActivityOccurrence]] = [:]
     
     init(name: String, sex: PetSex, birthDate: Date, breed: String, size: PetSize, weight: Double, allergies: String) {
         self.name = name
@@ -34,10 +36,6 @@ class Pet: Codable, Equatable {
         self.allergies = allergies
         self.pictureName = nil
     }
-    
-    static func == (lhs: Pet, rhs: Pet) -> Bool {
-        lhs.id == rhs.id
-    }
 }
 
 extension Pet {
@@ -46,8 +44,15 @@ extension Pet {
     }
 }
 
+extension Pet: Equatable {
+    static func == (lhs: Pet, rhs: Pet) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
+// MARK: - getDailyActivties
 extension Pet {
-    func getActivties(for date: Date) -> [DailyActivityOccurrence] {
+    func getDailyActivties(for date: Date) -> [DailyActivityOccurrence] {
         var todayActivities: [DailyActivityOccurrence] = []
         
         let endOfDay = date.endOfDay
@@ -95,26 +100,60 @@ extension Pet {
             }
         }
 
-       return todayActivities//.sorted {
-//            if $0.isCompleted == $1.isCompleted {
-//                return $0.date < $1.date
-//            } else {
-//                return !$0.isCompleted && $1.isCompleted
-//            }
-//        }
+       return todayActivities
     }
     
     func getTodayActivities() -> [DailyActivityOccurrence] {
-        getActivties(for: Date())
+        getDailyActivties(for: Date())
     }
     
-    func getActivityStatus() -> (done: Int, total: Int){
+    func getDailyActivitiesStatus() -> (done: Int, total: Int){
         let activities = self.getTodayActivities()
         
         let done: Int = activities.count(where: {$0.isCompleted})
         let total: Int = activities.count
         
         return (done, total)
+    }
+}
+
+// MARK: - getDailyActivties
+extension Pet {
+    func getNextHealthActivities() -> [HealthActivityOccurrence] {
+        var nextActivities: [HealthActivityOccurrence] = []
+        
+        for activity in self.healthActivities {
+            for repetition in activity.repeations {
+                
+                // If its only once
+                if repetition.interval == .onlyOnce {
+                    let occourence = HealthActivityOccurrence(date: repetition.start, activity: activity)
+                    if let alreadyCompleted = self.completedHealthActivitiesOccurrences[repetition.start.endOfDay]?.contains(where: {$0 == occourence}), alreadyCompleted {
+                    } else {
+                        nextActivities.append(occourence)
+                    }
+                } else {
+                    // Else, calculate the occoruences
+                    var occurrenceIndex = 0
+                    
+                    while let occurrenceDate = repetition.getOccurrenceByNumber(occurrenceIndex) {
+                        
+                        let occourence = HealthActivityOccurrence(date: occurrenceDate, activity: activity)
+                        
+                        // If its already completed, skip
+                        if let alreadyCompleted = self.completedHealthActivitiesOccurrences[occurrenceDate.endOfDay]?.contains(where: {$0 == occourence}), alreadyCompleted {
+                            occurrenceIndex += 1
+                            continue
+                        } else {
+                            nextActivities.append(occourence)
+                            break
+                        }
+                    
+                    }
+                }
+            }
+        }
+       return nextActivities
     }
 }
 

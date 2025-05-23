@@ -23,6 +23,7 @@ class MockDataViewController: UIViewController {
     }
     
     private func setupAddMockDataButton() {
+        print(Persistence.getPetList())
         view.addSubview(addMockDataButton)
         NSLayoutConstraint.activate([
             addMockDataButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -53,6 +54,7 @@ class MockDataViewController: UIViewController {
             weight: 2.5,
             allergies: "none"
         )
+        cat.pictureName = "cat"
 
         Persistence.addPet(cat)
 
@@ -123,14 +125,53 @@ class MockDataViewController: UIViewController {
                 )
             ]
         )
+        
+        let dailyMedication = HealthActivity(
+            name: "Antibiotic - Amoxicillin",
+            category: .medication,
+            measurementAmount: 1,
+            repeations: [
+                ActivityRepeation(
+                    start: Date(),
+                    interval: .daily
+                )
+            ],
+            repeatUntil: Calendar.current.date(byAdding: .day, value: 7, to: Date()),
+            reminderIn: 3600, // 1 hour before
+            location: nil,
+            notes: "Give with food. Morning dose."
+        )
+
+        let semiAnnualVaccine = HealthActivity(
+            name: "Semi-Annual Vaccine",
+            category: .vaccines,
+            measurementAmount: 1,
+            repeations: [
+                ActivityRepeation(
+                    start: Date(), // First dose: today
+                    interval: .monthly // Assuming this means every month, or one-off dose
+                ),
+                ActivityRepeation(
+                    start: Calendar.current.date(byAdding: .month, value: 6, to: Date())!, // Second dose: 6 months later
+                    interval: .monthly // Again, adjust according to your logic
+                )
+            ],
+            repeatUntil: nil, // No end date
+            reminderIn: 60 * 60 * 24, // 1 day before
+            location: "Pet Clinic",
+            notes: "Two doses per year; space them 6 months apart."
+        )
+
 
         Persistence.addActivity(walkActivity, to: cat)
         Persistence.addActivity(runActivity, to: cat)
         Persistence.addActivity(feedCat, to: cat)
         Persistence.addActivity(giveWater, to: cat)
+        Persistence.addActivity(dailyMedication, to: cat)
+        Persistence.addActivity(semiAnnualVaccine, to: cat)
 
         let dog = Dog(
-            name: "Caetano Veloso",
+            name: "Caetano",
             sex: .male,
             birthDate: Date(),
             breed: "dachshund",
@@ -177,11 +218,62 @@ class MockDataViewController: UIViewController {
             ]
         )
 
+        let rabiesVaccine = HealthActivity(
+            name: "Rabies Vaccine",
+            category: .vaccines,
+            measurementAmount: 1,
+            repeations: [
+                ActivityRepeation(
+                    start: Calendar.current.date(byAdding: .day, value: 2, to: Date())!,
+                    interval: .onlyOnce
+                )
+            ],
+            repeatUntil: nil,
+            reminderIn: nil,
+            location: "Vet Clinic",
+            notes: "Required by law, bring vaccination card."
+        )
+
+        let groomingAppointment = HealthActivity(
+            name: "Grooming Appointment",
+            category: .appointments,
+            measurementAmount: 1,
+            repeations: [
+                ActivityRepeation(
+                    start: Date(),
+                    interval: .monthly
+                )
+            ],
+            repeatUntil: Calendar.current.date(byAdding: .month, value: 6, to: Date()),
+            reminderIn: 7200, // 2 hours before
+            location: "Pet Spa",
+            notes: "Cut nails, clean ears"
+        )
+
+        let deworming = HealthActivity(
+            name: "Deworming Syrup",
+            category: .medication,
+            measurementAmount: 1,
+            repeations: [
+                ActivityRepeation(
+                    start: Calendar.current.date(byAdding: .day, value: -3, to: Date())!,
+                    interval: .weekly
+                )
+            ],
+            repeatUntil: Calendar.current.date(byAdding: .month, value: 3, to: Date()),
+            reminderIn: 1800, // 30 minutes before
+            location: nil,
+            notes: "Use syringe, measure carefully."
+        )
+
+        
         Persistence.addActivity(feedDog, to: dog)
-        Persistence.addActivity(parkWalk, to: dog)
+        Persistence.addActivity(rabiesVaccine, to: dog)
+        Persistence.addActivity(rabiesVaccine, to: cat)
+        
+        Persistence.addActivity(groomingAppointment, to: dog)
+        Persistence.addActivity(deworming, to: dog)
 
         print(Persistence.getPetList())
-        
-        fatalError()
     }
 }

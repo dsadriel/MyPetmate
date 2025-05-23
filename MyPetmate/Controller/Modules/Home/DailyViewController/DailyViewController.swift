@@ -35,7 +35,7 @@ class DailyViewController: UIViewController {
         dataButton.title = formatedDate
         dataButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.bodyRegular,
-            NSAttributedString.Key.foregroundColor: UIColor.Label.terciary
+            NSAttributedString.Key.foregroundColor: UIColor.Label.secondary
         ], for: .disabled)
         dataButton.isEnabled = false
         
@@ -49,7 +49,6 @@ class DailyViewController: UIViewController {
     }()
     
     internal lazy var petSelectorCollectionView: UICollectionView = {
-        // TEMP placeholder to use in layout logic
         var collectionView: UICollectionView!
 
         let layout = buildPetSelectorLayout { visibleItems, offset, env in
@@ -57,7 +56,6 @@ class DailyViewController: UIViewController {
             let center = self.view.convert(collectionView.center, to: collectionView)
 
             if let indexPath = collectionView.indexPathForItem(at: center) {
-//                print("Centered item is at indexPath: \(indexPath)")
                 self.selectedPetIndex = indexPath.row
             }
         }
@@ -70,7 +68,6 @@ class DailyViewController: UIViewController {
         collectionView.alwaysBounceVertical = false
         collectionView.backgroundColor = .Background.primary
         collectionView.dataSource = self
-        collectionView.delegate = self
 
         return collectionView
     }()
