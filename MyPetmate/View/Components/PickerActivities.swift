@@ -25,7 +25,8 @@ class PickerActivities: UIView {
     var onToggle: ((Bool) -> Void)?
     
     public var totalDuration: Int {
-            selectedNumber * (selectedUnit == "hours" ? 60 : 1)
+            print(selectedNumber, selectedUnit)
+            return selectedNumber * (selectedUnit == "hours" ? 60 : 1)
     }
     
     public var selectedValue: String {

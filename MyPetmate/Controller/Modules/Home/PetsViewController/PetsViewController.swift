@@ -11,9 +11,7 @@ import Foundation
 
 class PetsViewController: UIViewController {
     
-    var petList: [Pet] = {
-        Persistence.getPetList()
-    }()
+    var petList: [Pet] = Persistence.getPetList()
     
     lazy var newPetButton: NewActivityButton = {
         var button = NewActivityButton()
@@ -47,6 +45,7 @@ class PetsViewController: UIViewController {
         let newPetViewController = NewActivityCategoryController()
         newPetViewController.categories = [PetType.cat, PetType.dog]
         newPetViewController.willCreatePet = true
+        newPetViewController.delegate = self
         
         let navigationController: UINavigationController = UINavigationController(rootViewController: newPetViewController)
         navigationController.navigationBar.isHidden = true
@@ -103,6 +102,7 @@ extension PetsViewController: UITableViewDelegate {
         petProfileVc.sizeComponent.value = selectedPet.size.rawValue
         petProfileVc.weightComponent.value = "\(selectedPet.weight)"
         petProfileVc.allergiesComponent.value = selectedPet.allergies
+        petProfileVc.petImage.image = Persistence.getPetProfilePicture(for: selectedPet)
 
         petProfileVc.bloodTypeComponent.value = (selectedPet as? Cat)?.bloodType?.rawValue ?? (selectedPet as? Dog)?.bloodType?.rawValue ?? ""
     
@@ -115,5 +115,13 @@ extension PetsViewController: UITableViewDelegate {
         
         
         navigationController?.pushViewController(petProfileVc, animated: true)
+    }
+}
+
+
+extension PetsViewController: CanReloadView {
+    func reloadView() {
+        petList = Persistence.getPetList()
+        tableView.reloadData()
     }
 }

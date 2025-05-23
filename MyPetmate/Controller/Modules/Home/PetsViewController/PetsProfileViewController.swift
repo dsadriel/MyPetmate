@@ -123,4 +123,12 @@ class PetsProfileViewController: UIViewController {
         print()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        petImage.layer.cornerRadius = petImage.frame.height / 2
+        petImage.clipsToBounds = true
+        petImage.contentMode = .scaleAspectFill
+    }
+
+    
 }

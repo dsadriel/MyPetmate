@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class NewActivityController: UIViewController {
 
     var category: String = "" {
@@ -30,7 +29,7 @@ class NewActivityController: UIViewController {
     var durationMeasureSelected = 0
     
     lazy var headerView: HeaderNewActivity = {
-        let header = HeaderNewActivity(label: "New Health Activity")
+        let header = HeaderNewActivity(label: "New Activity")
         header.cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         header.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         header.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +43,7 @@ class NewActivityController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     
     //MARK: text input
     lazy var namedTextField: NamedTextField = {
@@ -156,7 +156,7 @@ class NewActivityController: UIViewController {
 
         let interval = frequencyField.selectedInterval
         
-        let ammountActivity = durationActivityField.totalDuration
+        let ammountActivity = 20 //durationActivityField.totalDuration
         let ammountMedication = durationMedicationField.totalDuration
         
         let repetions = activeDatePickers.map {

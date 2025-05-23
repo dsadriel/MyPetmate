@@ -15,6 +15,7 @@ class NewActivityCategoryController: UIViewController, UICollectionViewDataSourc
         didSet {
             if willCreatePet {
                 textLabel.text = "Animal"
+                newTaskLabel.text = "New pet"
             }
         }
     }
@@ -128,6 +129,7 @@ class NewActivityCategoryController: UIViewController, UICollectionViewDataSourc
         if let petCategory = item as? PetType {
             let newPetViewController = NewPetViewController(petCategory: petCategory)
             print(item.title)
+            newPetViewController.delegate = self.delegate
             navigationController?.pushViewController(newPetViewController, animated: true)
         } else {
             let nextVC = NewActivityController()

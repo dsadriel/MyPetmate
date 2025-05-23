@@ -10,6 +10,7 @@ import UIKit
 class NewPetViewController: UIViewController {
     
     private let petCategory: PetType
+    var delegate: CanReloadView?
 
     init(petCategory: PetType) {
         self.petCategory = petCategory
@@ -185,6 +186,8 @@ class NewPetViewController: UIViewController {
             }
         }
         
+        delegate?.reloadView()
+        self.dismiss(animated: true)
     }
 
     @objc func handleImageButton() {
