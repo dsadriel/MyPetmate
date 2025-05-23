@@ -5,7 +5,7 @@ class PetBadgeComponent: UICollectionViewCell {
     
     static var reuseIdentifier = "TaskTableViewCell"
 
-    private lazy var imgPet: UIImageView = {
+    lazy var imgPet: UIImageView = {
         var img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill

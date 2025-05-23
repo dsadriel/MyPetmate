@@ -7,18 +7,16 @@
 
 extension Persistence {
     // MARK: - Health Activity methods
-    static func addActivity(_ activity: HealthActivity, to pet: Pet) -> Pet {
+    static func addActivity(_ activity: HealthActivity, to pet: Pet) {
         pet.healthActivities.append(activity)
         Persistence.updatePet(pet)
-        return pet
     }
 
-    static func deleteActivity(_ activity: HealthActivity, from pet: Pet) -> Pet {
+    static func deleteActivity(_ activity: HealthActivity, from pet: Pet) {
         if let index = pet.healthActivities.firstIndex(of: activity) {
             pet.healthActivities.remove(at: index)
         }
         Persistence.updatePet(pet)
-        return pet
     }
     
     static func excludeActivityOccourence(_ occurrence: HealthActivityOccurrence, from pet: Pet) {

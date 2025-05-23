@@ -64,8 +64,7 @@ extension PetsViewController: UITableViewDataSource {
         cell.sexType = [pet.sex.rawValue, pet.petType.rawValue]
         cell.ageString = pet.ageString
         cell.date = pet.birthDate
-        cell.imagePet = " "
-        
+        cell.petProfilePicture = Persistence.getPetProfilePicture(for: pet)
         return cell
         
     }

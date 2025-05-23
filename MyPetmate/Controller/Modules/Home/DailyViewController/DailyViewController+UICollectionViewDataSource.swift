@@ -34,8 +34,8 @@ extension DailyViewController: UICollectionViewDataSource {
             
             cell.icon = pet.petType.systemImageName
         
-            
-            cell.imagePet = "dog"
+            cell.imgPet.image = Persistence.getPetProfilePicture(for: pet)
+        
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddPetCollectionViewCell.reuseIdentifier, for: indexPath) as? AddPetCollectionViewCell
