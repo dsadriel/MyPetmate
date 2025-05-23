@@ -18,6 +18,7 @@ class NewActivityController: UIViewController {
     }
     
     var selectedPet: Pet?
+    var delegate: CanReloadView?
     
     private var activeDatePicker: DatePicker?
     private var durationHeightConstraint: NSLayoutConstraint?
@@ -187,6 +188,7 @@ class NewActivityController: UIViewController {
         } else {
             print("Categoria inválida")
         }
+        delegate?.reloadView()
         dismiss(animated: true, completion: nil)
     }
 
