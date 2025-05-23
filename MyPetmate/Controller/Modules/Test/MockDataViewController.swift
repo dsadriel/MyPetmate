@@ -43,7 +43,7 @@ class MockDataViewController: UIViewController {
     
     func addMockData(){
         
-        UserDefaults.standard.removeObject(forKey: "myPetmateAppData")
+//        UserDefaults.standard.removeObject(forKey: "myPetmateAppData")
         
         let cat = Cat(
             name: "Nyx",
@@ -149,11 +149,11 @@ class MockDataViewController: UIViewController {
             repeations: [
                 ActivityRepeation(
                     start: Date(), // First dose: today
-                    interval: .monthly // Assuming this means every month, or one-off dose
+                    interval: .yearly // Assuming this means every month, or one-off dose
                 ),
                 ActivityRepeation(
                     start: Calendar.current.date(byAdding: .month, value: 6, to: Date())!, // Second dose: 6 months later
-                    interval: .monthly // Again, adjust according to your logic
+                    interval: .yearly // Again, adjust according to your logic
                 )
             ],
             repeatUntil: nil, // No end date
@@ -161,7 +161,7 @@ class MockDataViewController: UIViewController {
             location: "Pet Clinic",
             notes: "Two doses per year; space them 6 months apart."
         )
-
+        
 
         Persistence.addActivity(walkActivity, to: cat)
         Persistence.addActivity(runActivity, to: cat)

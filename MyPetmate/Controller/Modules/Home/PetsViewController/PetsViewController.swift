@@ -56,7 +56,7 @@ extension PetsViewController: UITableViewDataSource {
         cell.backgroundColor = .Background.primary
         cell.name = pet.name
         cell.sexType = [pet.sex.rawValue, pet.petType.rawValue]
-        cell.age = pet.weeksOld
+        cell.ageString = pet.ageString
         cell.date = pet.birthDate
         cell.imagePet = " "
         
@@ -72,6 +72,25 @@ extension PetsViewController: UITableViewDelegate {
         let pets = Persistence.getPetList()
         let selectedPet = pets[indexPath.row]
         
-        navigationController?.pushViewController(PetsProfileViewController(pet: selectedPet), animated: true)
+        let petProfileVc = PetsProfileViewController()
+        
+        petProfileVc.petLabel.text = selectedPet.name
+        petProfileVc.sexComponent.value = selectedPet.sex.rawValue
+        petProfileVc.breedComponent.value = selectedPet.breed
+        petProfileVc.sizeComponent.value = selectedPet.size.rawValue
+        petProfileVc.weightComponent.value = "\(selectedPet.weight)"
+        petProfileVc.allergiesComponent.value = selectedPet.allergies
+
+        petProfileVc.bloodTypeComponent.value = (selectedPet as? Cat)?.bloodType?.rawValue ?? (selectedPet as? Dog)?.bloodType?.rawValue ?? ""
+    
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        petProfileVc.birthDateComponent.value  = formatter.string(from: selectedPet.birthDate)
+        
+        
+        
+        
+        navigationController?.pushViewController(petProfileVc, animated: true)
     }
 }

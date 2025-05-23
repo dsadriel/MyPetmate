@@ -42,6 +42,21 @@ extension Pet {
     var weeksOld: Int {
         Calendar.current.dateComponents([.weekOfYear], from: birthDate, to: Date()).weekOfYear ?? 0
     }
+    
+    var ageString: String {
+        let yearsOld = Calendar.current.dateComponents([.year], from: birthDate, to: Date()).year ?? 0
+        let monthsOld = Calendar.current.dateComponents([.month], from: birthDate, to: Date()).month ?? 0
+        
+        if yearsOld > 0 {
+            return "\(yearsOld) \(yearsOld == 1 ? "year" : "years") old"
+        }
+        
+        if monthsOld > 0 {
+            return "\(monthsOld) \(monthsOld == 1 ? "month" : "month") old"
+        }
+        
+        return "< 1 month old"
+    }
 }
 
 extension Pet: Equatable {
@@ -116,8 +131,7 @@ extension Pet {
         return (done, total)
     }
 }
-
-// MARK: - getDailyActivties
+// MARK: - getNextHealthActivities
 extension Pet {
     func getNextHealthActivities() -> [HealthActivityOccurrence] {
         var nextActivities: [HealthActivityOccurrence] = []
@@ -125,37 +139,44 @@ extension Pet {
         for activity in self.healthActivities {
             for repetition in activity.repeations {
                 
-                // If its only once
+                // If it's only once
                 if repetition.interval == .onlyOnce {
-                    let occourence = HealthActivityOccurrence(date: repetition.start, activity: activity)
-                    if let alreadyCompleted = self.completedHealthActivitiesOccurrences[repetition.start.endOfDay]?.contains(where: {$0 == occourence}), alreadyCompleted {
+                    let occurrence = HealthActivityOccurrence(date: repetition.start, activity: activity)
+                    if let alreadyCompleted = self.completedHealthActivitiesOccurrences[repetition.start.endOfDay]?.contains(where: { $0 == occurrence }), alreadyCompleted {
+                        continue
+                    } else if let repeatUntil = activity.repeatUntil, repetition.start > repeatUntil {
+                        continue
                     } else {
-                        nextActivities.append(occourence)
+                        nextActivities.append(occurrence)
                     }
                 } else {
-                    // Else, calculate the occoruences
+                    // Else, calculate the occurrences
                     var occurrenceIndex = 0
                     
                     while let occurrenceDate = repetition.getOccurrenceByNumber(occurrenceIndex) {
+                        // Stop if occurrence is beyond repeatUntil
+                        if let repeatUntil = activity.repeatUntil, occurrenceDate > repeatUntil {
+                            break
+                        }
                         
-                        let occourence = HealthActivityOccurrence(date: occurrenceDate, activity: activity)
+                        let occurrence = HealthActivityOccurrence(date: occurrenceDate, activity: activity)
                         
-                        // If its already completed, skip
-                        if let alreadyCompleted = self.completedHealthActivitiesOccurrences[occurrenceDate.endOfDay]?.contains(where: {$0 == occourence}), alreadyCompleted {
+                        // If it's already completed, skip
+                        if let alreadyCompleted = self.completedHealthActivitiesOccurrences[occurrenceDate.endOfDay]?.contains(where: { $0 == occurrence }), alreadyCompleted {
                             occurrenceIndex += 1
                             continue
                         } else {
-                            nextActivities.append(occourence)
+                            nextActivities.append(occurrence)
                             break
                         }
-                    
                     }
                 }
             }
         }
-       return nextActivities
+        return nextActivities
     }
 }
+
 
 
 // MARK: Pet specializations (Cat, Dog)

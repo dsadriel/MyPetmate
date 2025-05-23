@@ -33,7 +33,7 @@ class LabelDateHour: UIView {
     func configure(isDate: Bool, date: Date?) {
         if isDate == true, let date = date {
             let formatter = DateFormatter()
-            formatter.dateStyle = .long
+            formatter.dateFormat = "d MMM yyyy" //para calendário de 12h
             informationLabel.text = formatter.string(from: date)
         } else if isDate == false, let date = date {
             let formatter = DateFormatter()

@@ -92,7 +92,7 @@ class PetsProfileViewController: UIViewController {
     }()
     
     lazy var componentsStack: UIStackView = {
-        var stack = UIStackView(arrangedSubviews: [sexComponent, birthDateComponent, breedComponent, sizeComponent, weightComponent, bloodTypeComponent, allergiesComponent])
+        var stack = UIStackView(arrangedSubviews: [sexComponent, birthDateComponent, breedComponent, sizeComponent, weightComponent, /*bloodTypeComponent,*/ allergiesComponent])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 2
@@ -100,26 +100,13 @@ class PetsProfileViewController: UIViewController {
         
     }()
     
-    lazy var vaccinesComponent: NamedLabel = {
-        var component = NamedLabel()
-        component.translatesAutoresizingMaskIntoConstraints = false
-        component.key = "Vaccines History"
-        component.img = UIImage(systemName: "chevron.right")
-        return component
-    }()
-    
-    
-    
-    private let pet: Pet
-    
-    init(pet: Pet) {
-        self.pet = pet
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    lazy var vaccinesComponent: NamedLabel = {
+//        var component = NamedLabel()
+//        component.translatesAutoresizingMaskIntoConstraints = false
+//        component.key = "Vaccines History"
+//        component.img = UIImage(systemName: "chevron.right")
+//        return component
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()

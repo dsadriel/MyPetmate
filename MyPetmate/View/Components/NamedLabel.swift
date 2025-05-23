@@ -30,7 +30,8 @@ class NamedLabel: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-//        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.font = UIFont.bodyRegular
+        label.textColor = .Label.secondary
         label.textAlignment = .right
         
         return label
