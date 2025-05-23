@@ -11,6 +11,7 @@ extension Persistence {
     static func addActivity(_ activity: DailyActivity, to pet: Pet) -> Pet {
         pet.dailyActivities.append(activity)
         Persistence.updatePet(pet)
+        print("foi")
         return pet
     }
     
