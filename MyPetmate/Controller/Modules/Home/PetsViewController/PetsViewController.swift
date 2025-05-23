@@ -21,6 +21,7 @@ class PetsViewController: UIViewController {
         var table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .Background.primary
+        table.delegate = self
         table.dataSource = self
         table.delegate = self
         table.register(PetListTableViewCell.self, forCellReuseIdentifier: PetListTableViewCell.reuseIdentifier)
@@ -67,5 +68,10 @@ extension PetsViewController: UITableViewDataSource {
 extension PetsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+      
+        let pets = Persistence.getPetList()
+        let selectedPet = pets[indexPath.row]
+        
+        navigationController?.pushViewController(PetsProfileViewController(pet: selectedPet), animated: true)
     }
 }
