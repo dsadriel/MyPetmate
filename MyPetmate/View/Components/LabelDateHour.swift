@@ -22,6 +22,9 @@ class LabelDateHour: UIView {
         let label = UILabel()
         label.textColor = .Label.primary
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byClipping // or .byTruncatingTail, .byWordWrapping
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
@@ -30,7 +33,7 @@ class LabelDateHour: UIView {
     func configure(isDate: Bool, date: Date?) {
         if isDate == true, let date = date {
             let formatter = DateFormatter()
-            formatter.dateStyle = .long
+            formatter.dateFormat = "d MMM yyyy" //para calendário de 12h
             informationLabel.text = formatter.string(from: date)
         } else if isDate == false, let date = date {
             let formatter = DateFormatter()
@@ -64,7 +67,7 @@ extension LabelDateHour: ViewCodeProtocol {
             informationLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             self.heightAnchor.constraint(equalToConstant: 34),
-//            self.widthAnchor.constraint(equalTo: informationLabel.widthAnchor, constant: 22)
+            self.widthAnchor.constraint(equalTo: informationLabel.widthAnchor, constant: 22)
         ])
     }
     

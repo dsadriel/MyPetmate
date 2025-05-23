@@ -26,7 +26,7 @@ extension DailyViewController: UICollectionViewDataSource {
             else { fatalError() }
             
             let pet = petList[indexPath.item]
-            let activitiesStatus = pet.getActivityStatus()
+            let activitiesStatus = pet.getDailyActivitiesStatus()
             cell.name = pet.name
             cell.activityName = "Daily Activities"
             cell.quantityOfActivity = "\(activitiesStatus.done)/\(activitiesStatus.total)"
@@ -41,9 +41,11 @@ extension DailyViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddPetCollectionViewCell.reuseIdentifier, for: indexPath) as? AddPetCollectionViewCell
             else { fatalError() }
             
-            cell.buttonAction = {
-                print(#function)
-            }
+            cell.buttonAction = {[weak self] in
+                let newPetViewController = NewPetViewController()
+                newPetViewController.modalPresentationStyle = .pageSheet
+                self?.present(newPetViewController, animated: true, completion: nil)
+                    }
             
             return cell
             

@@ -35,7 +35,7 @@ class DailyViewController: UIViewController {
         dataButton.title = formatedDate
         dataButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.bodyRegular,
-            NSAttributedString.Key.foregroundColor: UIColor.Label.terciary
+            NSAttributedString.Key.foregroundColor: UIColor.Label.secondary
         ], for: .disabled)
         dataButton.isEnabled = false
         
@@ -49,7 +49,6 @@ class DailyViewController: UIViewController {
     }()
     
     internal lazy var petSelectorCollectionView: UICollectionView = {
-        // TEMP placeholder to use in layout logic
         var collectionView: UICollectionView!
 
         let layout = buildPetSelectorLayout { visibleItems, offset, env in
@@ -57,7 +56,6 @@ class DailyViewController: UIViewController {
             let center = self.view.convert(collectionView.center, to: collectionView)
 
             if let indexPath = collectionView.indexPathForItem(at: center) {
-//                print("Centered item is at indexPath: \(indexPath)")
                 self.selectedPetIndex = indexPath.row
             }
         }
@@ -70,7 +68,6 @@ class DailyViewController: UIViewController {
         collectionView.alwaysBounceVertical = false
         collectionView.backgroundColor = .Background.primary
         collectionView.dataSource = self
-        collectionView.delegate = self
 
         return collectionView
     }()
@@ -91,6 +88,13 @@ class DailyViewController: UIViewController {
         
         return tableView
     }()
+    
+    lazy var emptyStateView: EmptyStateView = {
+        let view = EmptyStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.template = .noActivitiesForToday
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,15 +109,32 @@ class DailyViewController: UIViewController {
     }
     
     @objc private func handleNewActivityButtonTapped() {
-        let modalVC = NewActivityController()
-        modalVC.categories = [DailyCategory.activity, DailyCategory.feeding, DailyCategory.water]
-        modalVC.modalPresentationStyle = UIModalPresentationStyle.pageSheet
-        present(modalVC, animated: true, completion: nil)
+        let newActivityController: NewActivityCategoryController = NewActivityCategoryController()
+        newActivityController.delegate = self
+        newActivityController.selectedPet = selectedPet
+        newActivityController.categories = [DailyCategory.activity, DailyCategory.feeding, DailyCategory.water]
+        
+        let navigationController: UINavigationController = UINavigationController(rootViewController: newActivityController)
+        navigationController.navigationBar.isHidden = true
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        present(navigationController, animated: true, completion: nil)
     }
     
     func updateDataAndUI() {
         buildTableData()
         taskTableView.reloadData()
         petSelectorCollectionView.reloadData()
+        
+        
+        emptyStateView.isHidden = !tableRows.isEmpty || selectedPet == nil
+        taskTableView.isHidden = tableRows.isEmpty
     }
+}
+
+extension DailyViewController: CanReloadView {
+    func reloadView() {
+        updateDataAndUI()
+    }
+    
+    
 }

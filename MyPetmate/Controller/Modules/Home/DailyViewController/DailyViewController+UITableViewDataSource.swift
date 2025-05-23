@@ -41,7 +41,8 @@ extension DailyViewController: UITableViewDataSource {
     
     // MARK: Adjust later with real data
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableRows[section].count
+
+        return tableRows[section].count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

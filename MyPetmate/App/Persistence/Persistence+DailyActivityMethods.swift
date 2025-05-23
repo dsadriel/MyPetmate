@@ -4,12 +4,14 @@
 //
 //  Created by Adriel de Souza on 19/05/25.
 //
+import UIKit
 
 extension Persistence {
     // MARK: - Daily Activity methods
     static func addActivity(_ activity: DailyActivity, to pet: Pet) -> Pet {
         pet.dailyActivities.append(activity)
         Persistence.updatePet(pet)
+        print("foi")
         return pet
     }
     
@@ -57,4 +59,6 @@ extension Persistence {
             updatePet(pet)
         }
     }
+    
+    
 }

@@ -12,7 +12,7 @@ struct HealthActivity: Codable {
     let name: String
     let category: HealthCategory
     let measurementAmount: Int
-    let repeation: [ActivityRepeation]
+    let repeations: [ActivityRepeation]
     let repeatUntil: Date?
     let reminderIn: TimeInterval?
     var hasReminder: Bool {reminderIn != nil}
@@ -23,5 +23,17 @@ struct HealthActivity: Codable {
 extension HealthActivity: Equatable {
     static func == (lhs: HealthActivity, rhs: HealthActivity) -> Bool {
         lhs.id == rhs.id
+    }
+}
+
+struct HealthActivityOccurrence: Codable {
+    var date: Date
+    var activity: HealthActivity
+    var isCompleted: Bool = false
+}
+
+extension HealthActivityOccurrence: Equatable {
+    static func == (lhs: HealthActivityOccurrence, rhs: HealthActivityOccurrence) -> Bool {
+        return lhs.date == rhs.date && lhs.activity == rhs.activity
     }
 }

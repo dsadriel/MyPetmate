@@ -24,6 +24,8 @@ class DailyTableViewCell: UITableViewCell {
         button.setContentHuggingPriority(.required, for: .horizontal)
         button.setContentCompressionResistancePriority(.required, for: .horizontal)
         
+        button.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        
         return button
     }()
     

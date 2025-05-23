@@ -60,7 +60,11 @@ extension DailyViewController: UITableViewDelegate {
         let editAction = UIContextualAction(style: .normal, title: "Edit")
         {[weak self] _, _, completionHandler in
             // MARK: FIX-ME - Open modal
-            let alert = UIAlertController(title: "abrir modal de edicao", message: "aa", preferredStyle: .actionSheet)
+            let alert = UIAlertController(
+                title: "Edit Feature",
+                message: "This feature is not implemented yet.",
+                preferredStyle: .actionSheet
+            )
             alert.addAction(UIAlertAction(title: "Ok", style: .default))
             self?.present(alert, animated: true)
             self?.updateDataAndUI()
