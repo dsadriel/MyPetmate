@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 
 
-class PetsViewController: UIViewController {
+class PetListViewController: UIViewController {
     
     var petList: [Pet] = Persistence.getPetList()
     
@@ -61,7 +61,7 @@ class PetsViewController: UIViewController {
     }()
 }
 
-extension PetsViewController: UITableViewDataSource {
+extension PetListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.isHidden = petList.isEmpty
         emptyStateView.isHidden = !petList.isEmpty
@@ -72,9 +72,9 @@ extension PetsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PetListTableViewCell.reuseIdentifier, for: indexPath) as? PetListTableViewCell else {
-            
             print("Erro")
-            return PetListTableViewCell()}
+            return PetListTableViewCell()
+        }
         
         let pet = petList[indexPath.item]
         cell.backgroundColor = .Background.primary
@@ -88,38 +88,33 @@ extension PetsViewController: UITableViewDataSource {
     }
 }
 
-extension PetsViewController: UITableViewDelegate {
+extension PetListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
       
         let selectedPet = petList[indexPath.row]
         
-        let petProfileVc = PetsProfileViewController()
+        let petProfileVc = PetProfileViewController()
         
         petProfileVc.petLabel.text = selectedPet.name
         petProfileVc.sexComponent.value = selectedPet.sex.rawValue
         petProfileVc.breedComponent.value = selectedPet.breed
         petProfileVc.sizeComponent.value = selectedPet.size.rawValue
-        petProfileVc.weightComponent.value = "\(selectedPet.weight)"
+        petProfileVc.weightComponent.value = selectedPet.weightString
         petProfileVc.allergiesComponent.value = selectedPet.allergies
         petProfileVc.petImage.image = Persistence.getPetProfilePicture(for: selectedPet)
 
-        petProfileVc.bloodTypeComponent.value = (selectedPet as? Cat)?.bloodType?.rawValue ?? (selectedPet as? Dog)?.bloodType?.rawValue ?? ""
+        petProfileVc.bloodTypeComponent.value = (selectedPet as? Cat)?.bloodType?.rawValue ?? (selectedPet as? Dog)?.bloodType?.rawValue ?? "?"
     
-        
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         petProfileVc.birthDateComponent.value  = formatter.string(from: selectedPet.birthDate)
-        
-        
-        
         
         navigationController?.pushViewController(petProfileVc, animated: true)
     }
 }
 
-
-extension PetsViewController: CanReloadView {
+extension PetListViewController: CanReloadView {
     func reloadView() {
         petList = Persistence.getPetList()
         tableView.reloadData()
