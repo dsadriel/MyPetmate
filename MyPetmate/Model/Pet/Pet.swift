@@ -15,7 +15,14 @@ class Pet: Codable {
     var birthDate: Date
     var breed: String
     var size: PetSize
-    var weight: Double
+    var weightInGrams: Double
+    var weightString: String {
+        if weightInGrams < 1000 {
+            "\(Int(weightInGrams)) g"
+        } else {
+            "\(String(format: "%.1f", weightInGrams / 1000)) kg"
+        }
+    }
     var allergies: String
     var pictureName: String?
 
@@ -26,13 +33,13 @@ class Pet: Codable {
     var excludedHealthActivitiesOccurrences: [Date: [HealthActivityOccurrence]] = [:]
     var completedHealthActivitiesOccurrences: [Date: [HealthActivityOccurrence]] = [:]
 
-    init(name: String, sex: PetSex, birthDate: Date, breed: String, size: PetSize, weight: Double, allergies: String) {
+    init(name: String, sex: PetSex, birthDate: Date, breed: String, size: PetSize, weightInGrams: Double, allergies: String) {
         self.name = name
         self.sex = sex
         self.birthDate = birthDate
         self.breed = breed
         self.size = size
-        self.weight = weight
+        self.weightInGrams = weightInGrams
         self.allergies = allergies
         self.pictureName = nil
     }
@@ -195,14 +202,15 @@ extension Pet {
 
 class Cat: Pet {
     var bloodType: CatBloodType?
-    override init(
+    init(
         name: String,
         sex: PetSex,
         birthDate: Date,
         breed: String,
         size: PetSize,
         weight: Double,
-        allergies: String
+        allergies: String,
+        blodType: CatBloodType?
     ) {
         super.init(
             name: name,
@@ -210,7 +218,7 @@ class Cat: Pet {
             birthDate: birthDate,
             breed: breed,
             size: size,
-            weight: weight,
+            weightInGrams: weight,
             allergies: allergies
         )
         self.petType = .cat
@@ -223,14 +231,15 @@ class Cat: Pet {
 
 class Dog: Pet {
     var bloodType: DogBloodType?
-    override init(
+    init(
         name: String,
         sex: PetSex,
         birthDate: Date,
         breed: String,
         size: PetSize,
         weight: Double,
-        allergies: String
+        allergies: String,
+        blodType: DogBloodType?
     ) {
         super.init(
             name: name,
@@ -238,7 +247,7 @@ class Dog: Pet {
             birthDate: birthDate,
             breed: breed,
             size: size,
-            weight: weight,
+            weightInGrams: weight,
             allergies: allergies
         )
         self.petType = .dog
