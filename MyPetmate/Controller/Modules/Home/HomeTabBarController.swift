@@ -63,34 +63,18 @@ class HomeTabBarController: UITabBarController {
         )
         
         // MARK: - Update this later with the proper VC
-        let rootViewController = PetsViewController()
+        let rootViewController = PetListViewController()
         rootViewController.tabBarItem = tabItem
     
         return UINavigationController(rootViewController: rootViewController)
     }()
     
-    lazy var mockDataViewController: UINavigationController = {
-        let title = "Mock Data"
-        let image = UIImage(systemName: "tray.and.arrow.down")
-        let tabItem = UITabBarItem(
-            title: title,
-            image: image,
-            selectedImage: image
-        )
-        
-        // The view controller with the button to add mock data
-        let mockVC = MockDataViewController()
-        mockVC.tabBarItem = tabItem
-        
-        return UINavigationController(rootViewController: mockVC)
-    }()
-
 
     override func viewDidLoad() {
 //        try! UserDefaults.standard.set(ApplicationData().toData(), forKey: "myPetmateAppData")
 
         super.viewDidLoad()
-        viewControllers = [dailyViewController, healthViewController, petsViewController, /*mockDataViewController*/]
+        viewControllers = [dailyViewController, healthViewController, petsViewController]
         tabBar.backgroundColor = .Background.primary
         tabBar.standardAppearance = tarBarAppearance
         

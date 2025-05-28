@@ -2,21 +2,23 @@ import Foundation
 import UIKit
 
 
-class PetsProfileViewController: UIViewController {
+class PetProfileViewController: UIViewController {
     
     lazy var petImage: UIImageView = {
         var image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(systemName: "pawprint.circle")
         image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = 42
+        image.clipsToBounds = true
         return image
     }()
     
     lazy var petLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Belinha"
-        label.font = UIFont(name: "SfProText-Bold", size: 28)
+        label.text = "Pet name"
+        label.font = .title1Emphasized
         return label
     }()
     
@@ -33,7 +35,7 @@ class PetsProfileViewController: UIViewController {
         var component = NamedLabel()
         component.translatesAutoresizingMaskIntoConstraints = false
         component.key = "Sex"
-        component.value = "Value"
+        component.value = "?"
         return component
         
     }()
@@ -42,7 +44,7 @@ class PetsProfileViewController: UIViewController {
         var component = NamedLabel()
         component.translatesAutoresizingMaskIntoConstraints = false
         component.key = "Birth Date"
-        component.value = "Value"
+        component.value = "?"
         return component
         
     }()
@@ -51,7 +53,7 @@ class PetsProfileViewController: UIViewController {
         var component = NamedLabel()
         component.translatesAutoresizingMaskIntoConstraints = false
         component.key = "Breed"
-        component.value = "Value"
+        component.value = "?"
         return component
         
     }()
@@ -68,7 +70,7 @@ class PetsProfileViewController: UIViewController {
         var component = NamedLabel()
         component.translatesAutoresizingMaskIntoConstraints = false
         component.key = "Weight"
-        component.value = "Value"
+        component.value = "?"
         return component
         
     }()
@@ -77,7 +79,7 @@ class PetsProfileViewController: UIViewController {
         var component = NamedLabel()
         component.translatesAutoresizingMaskIntoConstraints = false
         component.key = "Blood Type"
-        component.value = "Value"
+        component.value = "?"
         return component
         
     }()
@@ -86,27 +88,19 @@ class PetsProfileViewController: UIViewController {
         var component = NamedLabel()
         component.translatesAutoresizingMaskIntoConstraints = false
         component.key = "Allergies"
-        component.value = "Value"
+        component.value = "?"
         return component
         
     }()
     
     lazy var componentsStack: UIStackView = {
-        var stack = UIStackView(arrangedSubviews: [sexComponent, birthDateComponent, breedComponent, sizeComponent, weightComponent, /*bloodTypeComponent,*/ allergiesComponent])
+        var stack = UIStackView(arrangedSubviews: [sexComponent, birthDateComponent, breedComponent, sizeComponent, weightComponent, bloodTypeComponent, allergiesComponent])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 2
         return stack
         
     }()
-    
-//    lazy var vaccinesComponent: NamedLabel = {
-//        var component = NamedLabel()
-//        component.translatesAutoresizingMaskIntoConstraints = false
-//        component.key = "Vaccines History"
-//        component.img = UIImage(systemName: "chevron.right")
-//        return component
-//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,13 +116,4 @@ class PetsProfileViewController: UIViewController {
     @objc func editPet () {
         print()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        petImage.layer.cornerRadius = petImage.frame.height / 2
-        petImage.clipsToBounds = true
-        petImage.contentMode = .scaleAspectFill
-    }
-
-    
 }

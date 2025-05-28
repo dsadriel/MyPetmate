@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 
-extension PetsProfileViewController: ViewCodeProtocol {
+extension PetProfileViewController: ViewCodeProtocol {
     func addSubviews() {
         view.addSubview(imgStack)
         view.addSubview(componentsStack)
