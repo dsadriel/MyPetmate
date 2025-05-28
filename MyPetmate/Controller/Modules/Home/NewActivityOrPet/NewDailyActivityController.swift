@@ -12,13 +12,13 @@ class NewActivityController: UIViewController {
     var category: String = "" {
         didSet {
             titlePage.text = category
-            print("novo valor, \(category)")
+            activityAmountPicker.category = DailyCategory(rawValue: category)
         }
     }
-    
+
     var selectedPet: Pet?
     var delegate: CanReloadView?
-    
+
     private var activeDatePicker: DatePicker?
     private var durationHeightConstraint: NSLayoutConstraint?
     private var frequencyHeightConstraint: NSLayoutConstraint?
@@ -27,7 +27,7 @@ class NewActivityController: UIViewController {
     var onToggle: ((Bool) -> Void)?
     var durationTimeSelected = 0
     var durationMeasureSelected = 0
-    
+
     lazy var headerView: HeaderNewActivity = {
         let header = HeaderNewActivity(label: "New Activity")
         header.cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
@@ -35,7 +35,7 @@ class NewActivityController: UIViewController {
         header.translatesAutoresizingMaskIntoConstraints = false
         return header
     }()
-    
+
     lazy var titlePage: UILabel = {
         let label = UILabel()
         label.font = UIFont.title2Emphasized
@@ -44,7 +44,6 @@ class NewActivityController: UIViewController {
         return label
     }()
 
-    
     //MARK: text input
     lazy var namedTextField: NamedTextField = {
         let textField = NamedTextField()
@@ -53,7 +52,7 @@ class NewActivityController: UIViewController {
         textField.placeholder = "Antibiotics"
         return textField
     }()
-    
+
     lazy var locationField: NamedTextField = {
         let location = NamedTextField()
         location.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +60,7 @@ class NewActivityController: UIViewController {
         location.placeholder = "Enter the address"
         return location
     }()
-    
+
     //MARK: picker generico
     lazy var durationActivityField: PickerActivities = {
         let field = PickerActivities(pickerType: .duration)
@@ -72,31 +71,31 @@ class NewActivityController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
-    
-    lazy var durationMedicationField: PickerActivities = {
-        let field = PickerActivities(pickerType: .duration)
-        field.measures = ["forever", "day(s)", "week(s)", "month(s)", "year(s)"]
+
+    lazy var medicationDurationField: HeatlhActivityDurationPicker = {
+        let field = HeatlhActivityDurationPicker()
         field.onToggle = { [weak self] isExpanded in
             self?.expandDurationField(show: isExpanded)
         }
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
-    
-    lazy var portionField: PickerActivities = {
-        let field = PickerActivities(pickerType: .portion)
+
+    lazy var activityAmountPicker: ActivityAmountPicker = {
+        let field = ActivityAmountPicker()
+        field.category = DailyCategory(rawValue: category)
         field.onToggle = { [weak self] isExpanded in
             self?.expandDurationField(show: isExpanded)
         }
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
-    
+
     lazy var frequencyField: FrequencyActivity = {
         let field = FrequencyActivity()
         field.onToggle = { [weak self] isExpanded in
             self?.expandFrequencyField(show: isExpanded)
-            
+
             if !isExpanded {
                 self?.updateActiveDatePicker()
             }
@@ -104,23 +103,24 @@ class NewActivityController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
-    
+
     //MARK: date and date-time options
-    lazy var DatePickerView: DatePicker = {
+    lazy var datePickerView: DatePicker = {
         let datePicker = DatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.text = "Time"
         datePicker.hasHour = false
         return datePicker
     }()
-    lazy var DateAndTimePickerView: DatePicker = {
+    
+    lazy var dateAndTimePickerView: DatePicker = {
         let datePicker = DatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.text = "Date and Time"
         datePicker.hasHour = true
         return datePicker
     }()
-    
+
     lazy var notesTextField: NamedTextField = {
         let textField = NamedTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -128,7 +128,7 @@ class NewActivityController: UIViewController {
         textField.placeholder = "Extra information"
         return textField
     }()
-    
+
     lazy var pickerList: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -137,53 +137,59 @@ class NewActivityController: UIViewController {
         stack.axis = .vertical
         return stack
     }()
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         setup()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     @objc func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
-    
+
     @objc func saveButtonTapped() {
         print("botao de salvar clicado")
 
         let interval = frequencyField.selectedInterval
-        
-        let ammountActivity = 20 //durationActivityField.totalDuration
-        let ammountMedication = durationMedicationField.totalDuration
-        
+
+        let amount = activityAmountPicker.selectedValue ?? 0
+
         let repetions = activeDatePickers.map {
             ActivityRepeation(start: $0.selectedDate, interval: interval)
         }
-        
-        let date = activeDatePickers.first?.selectedDate ?? Date()
-        let notes = notesTextField.text ?? ""
-        
+
+        // MARK: - New Daily Activity
         if DailyCategory(rawValue: category) != nil {
-            let activity = DailyActivity(name: namedTextField.text ?? "", category: DailyCategory(rawValue: category) ?? .activity, measurementAmount: ammountActivity, repetitions: repetions)
-            
+
+            let activity = DailyActivity(
+                name: namedTextField.text ?? "",
+                category: DailyCategory(rawValue: category) ?? .activity,
+                measurementAmount: amount,
+                repetitions: repetions
+            )
+
             Persistence.addActivity(activity, to: selectedPet!)
             print("DailyActivity criado: \(activity)")
-        } else if HealthCategory(rawValue: category) != nil {
+        }
+        
+        // MARK: - New Health Activity
+        else if HealthCategory(rawValue: category) != nil {
             let health = HealthActivity(
                 name: namedTextField.text ?? "",
                 category: HealthCategory(rawValue: category) ?? .appointments,
-                measurementAmount: ammountMedication,
+                measurementAmount: amount,
                 repeations: repetions,
-                repeatUntil: Date(),
+                repeatUntil: medicationDurationField.selectedTimeInterval,
                 reminderIn: nil,
                 location: locationField.text ?? "",
                 notes: notesTextField.text ?? "",
             )
             Persistence.addActivity(health, to: selectedPet!)
-            
+
             print("HealthActivity criado: \(health)")
         } else {
             print("Categoria inválida")
@@ -192,7 +198,6 @@ class NewActivityController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    
     func updateActiveDatePicker() {
         activeDatePickers.forEach { $0.removeFromSuperview() }
         activeDatePickers = []
@@ -221,28 +226,28 @@ class NewActivityController: UIViewController {
         guard numberOfPickers > 0 else { return }
 
         for _ in 0..<numberOfPickers {
-                let picker = DatePicker()
-                picker.text = "Date and Time"
-                picker.hasHour = true
-                
-                picker.heightAnchor.constraint(equalToConstant: 44).isActive = true
-                
-                pickerList.addArrangedSubview(picker)
-                
-                activeDatePickers.append(picker)
+            let picker = DatePicker()
+            picker.text = "Date and Time"
+            picker.hasHour = true
+
+            picker.heightAnchor.constraint(equalToConstant: 44).isActive = true
+
+            pickerList.addArrangedSubview(picker)
+
+            activeDatePickers.append(picker)
         }
     }
 }
 
 extension NewActivityController: ViewCodeProtocol {
-    
+
     func setup() {
         addSubviews()
         setupConstraints()
         view.backgroundColor = .Background.primary
         titlePage.text = category
     }
-    
+
     func addSubviews() {
         view.addSubview(headerView)
         view.addSubview(titlePage)
@@ -250,18 +255,18 @@ extension NewActivityController: ViewCodeProtocol {
         view.addSubview(pickerList)
 
         durationActivityField.removeFromSuperview()
-        durationMedicationField.removeFromSuperview()
-        portionField.removeFromSuperview()
+        medicationDurationField.removeFromSuperview()
+        activityAmountPicker.removeFromSuperview()
         locationField.removeFromSuperview()
-        DatePickerView.removeFromSuperview()
-        DateAndTimePickerView.removeFromSuperview()
+        datePickerView.removeFromSuperview()
+        dateAndTimePickerView.removeFromSuperview()
 
         let field = getField(for: category)
         view.addSubview(field)
         view.addSubview(frequencyField)
         view.addSubview(notesTextField)
     }
-    
+
     func setupConstraints() {
         let field = getField(for: category)
         let constraints: [NSLayoutConstraint] = [
@@ -269,59 +274,57 @@ extension NewActivityController: ViewCodeProtocol {
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerView.heightAnchor.constraint(equalToConstant: 60),
-            
+
             titlePage.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16),
             titlePage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            
+
             namedTextField.topAnchor.constraint(equalTo: titlePage.bottomAnchor, constant: 16),
             namedTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             namedTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
             field.topAnchor.constraint(equalTo: namedTextField.bottomAnchor),
             field.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             field.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
             frequencyField.topAnchor.constraint(equalTo: field.bottomAnchor),
             frequencyField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             frequencyField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
             pickerList.topAnchor.constraint(equalTo: frequencyField.bottomAnchor, constant: 0),
             pickerList.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             pickerList.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
             notesTextField.topAnchor.constraint(equalTo: pickerList.bottomAnchor, constant: 54),
             notesTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             notesTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
         ]
-        
+
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     func expandDurationField(show: Bool) {
         durationHeightConstraint?.constant = show ? 148 : 44
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
     }
-    
+
     func expandFrequencyField(show: Bool) {
         frequencyHeightConstraint?.constant = show ? 148 : 44
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
     }
-    
+
     func getField(for category: String) -> UIView {
         switch category {
         case "Medication":
-            return durationMedicationField
-        case "Activity":
-            return durationActivityField
+            return medicationDurationField
         case "Vaccine", "Appointments":
             return locationField
-        case "Feeding", "Water":
-            return portionField
+        case "Feeding", "Water",  "Activity":
+            return activityAmountPicker
         default:
             return durationActivityField
         }
