@@ -90,8 +90,8 @@ class NewPetViewController: UIViewController {
         return selector
     }()
     
-    lazy var wheelPicker: PickerActivities = {
-        let picker = PickerActivities(pickerType: .weight)
+    lazy var weightPicker: WeightPicker = {
+        let picker = WeightPicker()
         
         return picker
     }()
@@ -123,7 +123,7 @@ class NewPetViewController: UIViewController {
     }()
     
     lazy var dataStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [textField, sexSelector, datePicker, breedTextField, sizeSelector, wheelPicker,
+        var stackView = UIStackView(arrangedSubviews: [textField, sexSelector, datePicker, breedTextField, sizeSelector, weightPicker,
                                                        petCategory == .dog ? dogBloodTypeSelector : catBloodTypeSelector,
                                                        allergiesTextField])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -163,8 +163,9 @@ class NewPetViewController: UIViewController {
                 birthDate: selectedDate,
                 breed:     breedTextField.text ?? "",
                 size:      sizeSelector.selectedValue ?? .medium,
-                weight:    100,
-                allergies: allergiesTextField.text ?? ""
+                weight:    Double(weightPicker.selectedWeightInGrams),
+                allergies: allergiesTextField.text ?? "",
+                blodType: catBloodTypeSelector.selectedValue ?? .A
             )
             Persistence.addPet(cat)
             if let image = imageButton.imageView?.image {
@@ -177,8 +178,9 @@ class NewPetViewController: UIViewController {
                 birthDate: selectedDate,
                 breed:     breedTextField.text ?? "",
                 size:      sizeSelector.selectedValue ?? .medium,
-                weight:    100,
-                allergies: allergiesTextField.text ?? ""
+                weight:    Double(weightPicker.selectedWeightInGrams),
+                allergies: allergiesTextField.text ?? "",
+                blodType: dogBloodTypeSelector.selectedValue ?? .dea1_1
             )
             Persistence.addPet(dog)
             if let image = imageButton.imageView?.image {
@@ -207,6 +209,7 @@ class NewPetViewController: UIViewController {
 }
 
 extension NewPetViewController: ViewCodeProtocol {
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
 

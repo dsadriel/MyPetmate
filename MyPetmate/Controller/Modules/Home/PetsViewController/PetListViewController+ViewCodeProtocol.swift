@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 
 
-extension PetsViewController: ViewCodeProtocol {
+extension PetListViewController: ViewCodeProtocol {
 
     func addSubviews() {
         view.addSubview(newPetButton)
